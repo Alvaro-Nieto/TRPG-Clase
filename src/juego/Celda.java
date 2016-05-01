@@ -21,12 +21,11 @@ public class Celda extends JPanel{
     private int indiceX;
     private int indiceY;
     private boolean color;
-    private ImageIcon Img;
+    private ImageIcon img;
     
     public Celda(JPanel jPanel1, boolean color, int indiceX, int indiceY, int numCeldas){
         //this.jPanel = new JPanel();
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        Img = new ImageIcon(getClass().getResource(""));
         this.x = jPanel1.getWidth() / numCeldas;
         this.y = jPanel1.getHeight() / numCeldas;
         this.indiceX = indiceX;
@@ -46,7 +45,8 @@ public class Celda extends JPanel{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        g.drawImage(Img.getImage(), 0, 0, x, y, null);
+        if(!this.isEmpty())
+            g.drawImage(img.getImage(), 0, 0, x, y, null);
         
     }    
     
@@ -63,11 +63,15 @@ public class Celda extends JPanel{
     }
     
     public void setFigura(String figura){
-        Img = new ImageIcon(getClass().getResource(figura));
+        img = new ImageIcon(getClass().getResource(figura));
     }
     
     public void quitaFigura(){
-        Img = new ImageIcon(getClass().getResource(""));
+        img = null;
+    }
+    
+    public boolean isEmpty(){
+        return this.img == null;
     }
     /*
     public JPanel getJPanel(){

@@ -190,6 +190,9 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
             celda.quitaFigura();
             jPanel1.repaint();
         }
+        else if(SwingUtilities.isMiddleMouseButton(e)){
+            System.out.println(celda.isEmpty() ? "Esta vacia" : "Tiene figura");
+        }
     }
 
     @Override
