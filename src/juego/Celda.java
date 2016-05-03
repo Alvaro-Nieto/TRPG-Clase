@@ -12,19 +12,17 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 
 /**
- *
+ * Celda hereda de JPanel, por lo tanto posee todos sus métodos
  * @author Álvaro
  */
 public class Celda extends JPanel{
-    //private JPanel jPanel;
-    private int x,y;
-    private int indiceX;
-    private int indiceY;
-    private boolean color;
-    private ImageIcon img;
+    private int x,y; // Tamaño de la celda
+    private int indiceX; // Indice J en el array
+    private int indiceY; // Indice I en el array
+    private boolean color; // Sirver para ir cambiando entre dos colores
+    private ImageIcon img; // Imagen en la celda. Cambiar más adelante por objeto FIGURA
     
     public Celda(JPanel jPanel1, boolean color, int indiceX, int indiceY, int numCeldas){
-        //this.jPanel = new JPanel();
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.x = jPanel1.getWidth() / numCeldas;
         this.y = jPanel1.getHeight() / numCeldas;
@@ -33,13 +31,17 @@ public class Celda extends JPanel{
         this.setSize(x, y);
         if(color){
             this.setBackground(new Color(107,62,25));
-        }
-        else{
+        }else{
             this.setBackground(new Color(255,228,196));
         }
         this.color = color;
     }
     
+    /**
+     * Este método define como se dibuja y se llamará automaticamente
+     * Primero lo dibujamos usando la clase padre y despues dibujamos la figura
+     * @param g 
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -68,11 +70,10 @@ public class Celda extends JPanel{
         img = null;
     }
     
+    /**
+     * @return Devuelve true si está vacia
+     */
     public boolean isEmpty(){
         return this.img == null;
     }
-    /*
-    public JPanel getJPanel(){
-        return this.jPanel;
-    }*/
 }

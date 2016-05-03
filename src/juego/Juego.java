@@ -6,7 +6,8 @@
 package juego;
 
 /**
- *
+ * Clase principal con el main
+ * Lanza un hilo que crea el Tablero( la ventana )
  * @author Álvaro
  */
 public class Juego {
