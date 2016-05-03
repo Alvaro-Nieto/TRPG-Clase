@@ -33,13 +33,11 @@ public class Celda extends JPanel{
         this.setSize(x, y);
         if(color){
             this.setBackground(new Color(107,62,25));
-            this.color = color;
         }
         else{
             this.setBackground(new Color(255,228,196));
-            this.color = color;
         }
-        
+        this.color = color;
     }
     
     @Override
