@@ -24,6 +24,7 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
      * Crea el tablero con sus celdas y lo dibuja.
      * Tablero es a su vez un JFrame (ventana). Deberiamos separar en dos clases
      */
+   
     public Tablero() {
         initComponents(); // Inicia los valores autogenerados
         jPanel1.setSize(ancho,alto);
