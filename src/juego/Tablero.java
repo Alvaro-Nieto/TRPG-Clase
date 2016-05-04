@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 public class Tablero extends javax.swing.JFrame implements MouseListener {
 
-    private final Celda[][] celdas;
+    private Celda[][] celdas;
     private final int ancho = 400;
     private final int alto = ancho;
     private final int numCeldas = 16;
@@ -30,27 +30,34 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
         jPanel1.setPreferredSize(new java.awt.Dimension(ancho, alto));
         this.setPreferredSize(new java.awt.Dimension(ancho + ancho / 4, alto + alto / 4));
         this.setSize(new java.awt.Dimension(ancho + ancho / 4, alto + alto / 6));
-        boolean color = false; // Va alternando para cambiar entre dos colores
+        iniciaCeldas();
+        jPanel1.setBackground(Color.red); // Si se ve rojo, algo no va bien
+        jPanel1.repaint(); // Dibuja todo
+    }
+
+    /**
+     * Se ejecuta en el constructor
+     */
+    private void iniciaCeldas() {
+        boolean colorSw = false; // Va alternando para cambiar entre dos colores
         int x = 0; // Coordenada X donde se dibuja
         int y = 0; // Coordenada Y donde se dibuja
         int sumador = ancho / numCeldas; // Distancia entre cada celda
         this.celdas = new Celda[numCeldas][numCeldas]; // Celdas que componen el tablero
         for (int i = 0; i < celdas.length; i++) {
             for (int j = 0; j < celdas[i].length; j++) {
-                celdas[i][j] = new Celda(jPanel1, color,j,i,numCeldas);
+                celdas[i][j] = new Celda(jPanel1, colorSw,j,i,numCeldas);
                 celdas[i][j].setLocation(x, y);
                 celdas[i][j].addMouseListener(this); // El mouseListener es esta misma clase
                 jPanel1.add(celdas[i][j]); // Se añaden todas a un contedor JPanel
                 x += sumador; // Suma la distancia para dibujar la siguiente
-                color = !color; // Cambia color de fondo
+                colorSw = !colorSw; // Cambia color de fondo
 
             }
-            color = !color; // Cambia color de fondo
+            colorSw = !colorSw; // Cambia color de fondo
             x = 0; // Nueva fila
             y += sumador; // Suma la distancia para dibujar la siguiente
         }
-        jPanel1.setBackground(Color.red); // Si se ve rojo, algo no va bien
-        jPanel1.repaint(); // Dibuja todo
     }
 
     /**
@@ -68,9 +75,10 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
         jPanel2 = new javax.swing.JPanel();
         btnPeon = new javax.swing.JToggleButton();
         btnTorre = new javax.swing.JToggleButton();
+        btnColor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1024, 768));
+        setResizable(false);
         setSize(new java.awt.Dimension(800, 800));
 
         jPanel1.setPreferredSize(new java.awt.Dimension(400, 400));
@@ -100,6 +108,13 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
             }
         });
 
+        btnColor.setText("Color");
+        btnColor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnColorActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -110,6 +125,10 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
                     .addComponent(btnTorre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnPeon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnColor)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +137,9 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
                 .addComponent(btnPeon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTorre)
-                .addContainerGap(358, Short.MAX_VALUE))
+                .addGap(28, 28, 28)
+                .addComponent(btnColor)
+                .addContainerGap(307, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -137,7 +158,9 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -155,7 +178,18 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
         btnTorre.setSelected(false);
     }//GEN-LAST:event_btnPeonActionPerformed
 
+    private void btnColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorActionPerformed
+        // TODO add your handling code here:
+        for(Celda[] celdaArr : celdas){
+            for(Celda celda : celdaArr){
+                celda.setColor(new Color(0,0,0),new Color(255,255,255));
+            }
+        }
+        jPanel1.repaint();
+    }//GEN-LAST:event_btnColorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnColor;
     private javax.swing.JToggleButton btnPeon;
     private javax.swing.JToggleButton btnTorre;
     private javax.swing.JPanel jPanel1;
