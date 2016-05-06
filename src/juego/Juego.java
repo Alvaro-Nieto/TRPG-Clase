@@ -11,7 +11,10 @@ package juego;
  * @author Álvaro
  */
 public class Juego {
-
+    public static TableroFrame tableroF;
+    public static void setTablero(TableroFrame tablero){
+        tableroF = tablero;
+    }
     /**
      * @param args the command line arguments
      */
@@ -38,11 +41,12 @@ public class Juego {
             java.util.logging.Logger.getLogger(Tablero.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TableroFrame().setVisible(true);
+                tableroF = new TableroFrame();
+                tableroF.setVisible(false);
             }
         });
         

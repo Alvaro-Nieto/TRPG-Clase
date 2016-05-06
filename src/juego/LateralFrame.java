@@ -13,30 +13,30 @@ import java.awt.Toolkit;
  * @author Álvaro
  */
 public class LateralFrame extends javax.swing.JFrame {
-
+    
+    private TableroFrame tablero;
     /**
      * Creates new form LateralFrame
      */
     public LateralFrame() {
         initComponents();
         dibujaDerecha();
+        tablero = Juego.tableroF;
     }
     
     public void dibujaDerecha(){
-        /* Instanciamos un objeto de Toolkit para obtener
-        * los datos generales de nuestra computadora. */
         Toolkit kit = Toolkit.getDefaultToolkit();
 
         /* Obtenemos la dimensión de la pantalla en pixeles */
         Dimension dimensionPantalla = kit.getScreenSize();
-
-        /* Almacenamos la altura y anchura, en pixeles, de la pantalla.
-        * Debido a que los métodos "getHeight" y "getWidth" regresan una
-        * variable de tipo double, necesitaremos obligar
-        * al programa que convierta dicha variable a int, es decir, haremos un "cast". */
         int altura = (int)dimensionPantalla.getHeight();
         int anchura = (int)dimensionPantalla.getWidth();
         
+        /*
+         * La esquina superior derecha es:
+         *   - La anchura total de la pantala menos el ancho del frame
+         *   - Altura 0
+         */
         this.setLocation(anchura-this.getWidth(),0);
 
     }
@@ -50,22 +50,46 @@ public class LateralFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnTablero = new javax.swing.JToggleButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
+
+        btnTablero.setText("Tablero");
+        btnTablero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTableroActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 206, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(65, 65, 65)
+                .addComponent(btnTablero)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(450, Short.MAX_VALUE)
+                .addComponent(btnTablero)
+                .addGap(29, 29, 29))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableroActionPerformed
+        // TODO add your handling code here:
+        if(btnTablero.isSelected()){
+            tablero.setVisible(true);
+        } else{
+            tablero.setVisible(false);
+        }
+    }//GEN-LAST:event_btnTableroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -103,5 +127,6 @@ public class LateralFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnTablero;
     // End of variables declaration//GEN-END:variables
 }
