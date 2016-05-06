@@ -72,10 +72,6 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        btnPeon = new javax.swing.JToggleButton();
-        btnTorre = new javax.swing.JToggleButton();
-        btnColor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -94,62 +90,12 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
             .addGap(0, 400, Short.MAX_VALUE)
         );
 
-        btnPeon.setText("Peon");
-        btnPeon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPeonActionPerformed(evt);
-            }
-        });
-
-        btnTorre.setText("Torre");
-        btnTorre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTorreActionPerformed(evt);
-            }
-        });
-
-        btnColor.setText("Color");
-        btnColor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnColorActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnTorre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnPeon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnColor)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(btnPeon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTorre)
-                .addGap(28, 28, 28)
-                .addComponent(btnColor)
-                .addContainerGap(307, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -157,43 +103,15 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTorreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTorreActionPerformed
-        // TODO add your handling code here:
-        btnPeon.setSelected(false);
-    }//GEN-LAST:event_btnTorreActionPerformed
-
-    private void btnPeonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPeonActionPerformed
-        // TODO add your handling code here:
-        btnTorre.setSelected(false);
-    }//GEN-LAST:event_btnPeonActionPerformed
-
-    private void btnColorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnColorActionPerformed
-        // TODO add your handling code here:
-        for(Celda[] celdaArr : celdas){
-            for(Celda celda : celdaArr){
-                celda.setColor(new Color(0,0,0),new Color(255,255,255));
-            }
-        }
-        jPanel1.repaint();
-    }//GEN-LAST:event_btnColorActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnColor;
-    private javax.swing.JToggleButton btnPeon;
-    private javax.swing.JToggleButton btnTorre;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -202,11 +120,11 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
      * @param e Evento generado por la celda, contiene información sobre la misma.
      */
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {/*
         Celda celda = (Celda) e.getSource();
         System.out.println(
                 "¡Clic en celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
         
 
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -218,7 +136,7 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
      * @param e Evento generado por la celda, contiene información sobre la misma.
      */
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {/*
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource();
         System.out.println(
@@ -239,7 +157,7 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
         }
         else if(SwingUtilities.isMiddleMouseButton(e)){
             System.out.println(celda.isEmpty() ? "Esta vacia" : "Tiene figura");
-        }
+        }*/
     }
 
     /**
@@ -248,12 +166,12 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
      * @param e Evento generado por la celda, contiene información sobre la misma.
      */
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {/*
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource();
         System.out.println(
                 "¡SOLTADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
         
     }
     
@@ -263,13 +181,13 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
      * @param e Evento generado por la celda, contiene información sobre la misma.
      */
     @Override
-    public void mouseEntered(MouseEvent e) {
+    public void mouseEntered(MouseEvent e) {/*
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource();
         celda.setBorder(BorderFactory.createLineBorder(Color.CYAN));
         System.out.println(
                 "¡El puntero entra en la celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
     }
 
     /**
@@ -278,9 +196,9 @@ public class Tablero extends javax.swing.JFrame implements MouseListener {
      * @param e Evento generado por la celda, contiene información sobre la misma.
      */
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e) {/*
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource(); 
-        celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));*/
     }
 }
