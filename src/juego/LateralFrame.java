@@ -41,6 +41,9 @@ public class LateralFrame extends javax.swing.JFrame {
 
     }
 
+    public void tableroCerrando(){
+        this.btnTablero.setSelected(false);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +54,7 @@ public class LateralFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         btnTablero = new javax.swing.JToggleButton();
+        cBoxSize = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
@@ -62,19 +66,32 @@ public class LateralFrame extends javax.swing.JFrame {
             }
         });
 
+        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Mediano", "Pequeño" }));
+        cBoxSize.setSelectedIndex(1);
+        cBoxSize.setToolTipText("");
+        cBoxSize.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cBoxSizeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(65, 65, 65)
-                .addComponent(btnTablero)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cBoxSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(450, Short.MAX_VALUE)
+                .addContainerGap(412, Short.MAX_VALUE)
+                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnTablero)
                 .addGap(29, 29, 29))
         );
@@ -90,6 +107,21 @@ public class LateralFrame extends javax.swing.JFrame {
             tablero.setVisible(false);
         }
     }//GEN-LAST:event_btnTableroActionPerformed
+
+    private void cBoxSizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxSizeActionPerformed
+        // TODO add your handling code here:
+        switch(this.cBoxSize.getSelectedIndex()){
+            case 0:
+                tablero.redimensionar('G');
+                break;
+            case 1:
+                tablero.redimensionar('M');
+                break;
+            case 2:
+                tablero.redimensionar('P');
+                break;
+        }
+    }//GEN-LAST:event_cBoxSizeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -128,5 +160,6 @@ public class LateralFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnTablero;
+    private javax.swing.JComboBox<String> cBoxSize;
     // End of variables declaration//GEN-END:variables
 }

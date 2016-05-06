@@ -12,9 +12,8 @@ package juego;
  */
 public class Juego {
     public static TableroFrame tableroF;
-    public static void setTablero(TableroFrame tablero){
-        tableroF = tablero;
-    }
+    public static LateralFrame lateralF;
+    
     /**
      * @param args the command line arguments
      */
@@ -52,7 +51,9 @@ public class Juego {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LateralFrame().setVisible(true);
+                lateralF = new LateralFrame();
+                lateralF.setVisible(true);
+                tableroF.setLateralFrame(lateralF);
             }
         });
     }

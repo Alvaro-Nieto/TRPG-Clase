@@ -6,8 +6,11 @@
 package juego;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -15,13 +18,14 @@ import javax.swing.JPanel;
  *
  * @author Álvaro
  */
-public class TableroFrame extends javax.swing.JFrame implements MouseListener{
+public class TableroFrame extends javax.swing.JFrame implements MouseListener, WindowListener{
 
     private Celda[][] celdas;
-    private final int ancho = 800; // Tiene que se multiplo de numCeldas
-    private final int alto = ancho; // Tiene que se multiplo de numCeldas
+    private int ancho = 800; // Tiene que se multiplo de numCeldas
+    private int alto = ancho; // Tiene que se multiplo de numCeldas
     private final int numCeldas = 16;
     private JPanel panelContenedor;
+    private LateralFrame lateral;
     
     /**
      * Constructor.
@@ -35,25 +39,37 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener{
         panelContenedor.repaint(); // Dibuja todo
     }
 
-    /**
+    /*
      * Se ejecuta en el constructor
      */
     private void iniciaCeldas() {
         boolean colorSw = false; // Va alternando para cambiar entre dos colores
-        int x = 0; // Coordenada X donde se dibuja
-        int y = 0; // Coordenada Y donde se dibuja
-        int sumador = ancho / numCeldas; // Distancia entre cada celda
         this.celdas = new Celda[numCeldas][numCeldas]; // Celdas que componen el tablero
         for (int i = 0; i < celdas.length; i++) {
             for (int j = 0; j < celdas[i].length; j++) {
-                celdas[i][j] = new Celda(panelContenedor, colorSw,j,i,numCeldas);
-                celdas[i][j].setLocation(x, y);
+                celdas[i][j] = new Celda(colorSw,j,i,numCeldas);
                 celdas[i][j].addMouseListener(this); // El mouseListener es esta misma clase
                 panelContenedor.add(celdas[i][j]); // Se añaden todas a un contedor JPanel
-                x += sumador; // Suma la distancia para dibujar la siguiente
                 colorSw = !colorSw; // Cambia color de fondo
             }
             colorSw = !colorSw; // Cambia color de fondo
+        }
+        this.dibujaCeldas();
+    }
+    
+    /*
+     * Es llamado al iniciar las celdas y cada vez que cambia el tamaño
+     */
+    private void dibujaCeldas(){
+        int x = 0; // Coordenada X donde se dibuja
+        int y = 0; // Coordenada Y donde se dibuja
+        int sumador = ancho / numCeldas; // Distancia entre cada celda
+        for (int i = 0; i < celdas.length; i++) {
+            for (int j = 0; j < celdas[i].length; j++) {
+                celdas[i][j].setLocation(x, y);
+                celdas[i][j].setSize(ancho / numCeldas, alto / numCeldas);
+                x += sumador; // Suma la distancia para dibujar la siguiente
+            }
             x = 0; // Nueva fila
             y += sumador; // Suma la distancia para dibujar la siguiente
         }
@@ -68,9 +84,9 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener{
     private void initComponents() {
 
         this.setTitle("Tablero - \"EL JUEGO DE BATALLAS ESTRATEGICAS\"");
-        
+        this.addWindowListener(this);
         panelContenedor = new javax.swing.JPanel();
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setResizable(false);
         //setSize(new java.awt.Dimension(ancho, alto));
 
@@ -112,6 +128,44 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener{
         );
         this.pack();
     }      
+    
+    public int multiploDesde(int desde){
+        boolean encontrado = false;
+        while(!encontrado && desde < 1024){
+            if(desde % numCeldas == 0){
+                encontrado = true;
+            } else{
+                desde++;
+            }
+        }
+        return desde;
+    }
+    
+    public void redimensionar(char letra){
+        int medida;
+        switch(letra){
+            case 'P':
+                medida = multiploDesde(450);
+                break;
+            case 'G':
+                medida = multiploDesde(950);
+                break;
+            default:
+                medida = multiploDesde(750);
+        }
+        this.ancho = medida;
+        this.alto = medida;
+        this.panelContenedor.setSize(medida,medida);
+        this.panelContenedor.setPreferredSize(new Dimension(medida,medida));
+        this.dibujaCeldas();
+        this.pack();
+    }
+    
+    public void setLateralFrame(LateralFrame lateral){
+        this.lateral = lateral;
+        // TODO aqui habia algo
+    }
+    
     
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -155,6 +209,43 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource(); 
         celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.setVisible(false);
+        lateral.tableroCerrando();
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

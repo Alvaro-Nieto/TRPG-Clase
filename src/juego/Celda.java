@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
  * @author Álvaro
  */
 public class Celda extends JPanel{
-    private int x,y; // Tamaño de la celda
     private int indiceX; // Indice J en el array
     private int indiceY; // Indice I en el array
     private boolean colorSw; // Sirver para ir cambiando entre dos colores
@@ -24,15 +23,12 @@ public class Celda extends JPanel{
     private Color color1;
     private Color color2;
     
-    public Celda(JPanel jPanel1, boolean colorSw, int indiceX, int indiceY, int numCeldas){
+    public Celda(boolean colorSw, int indiceX, int indiceY, int numCeldas){
         this.color1 = new Color(107,62,25);
         this.color2 = new Color(255,228,196);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
-        this.x = jPanel1.getWidth() / numCeldas;
-        this.y = jPanel1.getHeight() / numCeldas;
         this.indiceX = indiceX;
         this.indiceY = indiceY;
-        this.setSize(x, y);
         if(colorSw){
             this.setBackground(color1);
         }else{
