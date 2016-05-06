@@ -93,7 +93,7 @@ public class Pelea {
         {
             return unidad2;
         }
-        else if(dado1==dado2)
+        else
         {
             if(unidad1.getCombate()>unidad2.getCombate())
             {
@@ -103,7 +103,7 @@ public class Pelea {
             {
                 return unidad2;
             }
-            else if(unidad1.getCombate()==unidad2.getCombate())
+            else
             {
                 int dadoDesempate = (int)(Math.random()*6)+1;
                 if (dadoDesempate<=3)
@@ -116,5 +116,4 @@ public class Pelea {
         }
         
     }
-    
 }
