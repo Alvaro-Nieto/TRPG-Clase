@@ -21,8 +21,8 @@ import javax.swing.JPanel;
 public class TableroFrame extends javax.swing.JFrame implements MouseListener, WindowListener{
 
     private Celda[][] celdas;
-    private int ancho = 800; // Tiene que se multiplo de numCeldas
-    private int alto = ancho; // Tiene que se multiplo de numCeldas
+    private int ancho; // Tiene que se multiplo de numCeldas
+    private int alto; // Tiene que se multiplo de numCeldas
     private final int numCeldas = 16;
     private JPanel panelContenedor;
     private LateralFrame lateral;
@@ -33,6 +33,8 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener, W
      * Tablero es a su vez un JFrame (ventana). Deberiamos separar en dos clases
      */
     public TableroFrame() {
+        this.ancho = multiploDesde(750);
+        this.alto = ancho;
         initComponents(); // Inicia el contenedor y layouts
         iniciaCeldas(); // Crea el tablero y todas sus celda
         panelContenedor.setBackground(Color.red); // Si se ve rojo, algo no va bien
@@ -52,7 +54,8 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener, W
                 panelContenedor.add(celdas[i][j]); // Se añaden todas a un contedor JPanel
                 colorSw = !colorSw; // Cambia color de fondo
             }
-            colorSw = !colorSw; // Cambia color de fondo
+            if(numCeldas % 2 == 0)
+                colorSw = !colorSw; // Cambia color de fondo si numCeldas es par
         }
         this.dibujaCeldas();
     }
@@ -163,7 +166,7 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener, W
     
     public void setLateralFrame(LateralFrame lateral){
         this.lateral = lateral;
-        // TODO aqui habia algo
+        this.setLocation((int)lateral.getLocation().getX() + lateral.getWidth() + 5, (int)lateral.getLocation().getY());
     }
     
     

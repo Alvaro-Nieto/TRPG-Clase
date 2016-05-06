@@ -20,8 +20,9 @@ public class LateralFrame extends javax.swing.JFrame {
      */
     public LateralFrame() {
         initComponents();
-        dibujaDerecha();
+        //dibujaDerecha();
         tablero = Juego.tableroF;
+        this.setLocation(5, 5);
     }
     
     public void dibujaDerecha(){
@@ -40,6 +41,7 @@ public class LateralFrame extends javax.swing.JFrame {
         this.setLocation(anchura-this.getWidth(),0);
 
     }
+
 
     public void tableroCerrando(){
         this.btnTablero.setSelected(false);
