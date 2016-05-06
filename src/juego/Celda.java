@@ -24,8 +24,10 @@ public class Celda extends JPanel{
     private Color color2;
     
     public Celda(boolean colorSw, int indiceX, int indiceY, int numCeldas){
-        this.color1 = new Color(107,62,25);
-        this.color2 = new Color(255,228,196);
+        //this.color1 = new Color(107,62,25);
+        //this.color2 = new Color(255,228,196);
+        this.color1 = new Color(255,255,255);
+        this.color2 = new Color(200,200,200);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.indiceX = indiceX;
         this.indiceY = indiceY;
@@ -35,6 +37,7 @@ public class Celda extends JPanel{
             this.setBackground(color2);
         }
         this.colorSw = colorSw;
+        //this.setFigura("./imagenes/mal/gorbag.jpg");
     }
     
     /**
@@ -45,8 +48,9 @@ public class Celda extends JPanel{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        int modificador = (int)(this.getSize().getWidth() * 0.2);
         if(!this.isEmpty())
-            g.drawImage(img.getImage(), 0, 0, x, y, null);
+            g.drawImage(img.getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
     }    
     
     public boolean getColorSw(){
@@ -84,6 +88,5 @@ public class Celda extends JPanel{
         }else{
             this.setBackground(color2);
         }
-        //this.repaint();
     }
 }

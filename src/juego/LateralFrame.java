@@ -5,14 +5,19 @@
  */
 package juego;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.BorderFactory;
+import javax.swing.SwingUtilities;
 
 /**
  *
  * @author Álvaro
  */
-public class LateralFrame extends javax.swing.JFrame {
+public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     
     private TableroFrame tablero;
     /**
@@ -20,32 +25,14 @@ public class LateralFrame extends javax.swing.JFrame {
      */
     public LateralFrame() {
         initComponents();
-        //dibujaDerecha();
         tablero = Juego.tableroF;
         this.setLocation(5, 5);
     }
     
-    public void dibujaDerecha(){
-        Toolkit kit = Toolkit.getDefaultToolkit();
-
-        /* Obtenemos la dimensión de la pantalla en pixeles */
-        Dimension dimensionPantalla = kit.getScreenSize();
-        int altura = (int)dimensionPantalla.getHeight();
-        int anchura = (int)dimensionPantalla.getWidth();
-        
-        /*
-         * La esquina superior derecha es:
-         *   - La anchura total de la pantala menos el ancho del frame
-         *   - Altura 0
-         */
-        this.setLocation(anchura-this.getWidth(),0);
-
-    }
-
-
     public void tableroCerrando(){
         this.btnTablero.setSelected(false);
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -57,6 +44,7 @@ public class LateralFrame extends javax.swing.JFrame {
 
         btnTablero = new javax.swing.JToggleButton();
         cBoxSize = new javax.swing.JComboBox<>();
+        btnFigura = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
@@ -77,21 +65,35 @@ public class LateralFrame extends javax.swing.JFrame {
             }
         });
 
+        btnFigura.setText("Test FIGURA");
+        btnFigura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiguraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cBoxSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(65, 65, 65)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cBoxSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(53, 53, 53)
+                        .addComponent(btnFigura)))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(412, Short.MAX_VALUE)
+                .addContainerGap(342, Short.MAX_VALUE)
+                .addComponent(btnFigura)
+                .addGap(47, 47, 47)
                 .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnTablero)
@@ -125,43 +127,72 @@ public class LateralFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cBoxSizeActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LateralFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LateralFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LateralFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LateralFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new LateralFrame().setVisible(true);
-            }
-        });
-    }
+    private void btnFiguraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiguraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnFiguraActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnFigura;
     private javax.swing.JToggleButton btnTablero;
     private javax.swing.JComboBox<String> cBoxSize;
     // End of variables declaration//GEN-END:variables
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Celda celda = (Celda) e.getSource();
+        System.out.println(
+                "¡Clic en celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
+        );
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Celda celda = (Celda) e.getSource();
+        System.out.println(
+                "¡PULSADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
+        );
+        
+        if(SwingUtilities.isLeftMouseButton(e)){
+            if(this.btnFigura.isSelected())
+                celda.setFigura("./imagenes/mal/gorbag.jpg");
+            celda.repaint();
+        }
+        else if(SwingUtilities.isRightMouseButton(e)){
+            if(!celda.isEmpty()){
+                celda.quitaFigura();
+                celda.repaint();
+            }
+        }
+        else if(SwingUtilities.isMiddleMouseButton(e)){
+            System.out.println(celda.isEmpty() ? "Esta vacia" : "Tiene figura");
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Celda celda = (Celda) e.getSource();
+        System.out.println(
+                "¡SOLTADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
+        );
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Celda celda = (Celda) e.getSource();
+        celda.setBorder(BorderFactory.createLineBorder(Color.CYAN));
+        System.out.println(
+                "¡El puntero entra en la celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
+        );
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Celda celda = (Celda) e.getSource(); 
+        celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    }
 }

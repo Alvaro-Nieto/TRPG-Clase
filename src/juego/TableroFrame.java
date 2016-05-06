@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  *
  * @author Álvaro
  */
-public class TableroFrame extends javax.swing.JFrame implements MouseListener, WindowListener{
+public class TableroFrame extends javax.swing.JFrame implements WindowListener{
 
     private Celda[][] celdas;
     private int ancho; // Tiene que se multiplo de numCeldas
@@ -36,7 +36,7 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener, W
         this.ancho = multiploDesde(750);
         this.alto = ancho;
         initComponents(); // Inicia el contenedor y layouts
-        iniciaCeldas(); // Crea el tablero y todas sus celda
+        //iniciaCeldas(); // Crea el tablero y todas sus celda
         panelContenedor.setBackground(Color.red); // Si se ve rojo, algo no va bien
         panelContenedor.repaint(); // Dibuja todo
     }
@@ -50,7 +50,7 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener, W
         for (int i = 0; i < celdas.length; i++) {
             for (int j = 0; j < celdas[i].length; j++) {
                 celdas[i][j] = new Celda(colorSw,j,i,numCeldas);
-                celdas[i][j].addMouseListener(this); // El mouseListener es esta misma clase
+                celdas[i][j].addMouseListener(lateral); // El mouseListener es esta misma clase
                 panelContenedor.add(celdas[i][j]); // Se añaden todas a un contedor JPanel
                 colorSw = !colorSw; // Cambia color de fondo
             }
@@ -166,53 +166,10 @@ public class TableroFrame extends javax.swing.JFrame implements MouseListener, W
     
     public void setLateralFrame(LateralFrame lateral){
         this.lateral = lateral;
+        iniciaCeldas();
         this.setLocation((int)lateral.getLocation().getX() + lateral.getWidth() + 5, (int)lateral.getLocation().getY());
     }
     
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Celda celda = (Celda) e.getSource();
-        System.out.println(
-                "¡Clic en celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Celda celda = (Celda) e.getSource();
-        System.out.println(
-                "¡PULSADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Celda celda = (Celda) e.getSource();
-        System.out.println(
-                "¡SOLTADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Celda celda = (Celda) e.getSource();
-        celda.setBorder(BorderFactory.createLineBorder(Color.CYAN));
-        System.out.println(
-                "¡El puntero entra en la celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Celda celda = (Celda) e.getSource(); 
-        celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-    }
 
     @Override
     public void windowOpened(WindowEvent e) {
