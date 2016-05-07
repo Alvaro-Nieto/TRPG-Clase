@@ -275,12 +275,12 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             
         }
         // BLOQUE DE PRUEBA DE RENDIMIENTO DEL METODO DE BUSQUEDA
-        
+        /*
         liberaEstadoCeldas();
         celda.setSelected(true);
         buscaMovimientos(3,celda);
         celda.setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
-        
+        */
         celda.oscurece();
         System.out.println(
                 "¡El puntero entra en la celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
