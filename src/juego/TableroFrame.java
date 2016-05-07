@@ -23,7 +23,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     private Celda[][] celdas;
     private int ancho; // Tiene que se multiplo de numCeldas
     private int alto; // Tiene que se multiplo de numCeldas
-    private final int numCeldas = 16;
+    private final int numCeldas = 32;
     private JPanel panelContenedor;
     private LateralFrame lateral;
     
@@ -168,6 +168,10 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
         this.lateral = lateral;
         iniciaCeldas();
         this.setLocation((int)lateral.getLocation().getX() + lateral.getWidth() + 5, (int)lateral.getLocation().getY());
+    }
+    
+    public Celda[][] getCeldas() {
+        return celdas;
     }
     
 

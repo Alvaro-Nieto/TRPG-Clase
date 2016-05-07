@@ -42,19 +42,15 @@ public class Juego {
         //</editor-fold>
         
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                tableroF = new TableroFrame();
-                tableroF.setVisible(false);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            tableroF = new TableroFrame();
+            tableroF.setVisible(false);
         });
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                lateralF = new LateralFrame();
-                lateralF.setVisible(true);
-                tableroF.setLateralFrame(lateralF);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            lateralF = new LateralFrame();
+            lateralF.setVisible(true);
+            tableroF.setLateralFrame(lateralF);
         });
     }
     

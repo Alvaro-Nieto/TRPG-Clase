@@ -22,10 +22,13 @@ public class Celda extends JPanel{
     private ImageIcon img; // Imagen en la celda. Cambiar más adelante por objeto FIGURA
     private Color color1;
     private Color color2;
+    private boolean selected;
+    public boolean marcada;
     
     public Celda(boolean colorSw, int indiceX, int indiceY, int numCeldas){
         //this.color1 = new Color(107,62,25);
         //this.color2 = new Color(255,228,196);
+        this.selected = false;
         this.color1 = new Color(255,255,255);
         this.color2 = new Color(200,200,200);
         this.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -52,6 +55,22 @@ public class Celda extends JPanel{
         if(!this.isEmpty())
             g.drawImage(img.getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
     }    
+
+    public boolean isMarcada() {
+        return marcada;
+    }
+
+    public void setMarcada(boolean marcada) {
+        this.marcada = marcada;
+    }
+    
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
     
     public boolean getColorSw(){
         return this.colorSw;
@@ -72,7 +91,23 @@ public class Celda extends JPanel{
     public void quitaFigura(){
         img = null;
     }
-    
+    public void oscurece(){
+        int diff = 30;
+        Color nuevoColor;
+        if(colorSw){
+            nuevoColor = (new Color(color1.getRed()-diff,color1.getGreen()-diff,color1.getBlue()-diff));
+        } else{
+            nuevoColor = (new Color(color2.getRed()-diff,color2.getGreen()-diff,color2.getBlue()-diff));
+        }
+        this.setBackground(nuevoColor);
+    }
+    public void aclara(){
+        if(colorSw){
+            this.setBackground(color1);;
+        } else{
+            this.setBackground(color2);
+        }
+    }
     /**
      * @return Devuelve true si está vacia
      */
