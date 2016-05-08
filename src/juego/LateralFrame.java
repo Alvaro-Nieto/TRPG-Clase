@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 /**
  *
@@ -19,16 +20,24 @@ import javax.swing.SwingUtilities;
  */
 public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     
+    private final Border bordeNormal = BorderFactory.createLineBorder(Color.BLACK);
+    private final Border bordeEnemigo = BorderFactory.createLineBorder(Color.RED);
+    private final Border bordeSelec = BorderFactory.createLineBorder(Color.BLUE);
+    private final Border bordeMovimiento = BorderFactory.createLineBorder(Color.BLACK,2);
+    private final Border bordeRaton = BorderFactory.createLineBorder(Color.CYAN);
+    
+    int contador;
+    
     private TableroFrame tablero;
     private Celda[][] celdas;
     private boolean[][] celdaComprobada;
+    
     /**
      * Creates new form LateralFrame
      */
     public LateralFrame() {
         initComponents();
         tablero = Juego.tableroF;
-        
         this.setLocation(5, 5);
     }
     
@@ -37,16 +46,19 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     }
     
     public void buscaMovimientos(int desplazamiento, Celda celda){
-        if(celdas == null)
-            celdas = tablero.getCeldas();
-        if(celdaComprobada == null)
+        //if(celdas == null)
+            //celdas = tablero.getCeldas();
+        /*if(celdaComprobada == null)
             celdaComprobada = new boolean[celdas.length][celdas[0].length];
         else
             for(int i = 0; i < celdas.length; i++){
                 for(int j = 0;j < celdas.length; j++)
                     celdaComprobada[i][j] = false;
-            }
-        buscador(desplazamiento, celda, false);
+            }*/
+        contador = 0;
+        buscador(desplazamiento, celda, null);
+        //buscador(desplazamiento, celda, false);
+        System.out.println(contador);
         //celdaComprobada = null;
     }
     
@@ -126,6 +138,8 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     private void btnTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableroActionPerformed
         // TODO add your handling code here:
         if(btnTablero.isSelected()){
+            if(celdas == null)
+                celdas = tablero.getCeldas();
             tablero.setVisible(true);
         } else{
             tablero.setVisible(false);
@@ -183,7 +197,9 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
      * Método de referncia con un rendimiento terrible
      * OPTIMIZAR
      */
+    /*
     private void buscador(int desplazamiento, Celda celdaInicial, boolean recursiva){
+        contador++;
         for(int i = celdaInicial.getIndiceY() - 1; i <= celdaInicial.getIndiceY() + 1; i++){
             for(int j = celdaInicial.getIndiceX() - 1; j <= celdaInicial.getIndiceX() + 1; j++){
                 try{
@@ -192,20 +208,20 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                             //System.out.println("["+i+"]["+j+"]");
                             //System.out.println("["+celdas[i][j].getIndiceY()+"]["+celdas[i][j].getIndiceX()+"]");
                             if(celdas[i][j].isEmpty()){
-                                celdas[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK,3));
+                                celdas[i][j].setBorder(bordeMovimiento);
                                 if(desplazamiento!=1){
                                     celdaComprobada[i][j] = true;
                                     buscador(desplazamiento-1,celdas[i][j],true);
                                 }
                             } else{
-                                celdas[i][j].setBorder(BorderFactory.createLineBorder(Color.RED,3));
+                                celdas[i][j].setBorder(bordeEnemigo);
                                 celdaComprobada[i][j] = true;
                                 // NO SIGUE LA BUSQUEDA
                             }
                             celdas[i][j].setMarcada(true);
                         }
                     } else if(!celdas[i][j].isEmpty() && !recursiva){
-                        celdas[i][j].setBorder(BorderFactory.createLineBorder(Color.RED,3));
+                        celdas[i][j].setBorder(bordeEnemigo);
                         celdaComprobada[i][j] = true;
                         celdas[i][j].setMarcada(true);
                     }
@@ -216,7 +232,51 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             }
         }
         
+    }*/
+    
+    private void buscador(int desplazamiento, Celda celdaInicial, Celda celdaAnterior){
+        contador++;
+        int indiceY = celdaInicial.getIndiceY();
+        int indiceX = celdaInicial.getIndiceX();
+            if((celdaInicial.isEmpty()) || celdaAnterior == null){
+                celdaInicial.setBorder(bordeMovimiento);
+                celdaInicial.setMarcada(true);
+                
+                if(desplazamiento!= 0){
+                    for(int i = indiceY - 1; i <= indiceY + 1; i++){
+                        for(int j = indiceX - 1; j <= indiceX + 1; j++){
+                            try{
+                                if((celdaAnterior == null || !celdaAnterior.equals(celdas[i][j])) &&
+                                        (celdas[i][j].getIndiceY() == celdaInicial.getIndiceY() || celdas[i][j].getIndiceX() == celdaInicial.getIndiceX())){
+                                    buscador(desplazamiento-1,celdas[i][j],celdaInicial);
+                                }
+                            }catch(ArrayIndexOutOfBoundsException aioobe){}
+                        }
+                    }
+                    /*try{
+                        if(celdaAnterior == null || !celdaAnterior.equals(celdas[indiceY-1][indiceX]))
+                            buscador(desplazamiento-1,celdas[indiceY-1][indiceX],celdaInicial);
+                    } catch(ArrayIndexOutOfBoundsException aioobe){}
+                    try{
+                        if(celdaAnterior == null || !celdaAnterior.equals(celdas[indiceY+1][indiceX]))
+                            buscador(desplazamiento-1,celdas[indiceY+1][indiceX],celdaInicial);
+                    } catch(ArrayIndexOutOfBoundsException aioobe){}
+                    try{
+                        if(celdaAnterior == null || !celdaAnterior.equals(celdas[indiceY][indiceX-1]))
+                            buscador(desplazamiento-1,celdas[indiceY][indiceX-1],celdaInicial);
+                    } catch(ArrayIndexOutOfBoundsException aioobe){}
+                    try{
+                        if(celdaAnterior == null || !celdaAnterior.equals(celdas[indiceY][indiceX+1]))
+                            buscador(desplazamiento-1,celdas[indiceY][indiceX+1],celdaInicial);
+                    } catch(ArrayIndexOutOfBoundsException aioobe){}*/
+                }
+            } else if(!celdaInicial.isEmpty()){
+                celdaInicial.setBorder(bordeEnemigo);
+                celdaInicial.setMarcada(true);
+            }
+        
     }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -241,7 +301,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                liberaEstadoCeldas();
                celda.setSelected(true);
                buscaMovimientos(3,celda);
-               celda.setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
+               celda.setBorder(bordeSelec);
             }
             celda.repaint();
         }
@@ -271,14 +331,14 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource();
         if(!celda.isSelected() && !celda.isMarcada()){
-            celda.setBorder(BorderFactory.createLineBorder(Color.CYAN,3));
+            celda.setBorder(bordeRaton);
             
         }
         // BLOQUE DE PRUEBA DE RENDIMIENTO DEL METODO DE BUSQUEDA
         /*
         liberaEstadoCeldas();
         celda.setSelected(true);
-        buscaMovimientos(3,celda);
+        buscaMovimientos(1,celda);
         celda.setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
         */
         celda.oscurece();
@@ -292,19 +352,20 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource(); 
         if(!celda.isSelected() && !celda.isMarcada()){
-            celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+            celda.setBorder(bordeNormal);
             
         }
         celda.aclara();
     }
 
     private void liberaEstadoCeldas() {
-        Celda[][] celdas = tablero.getCeldas();
+        //if(celdas == null)
+            //celdas = tablero.getCeldas();
         for(Celda[] celdasArr : celdas){
             for(Celda celda : celdasArr){
                 celda.setSelected(false);
                 celda.setMarcada(false);
-                celda.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                celda.setBorder(bordeNormal);
             }
         }
     }

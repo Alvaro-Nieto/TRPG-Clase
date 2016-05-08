@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.border.Border;
 
 /**
  * Celda hereda de JPanel, por lo tanto posee todos sus métodos
@@ -24,6 +25,9 @@ public class Celda extends JPanel{
     private Color color2;
     private boolean selected;
     public boolean marcada;
+    
+    
+    
     
     public Celda(boolean colorSw, int indiceX, int indiceY, int numCeldas){
         //this.color1 = new Color(107,62,25);
@@ -92,12 +96,12 @@ public class Celda extends JPanel{
         img = null;
     }
     public void oscurece(){
-        int diff = 30;
+        int diff = 70;
         Color nuevoColor;
         if(colorSw){
-            nuevoColor = (new Color(color1.getRed()-diff,color1.getGreen()-diff,color1.getBlue()-diff));
+            nuevoColor = (new Color(color1.getRed()-diff,color1.getGreen()-diff,color1.getBlue()));
         } else{
-            nuevoColor = (new Color(color2.getRed()-diff,color2.getGreen()-diff,color2.getBlue()-diff));
+            nuevoColor = (new Color(color2.getRed()-diff,color2.getGreen()-diff,color2.getBlue()));
         }
         this.setBackground(nuevoColor);
     }
