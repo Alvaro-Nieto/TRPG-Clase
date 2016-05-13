@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
  *
  * @author Adrian
  */
-abstract class Unidad {
+public class Unidad {
     
     private int combate;
     private int fuerza;
@@ -20,19 +20,14 @@ abstract class Unidad {
     private int heridas;
     private String nombre;
     private ImageIcon img;
+    private int movimientos;
     
     public Unidad()
     {
     
     }
 
-    public ImageIcon getImg() {
-        return img;
-    }
-
-    public void setImg(ImageIcon img) {
-        this.img = img;
-    }
+    
     
     public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas)
     {
@@ -44,6 +39,26 @@ abstract class Unidad {
       this.heridas=heridas;
       
     }
+    
+    public ImageIcon getImg() {
+        return img;
+    }
+
+    public void setImg(ImageIcon img) {
+        this.img = img;
+    }
+    public void setImg(String ruta) {
+        this.img = new ImageIcon(getClass().getResource(ruta));
+    }
+
+    public int getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(int movimientos) {
+        this.movimientos = movimientos;
+    }
+    
     
      public void setNombre(String nombre)
     {
@@ -131,6 +146,4 @@ abstract class Unidad {
         return this.img == null;
     }
     
-    
-    abstract void insertarImg();
 }

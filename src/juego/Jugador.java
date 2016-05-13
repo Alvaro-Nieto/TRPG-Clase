@@ -7,7 +7,7 @@ package juego;
 
 /**
  *
- * @author Álvaro
+ * @author Adrian
  */
 public class Jugador {
 

@@ -38,7 +38,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
         initComponents(); // Inicia el contenedor y layouts
         //iniciaCeldas(); // Crea el tablero y todas sus celda
         panelContenedor.setBackground(Color.red); // Si se ve rojo, algo no va bien
-        panelContenedor.repaint(); // Dibuja todo
+        //panelContenedor.repaint(); // Dibuja todo
     }
 
     /*
@@ -182,7 +182,6 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
 
     @Override
     public void windowClosing(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         this.setVisible(false);
         lateral.tableroCerrando();
     }

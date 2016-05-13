@@ -20,7 +20,8 @@ public class Celda extends JPanel{
     private int indiceX; // Indice J en el array
     private int indiceY; // Indice I en el array
     private boolean colorSw; // Sirver para ir cambiando entre dos colores
-    private ImageIcon img; // Imagen en la celda. Cambiar más adelante por objeto FIGURA
+   // private ImageIcon img; // Imagen en la celda. Cambiar más adelante por objeto FIGURA
+    private Unidad unidad;
     private Color color1;
     private Color color2;
     private boolean selected;
@@ -57,7 +58,7 @@ public class Celda extends JPanel{
         super.paint(g);
         int modificador = (int)(this.getSize().getWidth() * 0.2);
         if(!this.isEmpty())
-            g.drawImage(img.getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
+            g.drawImage(this.unidad.getImg().getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
     }    
 
     public boolean isMarcada() {
@@ -87,7 +88,7 @@ public class Celda extends JPanel{
     public int getIndiceY(){
         return this.indiceY;
     }
-    
+    /*
     public void setFigura(String figura){
         img = new ImageIcon(getClass().getResource(figura));
     }
@@ -95,6 +96,19 @@ public class Celda extends JPanel{
     public void quitaFigura(){
         img = null;
     }
+    */
+    public void setUnidad(Unidad unidad){
+        this.unidad = unidad;
+    }
+
+    public Unidad getUnidad() {
+        return unidad;
+    }
+    
+    public void quitaFigura(){
+        this.unidad = null;
+    }
+    
     public void oscurece(){
         int diff = 70;
         Color nuevoColor;
@@ -116,7 +130,7 @@ public class Celda extends JPanel{
      * @return Devuelve true si está vacia
      */
     public boolean isEmpty(){
-        return this.img == null;
+        return this.unidad == null;
     }
     
     public void setColor(Color color1, Color color2){
