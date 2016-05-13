@@ -10,7 +10,8 @@ package juego;
  * 
  * @author Guillermo
  */
-public class Pelea {
+public class Pelea 
+{
     /**
      * En este método se comparan la fuerza y la defensa de una unidad. 
      * A este método sólo se accede si una unidad ya ha ganado el combate, por lo que se compara la fuerza de la unidad vencedora
@@ -80,40 +81,85 @@ public class Pelea {
     }
     //Este método es simple de entender, se tiran dos dados (el primero para la unidad1 y el segundo para la segunda)
     //y se comparan. Luego se aplican las reglas que os expliqué. Luego se terminará de implementar cuando exista la clase unidad.
-    public static Unidad ganarCombate (Unidad unidad1, Unidad unidad2)
+    public static Unidad ganarCombate (Unidad unidad1, Unidad unidad2, int dado1, int dado2)
     {
-        int dado1 = (int)(Math.random()*6)+1;
-        int dado2 = (int)(Math.random()*6)+1;
-        
+        Unidad u=null;
         if (dado1>dado2)
         {
-            return unidad1;
+            u=unidad1;
         }
         else if(dado1<dado2)
         {
-            return unidad2;
+            u=unidad2;
         }
         else
         {
             if(unidad1.getCombate()>unidad2.getCombate())
             {
-                return unidad1;
+                u=unidad1;
             }
             else if(unidad1.getCombate()<unidad2.getCombate())
             {
-                return unidad2;
+                u=unidad2;
             }
             else
             {
                 int dadoDesempate = (int)(Math.random()*6)+1;
                 if (dadoDesempate<=3)
                 {
-                    return unidad1;
+                    u=unidad1;
                 }
                 else
-                    return unidad2;
+                    u=unidad2;
+            }
+        }
+        return u;
+        
+    }
+    public static Unidad ataques(Unidad unidad1, Unidad unidad2)
+    {
+        int ataques1=unidad1.getNumAtaques();
+        int ataques2=unidad2.getNumAtaques();
+        int dadoMasAlto1=0;
+        int dadoMasAlto2=0;
+        Unidad u;
+        for (int i=0; i<ataques1; i++)
+        {
+            int dado1=(int)(Math.random()*6)+1;
+            if(dado1>dadoMasAlto1)
+            {
+                dadoMasAlto1=dado1;
+            }
+        }
+        for(int i=0; i<ataques2; i++)
+        {
+            int dado2=(int)(Math.random()*6)+1;
+            if(dado2>dadoMasAlto2)
+            {
+                dadoMasAlto2=dado2;
             }
         }
         
+        u=ganarCombate(unidad1, unidad2, dadoMasAlto1, dadoMasAlto2);
+        
+        int ataquesGanador=u.getNumAtaques();
+        int i=0;
+        boolean herir;
+        int FGanador=u.getFuerza();
+        int DPerdedor=unidad2.getDefensa();
+        while(i<ataquesGanador && unidad2.getHeridas()>0)
+        {
+            herir=false;
+            herir=Comparador(FGanador, DPerdedor);
+            if(herir==true)
+            {
+                unidad2.setHeridas(unidad2.getHeridas()-1);
+            }
+            i++;
+        }
+        
+        
+        return u;
     }
+    
 }
