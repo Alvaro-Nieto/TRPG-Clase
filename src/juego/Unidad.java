@@ -21,14 +21,13 @@ public class Unidad {
     private String nombre;
     private ImageIcon img;
     private int movimientos;
+    private Jugador jugador;
     
     public Unidad()
     {
     
     }
 
-    
-    
     public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas)
     {
       this.nombre=nombre;

@@ -231,7 +231,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         else if(SwingUtilities.isRightMouseButton(e)){
             if(!celda.isEmpty()){
                 liberaEstadoCeldas();
-                celda.quitaFigura();
+                celda.quitaUnidad();
                 celda.repaint();
             }
         }
@@ -274,7 +274,6 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         Celda celda = (Celda) e.getSource(); 
         if(!celda.isSelected() && !celda.isMarcada()){
             celda.setBorder(bordeNormal);
-            
         }
         celda.aclara();
     }
