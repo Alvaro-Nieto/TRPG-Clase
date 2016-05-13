@@ -36,7 +36,6 @@ public class Celda extends JPanel{
         this.selected = false;
         this.color1 = new Color(255,255,255);
         this.color2 = new Color(200,200,230);
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
         this.indiceX = indiceX;
         this.indiceY = indiceY;
         if(colorSw){

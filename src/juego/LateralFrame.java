@@ -20,7 +20,7 @@ import javax.swing.border.Border;
  */
 public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     
-    private final Border bordeNormal = BorderFactory.createLineBorder(Color.BLACK);
+    private final Border bordeNormal = null;
     private final Border bordeEnemigo = BorderFactory.createLineBorder(Color.RED);
     private final Border bordeSelec = BorderFactory.createLineBorder(Color.BLUE);
     private final Border bordeMovimiento = BorderFactory.createLineBorder(Color.BLACK,2);

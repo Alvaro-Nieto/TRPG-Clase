@@ -24,6 +24,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     private int ancho; // Tiene que se multiplo de numCeldas
     private int alto; // Tiene que se multiplo de numCeldas
     private final int numCeldas = 32;
+    private final int HUECO = 2;
     private JPanel panelContenedor;
     private LateralFrame lateral;
     
@@ -33,11 +34,11 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
      * Tablero es a su vez un JFrame (ventana). Deberiamos separar en dos clases
      */
     public TableroFrame() {
-        this.ancho = multiploDesde(750);
+        this.ancho = multiploDesde(750) + (HUECO*numCeldas +HUECO);
         this.alto = ancho;
         initComponents(); // Inicia el contenedor y layouts
         //iniciaCeldas(); // Crea el tablero y todas sus celda
-        panelContenedor.setBackground(Color.red); // Si se ve rojo, algo no va bien
+        panelContenedor.setBackground(Color.BLACK); // Si se ve rojo, algo no va bien
         //panelContenedor.repaint(); // Dibuja todo
     }
 
@@ -64,16 +65,16 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
      * Es llamado al iniciar las celdas y cada vez que cambia el tamaño
      */
     private void dibujaCeldas(){
-        int x = 0; // Coordenada X donde se dibuja
-        int y = 0; // Coordenada Y donde se dibuja
+        int x = HUECO; // Coordenada X donde se dibuja
+        int y = HUECO; // Coordenada Y donde se dibuja
         int sumador = ancho / numCeldas; // Distancia entre cada celda
         for (int i = 0; i < celdas.length; i++) {
             for (int j = 0; j < celdas[i].length; j++) {
                 celdas[i][j].setLocation(x, y);
-                celdas[i][j].setSize(ancho / numCeldas, alto / numCeldas);
+                celdas[i][j].setSize(ancho / numCeldas -HUECO, alto / numCeldas -HUECO);
                 x += sumador; // Suma la distancia para dibujar la siguiente
             }
-            x = 0; // Nueva fila
+            x = HUECO; // Nueva fila
             y += sumador; // Suma la distancia para dibujar la siguiente
         }
     }
