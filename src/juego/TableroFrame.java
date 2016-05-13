@@ -157,10 +157,10 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
             default:
                 medida = multiploDesde(750);
         }
-        this.ancho = medida;
-        this.alto = medida;
-        this.panelContenedor.setSize(medida,medida);
-        this.panelContenedor.setPreferredSize(new Dimension(medida,medida));
+        this.ancho = medida + (HUECO*numCeldas +HUECO);
+        this.alto = ancho;
+        this.panelContenedor.setSize(ancho,alto);
+        this.panelContenedor.setPreferredSize(new Dimension(ancho,alto));
         this.dibujaCeldas();
         this.pack();
     }
