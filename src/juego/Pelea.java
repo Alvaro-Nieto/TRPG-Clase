@@ -54,7 +54,8 @@ public class Pelea
             }
         }
         else if(fuerza>=1 && defensa>=fuerza+5 && dado==6)
-        {
+        {//aqui entramos cuando hay que hacer una segunda tirada. Es decir, cuando la defensa es tan alta que necesitas tirar dos dados para
+         //ver si matas.
             dado2=(int)(Math.random()*6)+1;
             switch(dado2)
             {
@@ -80,7 +81,7 @@ public class Pelea
         return victoria;
     }
     //Este método es simple de entender, se tiran dos dados (el primero para la unidad1 y el segundo para la segunda)
-    //y se comparan. Luego se aplican las reglas que os expliqué. Luego se terminará de implementar cuando exista la clase unidad.
+    //y se comparan. Luego se aplican las reglas que os expliqué.
     public static Unidad ganarCombate (Unidad unidad1, Unidad unidad2, int dado1, int dado2)
     {
         Unidad u=null;
@@ -103,7 +104,8 @@ public class Pelea
                 u=unidad2;
             }
             else
-            {
+            {//En este else se toma en cuenta el caso del empate absoluto. Es decir, que las dos unidades hayan empatado tanto en combate como
+             //en tirada de dados. En este caso se tira un dado de desempate: 1,2,3 gana unidad 1. 4,5,6 gana unidad 2. 
                 int dadoDesempate = (int)(Math.random()*6)+1;
                 if (dadoDesempate<=3)
                 {
@@ -116,13 +118,24 @@ public class Pelea
         return u;
         
     }
+    /**
+     * Aqui se van a unificar los otros dos métodos. ¿Porqué necesitamos eso? Preguntaréis vosotros. Sencillo, lo necesitamos para ver reflejado
+     * el atributo de ataques de una unidad. A más ataques, más dados para ganar. A más dados para ganar, más probabilidades de que ganes.
+     * Obvio, ¿no?
+     * 
+     */
     public static Unidad ataques(Unidad unidad1, Unidad unidad2)
     {
         int ataques1=unidad1.getNumAtaques();
         int ataques2=unidad2.getNumAtaques();
-        int dadoMasAlto1=0;
+        int dadoMasAlto1=0;//con estos atributos lo que se busca es mirar el resultado más alto que haya sacado una unidad.
         int dadoMasAlto2=0;
         Unidad u;
+        /**
+         * En el juego de mesa, lo que hacen los jugadores es tirar los dados y luego ver los resultados más elevados. Eso es lo que hacen estos for.
+         * Los bucles recorren el atributo de ataques de cada unidad, y van tirando un dado en cada vuelta. Luego, guardan el valor más alto obtenido 
+         * (que es el que interesa).
+         */
         for (int i=0; i<ataques1; i++)
         {
             int dado1=(int)(Math.random()*6)+1;
@@ -140,26 +153,52 @@ public class Pelea
             }
         }
         
-        u=ganarCombate(unidad1, unidad2, dadoMasAlto1, dadoMasAlto2);
+        u=ganarCombate(unidad1, unidad2, dadoMasAlto1, dadoMasAlto2);//llamamos al método ganar combate y devolvemos al ganador.
+        int DPerdedor;
+        //comprobamos cual de los dos objetos es el ganador
+        if(u.equals(unidad1))
+        {
+            DPerdedor=unidad2.getDefensa();
+        }
+        else
+        {
+            DPerdedor=unidad1.getDefensa();
+        }
         
         int ataquesGanador=u.getNumAtaques();
         int i=0;
         boolean herir;
         int FGanador=u.getFuerza();
-        int DPerdedor=unidad2.getDefensa();
-        while(i<ataquesGanador && unidad2.getHeridas()>0)
+        
+        //con este if hacemos dos casos distintos. Uno por si el ganador ha sido unidad1, y otro por si ha sido unidad2.
+        if(u.equals(unidad1))
         {
-            herir=false;
-            herir=Comparador(FGanador, DPerdedor);
-            if(herir==true)
+            while(i<ataquesGanador && unidad2.getHeridas()>0)
             {
-                unidad2.setHeridas(unidad2.getHeridas()-1);
+                herir=false;
+                herir=Comparador(FGanador, DPerdedor);
+                if(herir==true)
+                {
+                    unidad2.setHeridas(unidad2.getHeridas()-1);
+                }
+                i++;
             }
-            i++;
+        }
+        else
+        {
+            while(i<ataquesGanador && unidad1.getHeridas()>0)
+            {
+                herir=false;
+                herir=Comparador(FGanador, DPerdedor);
+                if(herir==true)
+                {
+                    unidad1.setHeridas(unidad1.getHeridas()-1);
+                }
+                i++;
+            }
         }
         
-        
-        return u;
+        return u;//devolvemos el ganador
     }
     
 }
