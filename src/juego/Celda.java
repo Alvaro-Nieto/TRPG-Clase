@@ -63,10 +63,10 @@ public class Celda extends JPanel{
         super.paint(g);
         int modificador = (int)(this.getSize().getWidth() * 0.2);
         if(!this.isEmpty()){
-            g.drawImage(this.unidad.getImg().getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
+            g.drawImage(this.unidad.getFicha().getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
             g.setFont(new Font("Arial",1,(int)this.getHeight()/4));
             
-            g.drawString(unidad.getNombre(), 0,(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
+            g.drawString("J"+String.valueOf(unidad.getJugador().getNumero()), 0,(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
             //g.drawString(unidad.getNombre(), 20,5);
         }
     }    

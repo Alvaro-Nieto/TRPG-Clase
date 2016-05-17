@@ -15,8 +15,20 @@ public class Jugador {
      private int clasificacion;
      private int victorias;
      private int derrotas;
+     private int numero;
 
-     public Jugador(String nombre){
+     public Jugador(String nombre, int numero){
          this.nombre = nombre;
+         this.numero = numero;
      }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+     
+    
 }

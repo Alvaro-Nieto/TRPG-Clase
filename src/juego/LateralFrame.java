@@ -7,10 +7,13 @@ package juego;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
@@ -38,14 +41,25 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     private Jugador j1;
     private Jugador j2;
     private Celda celdaSeleccionada;
+    private Partida partida;
     
     /**
      * Creates new form LateralFrame
      */
     public LateralFrame() {
         initComponents();
+        j1 = new Jugador("Jugador1",1);
+        j2 = new Jugador("Jugador2",2);
+        partida = new Partida(j1,j2);
+        nuevoTurno();
+        this.getContentPane().setBackground( new Color(200,200,255) );
         tablero = Juego.tableroF;
         this.setLocation(5, 5);
+    }
+
+    private void nuevoTurno() {
+        partida.nuevoTurno();
+        txtArea.append("Turno: "+partida.getContTurnos()+" ("+partida.getTurnoNombre()+")"+"\n");
     }
     
     public void tableroCerrando(){
@@ -56,7 +70,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         contador = 0;
         buscador(desplazamiento, celda, null);
         //buscador(desplazamiento, celda, false);
-        System.out.println(contador);
+       // System.out.println(contador);
         //celdaComprobada = null;
     }
     
@@ -73,6 +87,13 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         cBoxSize = new javax.swing.JComboBox<>();
         btnFigura = new javax.swing.JToggleButton();
         btnFigura2 = new javax.swing.JToggleButton();
+        txtHeridas = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
+        labelNombre = new javax.swing.JLabel();
+        labelHeridas = new javax.swing.JLabel();
+        labelImagen = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
@@ -107,36 +128,88 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             }
         });
 
+        txtHeridas.setEditable(false);
+        txtHeridas.setFocusable(false);
+        txtHeridas.setRequestFocusEnabled(false);
+
+        txtNombre.setEditable(false);
+        txtNombre.setFocusable(false);
+        txtNombre.setRequestFocusEnabled(false);
+
+        labelNombre.setText("Nombre");
+
+        labelHeridas.setText("Heridas");
+
+        labelImagen.setBackground(new java.awt.Color(255, 255, 255));
+        labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        labelImagen.setFocusable(false);
+        labelImagen.setOpaque(true);
+
+        txtArea.setColumns(20);
+        txtArea.setRows(5);
+        txtArea.setFocusable(false);
+        jScrollPane1.setViewportView(txtArea);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cBoxSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(labelNombre)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNombre))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnFigura2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnFigura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addComponent(labelHeridas)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(btnFigura2)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(btnTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnFigura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 52, Short.MAX_VALUE)))
+                .addGap(35, 35, 35))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(301, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
+                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelNombre))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelHeridas))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addComponent(btnFigura2)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFigura)
-                .addGap(47, 47, 47)
-                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTablero)
-                .addGap(29, 29, 29))
+                .addContainerGap())
         );
 
         pack();
@@ -183,6 +256,13 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     private javax.swing.JToggleButton btnFigura2;
     private javax.swing.JToggleButton btnTablero;
     private javax.swing.JComboBox<String> cBoxSize;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel labelHeridas;
+    private javax.swing.JLabel labelImagen;
+    private javax.swing.JLabel labelNombre;
+    private javax.swing.JTextArea txtArea;
+    private javax.swing.JTextField txtHeridas;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
     
@@ -206,11 +286,18 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                     }
                 }
             }
-        } else if(!celdaInicial.isEmpty()){
+        } else if(!celdaInicial.isEmpty() && sonEnemigos(celdaInicial,celdaSeleccionada)){
             celdaInicial.setBorder(bordeEnemigo);
             celdaInicial.setMarcada(true);
+        } else if(sonEnemigos(celdaInicial,celdaSeleccionada)){
+            // por si acaso
         }
     }
+
+    private boolean sonEnemigos(Celda celda1,Celda celda2) {
+        return !celda1.getUnidad().getJugador().equals(celda2.getUnidad().getJugador());
+    }
+    
     private void mueve(Celda origen, Celda destino){
         Unidad unidad = origen.getUnidad();
         origen.quitaUnidad();
@@ -220,6 +307,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     }
     private void liberaEstadoCeldas() {
         celdaSeleccionada = null;
+        limpiaDatos();
         for(Celda[] celdasArr : celdas){
             for(Celda celda : celdasArr){
                 celda.setSelected(false);
@@ -228,7 +316,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             }
         }
     }
-    
+
     @Override
     public void mouseClicked(MouseEvent e) {
         Celda celda = (Celda) e.getSource();
@@ -244,33 +332,47 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                 "¡PULSADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
         );*/
         
+        /*
+         * IMPORTANTE - Funciona, pero hay que mejorar las condiciones y refactorizar
+         */
         if(SwingUtilities.isLeftMouseButton(e)){
             if(this.btnFigura.isSelected()){
                 cuentaUnidad++;
-                unidadTemp = new Unidad("TEST"+cuentaUnidad,3,2,2,2,3);
-                unidadTemp.setMovimientos(3);
-                unidadTemp.setImg("./imagenes/mal/gorbag.jpg");
+                unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
+                unidadTemp.setMovimientos(5);
+                unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
                 celda.setUnidad(unidadTemp);
             } else if(this.btnFigura2.isSelected()){
                 cuentaUnidad++;
-                unidadTemp = new Unidad("TEST"+cuentaUnidad,3,2,2,2,3);
-                unidadTemp.setMovimientos(2);
-                unidadTemp.setImg("./imagenes/mal/capitanorco.jpg");
+                unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
+                unidadTemp.setMovimientos(3);
+                unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
                 celda.setUnidad(unidadTemp);
             }
-            else if(!celda.isEmpty() && celdaSeleccionada == null){
+            else if(!celda.isEmpty() && celdaSeleccionada == null && celda.getUnidad().getJugador().equals(partida.getJugadorActual()) ){
                liberaEstadoCeldas();
                celda.setSelected(true);
                celdaSeleccionada = celda;
+               actualizaDatosSelec(celda);
                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
                celda.setBorder(bordeSelec);
-            } else if(celdaSeleccionada != null && celda.isMarcada() && (!celdaSeleccionada.equals(celda)) ){
-                if(celda.isEmpty()){
+            } else if(celdaSeleccionada != null && (!celdaSeleccionada.equals(celda)) ){
+                if(celda.isEmpty() && celda.isMarcada()){
                     mueve(celdaSeleccionada,celda);
                     liberaEstadoCeldas();
-                } else{
+                    this.nuevoTurno();
+                } else if(sonEnemigos(celda,celdaSeleccionada) && celda.isMarcada()){
                     combate(celda);
+                    this.nuevoTurno();
+                } else if(!sonEnemigos(celda,celdaSeleccionada) && !celda.isMarcada()){
+                    liberaEstadoCeldas();
+                    celda.setSelected(true);
+                    celdaSeleccionada = celda;
+                    actualizaDatosSelec(celda);
+                    buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
+                    celda.setBorder(bordeSelec);
                 }
+                
             } 
             celda.repaint();
         }
@@ -287,30 +389,56 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         }
     }
 
+    private void actualizaDatosSelec(Celda celda) {
+        txtNombre.setText(celda.getUnidad().getNombre());
+        txtHeridas.setText(String.valueOf(celda.getUnidad().getHeridas()));
+        //ImageIcon img = celda.getUnidad().getImg();
+        labelImagen.setIcon(new ImageIcon(celda.getUnidad().getImagen().getImage().getScaledInstance(labelImagen.getWidth(), labelImagen.getHeight(), Image.SCALE_DEFAULT)));
+    }
+
+    private void limpiaDatos() {
+        txtNombre.setText("");
+        txtHeridas.setText("");
+        labelImagen.setIcon(null);
+    }
+    
     private void combate(Celda celdaAtacada) {
-        Unidad ganadora = Pelea.ataques(celdaSeleccionada.getUnidad(), celdaAtacada.getUnidad());
-        System.out.println("--------------------- SUCEDE COMBATE ---------------------");
-        if(ganadora.equals(celdaSeleccionada.getUnidad())){
-            System.out.println("GANA ATACANTE");
-            
-            
-            if(celdaAtacada.getUnidad().getHeridas() <= 0){
-                System.out.println("MUERE DEFENSOR");
+        
+        txtArea.append("##Combate##\n");
+        Unidad uAtacante = celdaSeleccionada.getUnidad();
+        Unidad uDefensora = celdaAtacada.getUnidad();
+        Unidad ganadora = Pelea.ataques(uAtacante,  uDefensora);
+        //System.out.println("--------------------- SUCEDE COMBATE ---------------------");
+        txtArea.append(uAtacante.getNombre()+"("+uAtacante.getJugador().getNombre()+")"+" ataca a "+uDefensora.getNombre()+"("+uDefensora.getJugador().getNombre()+")"+"\n");
+        if(ganadora.equals(uAtacante)){
+           // System.out.println("GANA ATACANTE");  
+            txtArea.append("Gana "+uAtacante.getNombre()+"\n");
+            if(uDefensora.getHeridas() <= 0){
+                txtArea.append("Muere "+uDefensora.getNombre()+"\n");
+                //System.out.println("MUERE DEFENSOR");
             } else{
                 retrocede(celdaAtacada);
             }
             mueve(celdaSeleccionada,celdaAtacada);
             this.repaint();
         } else{
-            if(celdaSeleccionada.getUnidad().getHeridas() <= 0){
-                System.out.println("MUERE ATACANTE");
+            txtArea.append("Gana "+uDefensora.getNombre()+"\n");
+            if(uAtacante.getHeridas() <= 0){
+                txtArea.append("Muere "+uAtacante.getNombre()+"\n");
+                //System.out.println("MUERE ATACANTE");
                 celdaSeleccionada.quitaUnidad();
+            } else{
+                /*
+                 * Desarrollar método que calcule donde debe quedar el atacante
+                 + cuando pierde el combate
+                 */
+                //calculaMovimiento();
             }
             System.out.println("GANA DEFENSOR");
         }
-        System.out.println("---ATACANTE---\n##########"+celdaSeleccionada.getUnidad()+"\n##########");
-        System.out.println("---DEFENSOR---\n##########"+celdaAtacada.getUnidad()+"\n##########");
-        System.out.println("--------------------- TERMINA COMBATE ---------------------");
+        //System.out.println("---ATACANTE---\n##########\n"+uAtacante+"\n##########");
+        //System.out.println("---DEFENSOR---\n##########\n"+uDefensora+"\n##########");
+        //System.out.println("--------------------- TERMINA COMBATE ---------------------");
         this.repaint();
         liberaEstadoCeldas();
         //System.out.println(celdaSeleccionada.getUnidad().equals(celda.getUnidad()));

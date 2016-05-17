@@ -19,35 +19,72 @@ public class Unidad {
     private int numAtaques;
     private int heridas;
     private String nombre;
-    private ImageIcon img;
+    private ImageIcon ficha;
+    private ImageIcon imagen;
     private int movimientos;
     private Jugador jugador;
+    private String tipo;
     
     public Unidad()
     {
     
     }
 
-    public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas)
-    {
-      this.nombre=nombre;
-      this.combate=combate;
-      this.fuerza=fuerza;
-      this.defensa=defensa;
-      this.numAtaques=numAtaques;
-      this.heridas=heridas;
+    public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas,Jugador jugador, String tipo){
+        this.nombre=nombre;
+        this.combate=combate;
+        this.fuerza=fuerza;
+        this.defensa=defensa;
+        this.numAtaques=numAtaques;
+        this.heridas=heridas;
+        this.jugador = jugador;
+        this.tipo = tipo;
       
-    }
-    
-    public ImageIcon getImg() {
-        return img;
+        // DEPENDE DE LA BD
+        this.setImagen("");
+        // DEPENDE DE LA BD
+        switch(tipo){
+            case "Infanteria":
+            if(this.jugador.getNumero()==1)
+                this.setFicha("./imagenes/fichas/ficha_naranja_infanteria.gif");
+            else
+                this.setFicha("./imagenes/fichas/ficha_verde_infanteria.gif");
+            break;
+            case "Caballeria":
+            if(this.jugador.getNumero()==1)
+                this.setFicha("./imagenes/fichas/ficha_naranja_caballeria.gif");
+            else
+                this.setFicha("./imagenes/fichas/ficha_verde_caballeria.gif");
+            break;
+            case "Monstruo":
+            if(this.jugador.getNumero()==1)
+                this.setFicha("./imagenes/fichas/ficha_naranja_monstruo.gif");
+            else
+                this.setFicha("./imagenes/fichas/ficha_verde_monstruo.gif");
+            break;
+      }
     }
 
-    public void setImg(ImageIcon img) {
-        this.img = img;
+    public ImageIcon getImagen() {
+        return imagen;
     }
-    public void setImg(String ruta) {
-        this.img = new ImageIcon(getClass().getResource(ruta));
+
+    public void setImagen(ImageIcon imagen) {
+        this.imagen = imagen;
+    }
+    public void setImagen(String ruta) {
+        this.imagen = new ImageIcon(getClass().getResource(ruta));
+    }
+    
+    public ImageIcon getFicha() {
+        return ficha;
+    }
+
+    public void setFicha(ImageIcon ficha) {
+        this.ficha = ficha;
+    }
+    public void setFicha(String ruta) {
+        this.ficha = new ImageIcon(getClass().getResource(ruta));
     }
 
     public int getMovimientos() {
@@ -119,6 +156,10 @@ public class Unidad {
      {
        return this.heridas;
      }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
       
 
      @Override
@@ -132,17 +173,17 @@ public class Unidad {
             
       
     public void setFigura(String figura){
-        img = new ImageIcon(getClass().getResource(figura));
+        ficha = new ImageIcon(getClass().getResource(figura));
     }
     
     public void quitaFigura(){
-        img = null;
+        ficha = null;
     }
     
  
-
+/*
     private boolean isEmpty() {
-        return this.img == null;
-    }
+        return this.ficha == null;
+    }*/
     
 }
