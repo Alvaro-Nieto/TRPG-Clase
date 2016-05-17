@@ -6,10 +6,12 @@
 package juego;
 
 import java.awt.Color;
+import java.awt.Font;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.border.Border;
 
 /**
@@ -25,7 +27,8 @@ public class Celda extends JPanel{
     private Color color1;
     private Color color2;
     private boolean selected;
-    public boolean marcada;
+    private boolean marcada;
+    //public JLabel jlabel;
     
     
     
@@ -45,6 +48,9 @@ public class Celda extends JPanel{
         }
         this.colorSw = colorSw;
         //this.setFigura("./imagenes/mal/gorbag.jpg");
+        /*jlabel = new JLabel("");
+        jlabel.setFont(new Font("Verdana",1,15));
+        this.add(jlabel);*/
     }
     
     /**
@@ -56,8 +62,13 @@ public class Celda extends JPanel{
     public void paint(Graphics g) {
         super.paint(g);
         int modificador = (int)(this.getSize().getWidth() * 0.2);
-        if(!this.isEmpty())
+        if(!this.isEmpty()){
             g.drawImage(this.unidad.getImg().getImage(), modificador / 2, modificador / 2, (int)this.getSize().getWidth() - modificador, (int)this.getSize().getHeight() - modificador, null);
+            g.setFont(new Font("Arial",1,(int)this.getHeight()/4));
+            
+            g.drawString(unidad.getNombre(), 0,(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
+            //g.drawString(unidad.getNombre(), 20,5);
+        }
     }    
 
     public boolean isMarcada() {
@@ -98,6 +109,7 @@ public class Celda extends JPanel{
     */
     public void setUnidad(Unidad unidad){
         this.unidad = unidad;
+        //this.jlabel.setText(unidad.getNombre());
     }
 
     public Unidad getUnidad() {

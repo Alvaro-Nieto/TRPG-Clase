@@ -28,11 +28,16 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     
     // QUITAR DESPUES
     int contador;
+    int cuentaUnidad = 0;
     private Unidad unidadTemp;
     // QUITAR DESPUES
     
     private TableroFrame tablero;
     private Celda[][] celdas;
+    
+    private Jugador j1;
+    private Jugador j2;
+    private Celda celdaSeleccionada;
     
     /**
      * Creates new form LateralFrame
@@ -67,6 +72,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         btnTablero = new javax.swing.JToggleButton();
         cBoxSize = new javax.swing.JComboBox<>();
         btnFigura = new javax.swing.JToggleButton();
+        btnFigura2 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
@@ -94,6 +100,13 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             }
         });
 
+        btnFigura2.setText("Test FIGURA2");
+        btnFigura2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFigura2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -107,13 +120,17 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                             .addComponent(cBoxSize, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
-                        .addComponent(btnFigura)))
-                .addContainerGap(58, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnFigura2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFigura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(342, Short.MAX_VALUE)
+                .addContainerGap(301, Short.MAX_VALUE)
+                .addComponent(btnFigura2)
+                .addGap(18, 18, 18)
                 .addComponent(btnFigura)
                 .addGap(47, 47, 47)
                 .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -153,10 +170,17 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
 
     private void btnFiguraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiguraActionPerformed
         // TODO add your handling code here:
+        btnFigura2.setSelected(false);
     }//GEN-LAST:event_btnFiguraActionPerformed
+
+    private void btnFigura2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFigura2ActionPerformed
+        // TODO add your handling code here:
+        btnFigura.setSelected(false);
+    }//GEN-LAST:event_btnFigura2ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnFigura;
+    private javax.swing.JToggleButton btnFigura2;
     private javax.swing.JToggleButton btnTablero;
     private javax.swing.JComboBox<String> cBoxSize;
     // End of variables declaration//GEN-END:variables
@@ -187,8 +211,15 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             celdaInicial.setMarcada(true);
         }
     }
-    
+    private void mueve(Celda origen, Celda destino){
+        Unidad unidad = origen.getUnidad();
+        origen.quitaUnidad();
+        destino.setUnidad(unidad);
+        origen.repaint();
+        destino.repaint();
+    }
     private void liberaEstadoCeldas() {
+        celdaSeleccionada = null;
         for(Celda[] celdasArr : celdas){
             for(Celda celda : celdasArr){
                 celda.setSelected(false);
@@ -201,31 +232,46 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
         Celda celda = (Celda) e.getSource();
-        System.out.println(
+        /*System.out.println(
                 "¡Clic en celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         Celda celda = (Celda) e.getSource();
-        System.out.println(
+        /*System.out.println(
                 "¡PULSADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
         
         if(SwingUtilities.isLeftMouseButton(e)){
             if(this.btnFigura.isSelected()){
-                unidadTemp = new Unidad();
+                cuentaUnidad++;
+                unidadTemp = new Unidad("TEST"+cuentaUnidad,3,2,2,2,3);
                 unidadTemp.setMovimientos(3);
                 unidadTemp.setImg("./imagenes/mal/gorbag.jpg");
                 celda.setUnidad(unidadTemp);
+            } else if(this.btnFigura2.isSelected()){
+                cuentaUnidad++;
+                unidadTemp = new Unidad("TEST"+cuentaUnidad,3,2,2,2,3);
+                unidadTemp.setMovimientos(2);
+                unidadTemp.setImg("./imagenes/mal/capitanorco.jpg");
+                celda.setUnidad(unidadTemp);
             }
-            else if(!celda.isEmpty()){
+            else if(!celda.isEmpty() && celdaSeleccionada == null){
                liberaEstadoCeldas();
                celda.setSelected(true);
+               celdaSeleccionada = celda;
                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
                celda.setBorder(bordeSelec);
-            }
+            } else if(celdaSeleccionada != null && celda.isMarcada() && (!celdaSeleccionada.equals(celda)) ){
+                if(celda.isEmpty()){
+                    mueve(celdaSeleccionada,celda);
+                    liberaEstadoCeldas();
+                } else{
+                    combate(celda);
+                }
+            } 
             celda.repaint();
         }
         else if(SwingUtilities.isRightMouseButton(e)){
@@ -236,7 +282,52 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             }
         }
         else if(SwingUtilities.isMiddleMouseButton(e)){
+            liberaEstadoCeldas();
             System.out.println(celda.isEmpty() ? "Esta vacia" : "Tiene figura");
+        }
+    }
+
+    private void combate(Celda celdaAtacada) {
+        Unidad ganadora = Pelea.ataques(celdaSeleccionada.getUnidad(), celdaAtacada.getUnidad());
+        System.out.println("--------------------- SUCEDE COMBATE ---------------------");
+        if(ganadora.equals(celdaSeleccionada.getUnidad())){
+            System.out.println("GANA ATACANTE");
+            
+            
+            if(celdaAtacada.getUnidad().getHeridas() <= 0){
+                System.out.println("MUERE DEFENSOR");
+            } else{
+                retrocede(celdaAtacada);
+            }
+            mueve(celdaSeleccionada,celdaAtacada);
+            this.repaint();
+        } else{
+            if(celdaSeleccionada.getUnidad().getHeridas() <= 0){
+                System.out.println("MUERE ATACANTE");
+                celdaSeleccionada.quitaUnidad();
+            }
+            System.out.println("GANA DEFENSOR");
+        }
+        System.out.println("---ATACANTE---\n##########"+celdaSeleccionada.getUnidad()+"\n##########");
+        System.out.println("---DEFENSOR---\n##########"+celdaAtacada.getUnidad()+"\n##########");
+        System.out.println("--------------------- TERMINA COMBATE ---------------------");
+        this.repaint();
+        liberaEstadoCeldas();
+        //System.out.println(celdaSeleccionada.getUnidad().equals(celda.getUnidad()));
+    }
+
+    private void retrocede(Celda celdaAtacada) {
+        try{
+            Celda celdaAnterior = celdas[celdaAtacada.getIndiceY()-1][celdaAtacada.getIndiceX()];
+            if(celdaAnterior.isEmpty()){
+                celdaAnterior.setUnidad(celdaAtacada.getUnidad());
+                celdaAnterior.repaint();
+            } else{  
+                retrocede(celdaAnterior);
+                mueve(celdaAtacada,celdaAnterior);
+            }
+        }catch (ArrayIndexOutOfBoundsException aioobe){
+            celdaAtacada.quitaUnidad();
         }
     }
 
@@ -244,9 +335,9 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     public void mouseReleased(MouseEvent e) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         Celda celda = (Celda) e.getSource();
-        System.out.println(
+        /*System.out.println(
                 "¡SOLTADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
     }
 
     @Override
@@ -264,9 +355,9 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         celda.setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
         */
         celda.oscurece();
-        System.out.println(
+        /*System.out.println(
                 "¡El puntero entra en la celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );
+        );*/
     }
 
     @Override

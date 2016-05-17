@@ -16,4 +16,7 @@ public class Jugador {
      private int victorias;
      private int derrotas;
 
+     public Jugador(String nombre){
+         this.nombre = nombre;
+     }
 }
