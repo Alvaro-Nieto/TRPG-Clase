@@ -170,6 +170,10 @@ public class Unidad {
                + "\nHeridas: " + this.heridas;
         return mensaje;
     }
+
+    public String getTipo() {
+        return tipo;
+    }
             
       
     public void setFigura(String figura){
