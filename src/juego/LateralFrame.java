@@ -340,7 +340,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                 cuentaUnidad++;
                 unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
                 unidadTemp.setMovimientos(5);
-                unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
+                unidadTemp.setImagen("./imagenes/mal/jinetehuargo.jpg");
                 celda.setUnidad(unidadTemp);
             } else if(this.btnFigura2.isSelected()){
                 cuentaUnidad++;
