@@ -1,5 +1,5 @@
 
-package juego;
+package juego.controlador;
 
 /**
  *

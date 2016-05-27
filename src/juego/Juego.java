@@ -5,6 +5,9 @@
  */
 package juego;
 
+import juego.vista.LateralFrame;
+import juego.vista.TableroFrame;
+
 /**
  * Clase principal con el main
  * Lanza un hilo que crea el Tablero( la ventana )

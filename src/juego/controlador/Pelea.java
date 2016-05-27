@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego;
+package juego.controlador;
+
+import juego.modelo.Unidad;
 
 /**
  * Esta clase sirve para saber si una unidad ha ganado la pelea. Se incluyen los métodos comparador y ganarCombate.

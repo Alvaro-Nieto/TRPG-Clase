@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package juego;
+package juego.vista;
 
+import juego.modelo.Partida;
+import juego.modelo.Unidad;
+import juego.modelo.Jugador;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -13,6 +16,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import juego.Juego;
+import juego.controlador.Pelea;
 
 /**
  *
@@ -353,14 +358,14 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             cuentaUnidad++;
             unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
             unidadTemp.setMovimientos(5);
-            unidadTemp.setImagen("./imagenes/mal/jinetehuargo.jpg");
+            unidadTemp.setImagen("../imagenes/mal/jinetehuargo.jpg");
             celdaClic.setUnidad(unidadTemp);
         } 
         else if(this.btnFigura2.isSelected()){
             cuentaUnidad++;
             unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
             unidadTemp.setMovimientos(3);
-            unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
+            unidadTemp.setImagen("../imagenes/mal/jefetroll.jpg");
             celdaClic.setUnidad(unidadTemp);
         } // PARA PRUEBAS FIN
         
