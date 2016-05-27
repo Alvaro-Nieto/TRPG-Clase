@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-public class conectar {
+public class bd {
   public static void main(String[] args) {
     Connection connection = null;
     Statement statement = null;
