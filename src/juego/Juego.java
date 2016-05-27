@@ -5,9 +5,13 @@
  */
 package juego;
 
+import java.io.FileInputStream;
+import javazoom.jl.player.Player;
 import juego.controlador.ControladorPartida;
+import juego.controlador.Sonidos;
 import juego.vista.LateralFrame;
 import juego.vista.TableroFrame;
+
 
 /**
  * Clase principal con el main
@@ -63,7 +67,10 @@ public class Juego {
             tableroF.setLateralFrame(lateralF);
             controlador.setTableroFrame(tableroF);
         });
-        
+        /*
+         * Reproduce música en bucle. ES UNA PRUEBA
+         */
+        //Sonidos.startHiloMusical();
     }
     
 }

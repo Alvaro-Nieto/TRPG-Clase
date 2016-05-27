@@ -8,9 +8,12 @@ package juego.controlador;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
+import javazoom.jl.player.Player;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
 import juego.modelo.Unidad;
@@ -66,8 +69,9 @@ public class ControladorPartida  implements MouseListener{
     }
     
     public void nuevoTurno() {
+        Sonidos.nuevoTurno();
         Celda celda;
-        
+        //JOptionPane.showMessageDialog(tableroFrame,"Nuevo TURNO");
         partida.nuevoTurno();
         if(haySeleccionada())
             liberaEstadoCeldas();
