@@ -10,10 +10,6 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.border.Border;
 
 /**
  * Celda hereda de JPanel, por lo tanto posee todos sus métodos

@@ -11,16 +11,16 @@ package juego.modelo;
  */
 public class Jugador {
 
-     private String nombre;
-     private int clasificacion;
-     private int victorias;
-     private int derrotas;
-     private int numero;
+    private String nombre;
+    private int clasificacion;
+    private int victorias;
+    private int derrotas;
+    private int numero;
 
-     public Jugador(String nombre, int numero){
-         this.nombre = nombre;
-         this.numero = numero;
-     }
+    public Jugador(String nombre, int numero){
+        this.nombre = nombre;
+        this.numero = numero;
+    }
 
     public String getNombre() {
         return nombre;
@@ -29,6 +29,5 @@ public class Jugador {
     public int getNumero() {
         return numero;
     }
-     
-    
+
 }

@@ -7,12 +7,10 @@ package juego.vista;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import juego.controlador.ControladorPartida;
 
 /**
  *
@@ -27,19 +25,21 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     private final int HUECO = 2;
     private JPanel panelContenedor;
     private LateralFrame lateral;
+    private ControladorPartida controlador;
     
     /**
      * Constructor.
      * Crea el tablero con sus celdas y lo dibuja.
      * Tablero es a su vez un JFrame (ventana). Deberiamos separar en dos clases
      */
-    public TableroFrame() {
+    public TableroFrame(ControladorPartida controlador) {
+        this.controlador = controlador;
         this.ancho = multiploDesde(750) + (HUECO*numCeldas +HUECO);
         this.alto = ancho;
         initComponents(); // Inicia el contenedor y layouts
-        //iniciaCeldas(); // Crea el tablero y todas sus celda
         panelContenedor.setBackground(Color.BLACK); // Si se ve rojo, algo no va bien
-        //panelContenedor.repaint(); // Dibuja todo
+        iniciaCeldas();
+        controlador.setTableroFrame(this);
     }
 
     /*
@@ -51,7 +51,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
         for (int i = 0; i < celdas.length; i++) {
             for (int j = 0; j < celdas[i].length; j++) {
                 celdas[i][j] = new Celda(colorSw,j,i,numCeldas);
-                celdas[i][j].addMouseListener(lateral); // El mouseListener es esta misma clase
+                celdas[i][j].addMouseListener(controlador); // El mouseListener es esta misma clase
                 panelContenedor.add(celdas[i][j]); // Se añaden todas a un contedor JPanel
                 colorSw = !colorSw; // Cambia color de fondo
             }
@@ -167,7 +167,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     
     public void setLateralFrame(LateralFrame lateral){
         this.lateral = lateral;
-        iniciaCeldas();
+        //iniciaCeldas();
         this.setLocation((int)lateral.getLocation().getX() + lateral.getWidth() + 5, (int)lateral.getLocation().getY());
     }
     

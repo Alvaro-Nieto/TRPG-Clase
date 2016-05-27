@@ -5,86 +5,40 @@
  */
 package juego.vista;
 
-import juego.modelo.Partida;
-import juego.modelo.Unidad;
-import juego.modelo.Jugador;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 import juego.Juego;
-import juego.controlador.Pelea;
+import juego.controlador.ControladorPartida;
 
 /**
- *
+ * JFrame que muestra los datos durante la partida
  * @author Álvaro
  */
-public class LateralFrame extends javax.swing.JFrame implements MouseListener{
-    
-    private final Border bordeNormal = null;
-    private final Border bordeEnemigo = BorderFactory.createLineBorder(Color.RED,2);
-    private final Border bordeSelec = BorderFactory.createLineBorder(Color.BLUE,2);
-    private final Border bordeMovimiento = BorderFactory.createLineBorder(Color.GREEN,2);
-    private final Border bordeRaton = BorderFactory.createLineBorder(Color.CYAN,2);
+public class LateralFrame extends javax.swing.JFrame{
     
     private TableroFrame tablero;
-    private Celda[][] celdas;
-    private Jugador j1;
-    private Jugador j2;
-    private Celda celdaSeleccionada;
-    private Partida partida;
-    
-    // QUITAR DESPUES
-    int contador;
-    int cuentaUnidad = 0;
-    private Unidad unidadTemp;
-    // QUITAR DESPUES
+    private ControladorPartida controlador;
     
     /**
-     * Creates new form LateralFrame
+     * Constructor
      */
-    public LateralFrame() {
-        initComponents();
-        j1 = new Jugador("Jugador1",1);
-        j2 = new Jugador("Jugador2",2);
-        partida = new Partida(j1,j2);
-        nuevoTurno();
+    public LateralFrame(ControladorPartida controlador) {
+        this.controlador = controlador;
+        initComponents(); // Inicia los componentes del diseñador
         this.getContentPane().setBackground( new Color(200,200,255) );
         tablero = Juego.tableroF;
         this.setLocation(5, 5);
+        controlador.setLateralFrame(this);
     }
 
-    private void nuevoTurno() {
-        partida.nuevoTurno();
-        if(celdaSeleccionada != null)
-            liberaEstadoCeldas();
-        Celda celda;
-        if(celdas!=null){
-            for(int i = 0;i < celdas.length;i++){
-                for(int j = 0;j < celdas[i].length;j++){
-                    celda = celdas[i][j];
-                    if(!celda.isEmpty()){
-                        celda.getUnidad().setHaActuado(false);
-                        celda.repaint();
-                        System.out.println("REINICIANDO ACTUACIONES");
-                    }
-                }
-            }
-        }
-        txtArea.append("Turno: "+partida.getContTurnos()+" ("+partida.getTurnoNombre()+")"+"\n");
+    public void escribeLinea(String linea){
+        txtArea.append(linea);
     }
+    
     
     public void tableroCerrando(){
         this.btnTablero.setSelected(false);
-    }
-    
-    public void buscaMovimientos(int desplazamiento, Celda celda){
-        contador = 0;
-        buscador(desplazamiento, celda, null);
     }
     
     /**
@@ -245,8 +199,6 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     private void btnTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableroActionPerformed
         // TODO add your handling code here:
         if(btnTablero.isSelected()){
-            if(celdas == null)
-                celdas = tablero.getCeldas();
             tablero.setVisible(true);
         } else{
             tablero.setVisible(false);
@@ -269,17 +221,15 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     }//GEN-LAST:event_cBoxSizeActionPerformed
 
     private void btnFiguraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiguraActionPerformed
-        // TODO add your handling code here:
         btnFigura2.setSelected(false);
     }//GEN-LAST:event_btnFiguraActionPerformed
 
     private void btnFigura2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFigura2ActionPerformed
-        // TODO add your handling code here:
         btnFigura.setSelected(false);
     }//GEN-LAST:event_btnFigura2ActionPerformed
 
     private void btnTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnoActionPerformed
-        nuevoTurno();
+        controlador.nuevoTurno();
     }//GEN-LAST:event_btnTurnoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -297,273 +247,24 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 
-    
-    private void buscador(int desplazamiento, Celda celdaInicial, Celda celdaAnterior){
-        contador++;
-        int indiceY = celdaInicial.getIndiceY();
-        int indiceX = celdaInicial.getIndiceX();
-        if((celdaInicial.isEmpty()) || celdaAnterior == null){
-            if(celdaAnterior != null)
-                celdaInicial.setBorder(bordeMovimiento);
-            if(celdaInicial.getUnidad() == null || (celdaInicial.getUnidad() != null && !unidadEsJugadorActual(celdaInicial)))
-                celdaInicial.setMarcada(true);
-            if(desplazamiento!= 0){
-                for(int i = indiceY - 1; i <= indiceY + 1; i++){
-                    for(int j = indiceX - 1; j <= indiceX + 1; j++){
-                        try{
-                            if((celdaAnterior == null || !celdaAnterior.equals(celdas[i][j])) &&
-                            (celdas[i][j].getIndiceY() == celdaInicial.getIndiceY() || celdas[i][j].getIndiceX() == celdaInicial.getIndiceX())){
-                                
-                                buscador(desplazamiento-1,celdas[i][j],celdaInicial);
-                            }
-                         }catch(ArrayIndexOutOfBoundsException aioobe){}
-                    }
-                }
-            }
-        } else if(!celdaInicial.isEmpty() && sonEnemigos(celdaInicial,celdaSeleccionada)){
-            celdaInicial.setBorder(bordeEnemigo);
-            celdaInicial.setMarcada(true);
-        } else if(sonEnemigos(celdaInicial,celdaSeleccionada)){
-            // por si acaso
-        }
-    }
-
-    private boolean sonEnemigos(Celda celda1,Celda celda2) {
-        return !celda1.getUnidad().getJugador().equals(celda2.getUnidad().getJugador());
-    }
-    
-    private void mueve(Celda origen, Celda destino){
-        Unidad unidad = origen.getUnidad();
-        origen.quitaUnidad();
-        destino.setUnidad(unidad);
-        origen.repaint();
-        destino.repaint();
-    }
-    private void liberaEstadoCeldas() {
-        celdaSeleccionada = null;
-        limpiaDatos();
-        for(Celda[] celdasArr : celdas){
-            for(Celda celda : celdasArr){
-                celda.setSelected(false);
-                celda.setMarcada(false);
-                celda.setBorder(bordeNormal);
-            }
-        }
-    }
-
-    private void manejaClicIzquierdo(Celda celdaClic) {
-        
-        // PARA PRUEBAS
-        if(this.btnFigura.isSelected()){
-            cuentaUnidad++;
-            unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-            unidadTemp.setMovimientos(5);
-            unidadTemp.setImagen("../imagenes/mal/jinetehuargo.jpg");
-            celdaClic.setUnidad(unidadTemp);
-        } 
-        else if(this.btnFigura2.isSelected()){
-            cuentaUnidad++;
-            unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
-            unidadTemp.setMovimientos(3);
-            unidadTemp.setImagen("../imagenes/mal/jefetroll.jpg");
-            celdaClic.setUnidad(unidadTemp);
-        } // PARA PRUEBAS FIN
-        
-        // DURANTE LA PARTIDA
-        else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
-            if(celdaClic.isEmpty()){
-                celdaSeleccionada.getUnidad().setHaActuado(true);
-                mueve(celdaSeleccionada,celdaClic);
-                liberaEstadoCeldas();
-                compruebaFinTurno();
-            } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
-                combate(celdaClic);
-                compruebaFinTurno();
-            } 
-        } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
-            selecciona(celdaClic);
-            if(!celdaSeleccionada.getUnidad().haActuado())
-                buscaMovimientos(celdaClic.getUnidad().getMovimientos(),celdaClic);
-        }
-        celdaClic.repaint();
-    }
-
-    private void selecciona(Celda celda) {
-        liberaEstadoCeldas();
-        actualizaDatosSelec(celda);
-        celdaSeleccionada = celda;
-        celda.setSelected(true);
-        celda.setBorder(bordeSelec);
-    }
-
-    private boolean haySeleccionada() {
-        return celdaSeleccionada != null;
-    }
-
-    private boolean unidadEsJugadorActual(Celda celda) {
-        return celda.getUnidad().getJugador().equals(partida.getJugadorActual());
-    }
-
-    private void actualizaDatosSelec(Celda celda) {
-        //celdaSeleccionada = celda;
-        //celda.setSelected(true);
-        //celda.setBorder(bordeSelec);
+    public void actualizaDatosSelec(Celda celda) {
         txtNombre.setText(celda.getUnidad().getNombre());
         txtHeridas.setText(String.valueOf(celda.getUnidad().getHeridas()));
         labelImagen.setIcon(new ImageIcon(celda.getUnidad().getImagen().getImage().getScaledInstance(labelImagen.getWidth(), labelImagen.getHeight(), Image.SCALE_DEFAULT)));
     }
 
-    private void limpiaDatos() {
+    public void limpiaDatos() {
         txtNombre.setText("");
         txtHeridas.setText("");
         labelImagen.setIcon(null);
     }
     
-    private void combate(Celda celdaAtacada) {
-        celdaSeleccionada.getUnidad().setHaActuado(true);
-        txtArea.append("##Combate##\n");
-        Unidad uAtacante = celdaSeleccionada.getUnidad();
-        Unidad uDefensora = celdaAtacada.getUnidad();
-        Unidad ganadora = Pelea.ataques(uAtacante,  uDefensora);
-        //System.out.println("--------------------- SUCEDE COMBATE ---------------------");
-        txtArea.append(uAtacante.getNombre()+"("+uAtacante.getJugador().getNombre()+")"+" ataca a "+uDefensora.getNombre()+"("+uDefensora.getJugador().getNombre()+")"+"\n");
-        if(ganadora.equals(uAtacante)){
-           // System.out.println("GANA ATACANTE");  
-            txtArea.append("Gana "+uAtacante.getNombre()+"\n");
-            if(uDefensora.getHeridas() <= 0){
-                txtArea.append("Muere "+uDefensora.getNombre()+"\n");
-                //System.out.println("MUERE DEFENSOR");
-            } else{
-                retrocede(celdaAtacada);
-            }
-            mueve(celdaSeleccionada,celdaAtacada);
-            this.repaint();
-        } else{
-            txtArea.append("Gana "+uDefensora.getNombre()+"\n");
-            if(uAtacante.getHeridas() <= 0){
-                txtArea.append("Muere "+uAtacante.getNombre()+"\n");
-                //System.out.println("MUERE ATACANTE");
-                celdaSeleccionada.quitaUnidad();
-            } else{
-                /*
-                 * Desarrollar método que calcule donde debe quedar el atacante
-                 + cuando pierde el combate
-                 */
-                // TODO calculaMovimiento();
-            }
-            System.out.println("GANA DEFENSOR");
-        }
-        //System.out.println("---ATACANTE---\n##########\n"+uAtacante+"\n##########");
-        //System.out.println("---DEFENSOR---\n##########\n"+uDefensora+"\n##########");
-        //System.out.println("--------------------- TERMINA COMBATE ---------------------");
-        this.repaint();
-        liberaEstadoCeldas();
-        //System.out.println(celdaSeleccionada.getUnidad().equals(celda.getUnidad()));
+    // TEMPORAL
+    public boolean btnPrueba1() {
+        return this.btnFigura.isSelected();
     }
 
-    private void retrocede(Celda celdaAtacada) {
-        try{
-            Celda celdaAnterior = celdas[celdaAtacada.getIndiceY()-1][celdaAtacada.getIndiceX()];
-            if(celdaAnterior.isEmpty()){
-                celdaAnterior.setUnidad(celdaAtacada.getUnidad());
-                celdaAnterior.repaint();
-            } else{  
-                retrocede(celdaAnterior);
-                mueve(celdaAtacada,celdaAnterior);
-            }
-        }catch (ArrayIndexOutOfBoundsException aioobe){
-            celdaAtacada.quitaUnidad();
-        }
-    }
-    
-    private void compruebaFinTurno(){
-        boolean acabaTurno = true;
-        Celda celda;
-        for(int i = 0;i < celdas.length && acabaTurno;i++){
-            for(int j = 0;j < celdas[i].length && acabaTurno;j++){
-                celda = celdas[i][j];
-                if(!celda.isEmpty() && 
-                    unidadEsJugadorActual(celda)){
-                    
-                    if(!celda.getUnidad().haActuado()){
-                        acabaTurno = false;
-                        System.out.println("NO HA ACTUADO");
-                    }
-                }
-            }
-        }
-        if(acabaTurno){
-            System.out.println("NEVO TURNO");
-            this.nuevoTurno();
-        }
-        
-    }
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // Sin uso de momento
-        /*
-         * Interesa más mousePressed dado que no hace falta soltar el boton
-         */
-    }
-    
-    @Override
-    public void mousePressed(MouseEvent e) {
-        Celda celda = (Celda) e.getSource();
-
-        if(SwingUtilities.isLeftMouseButton(e)){
-            manejaClicIzquierdo(celda);
-        }
-        // PARA PRUEBAS
-        else if(SwingUtilities.isRightMouseButton(e)){
-            if(!celda.isEmpty()){
-                celda.quitaUnidad();
-                celda.repaint();
-            }
-            liberaEstadoCeldas();
-        } 
-        // PARA PRUEBAS FIN
-        else if(SwingUtilities.isMiddleMouseButton(e)){
-            if(celda.isEmpty())
-                limpiaDatos();
-            else
-                actualizaDatosSelec(celda);
-        } 
-    }
-    
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // Sin usar de momento
-        if(SwingUtilities.isMiddleMouseButton(e)){
-            if(celdaSeleccionada != null)
-                actualizaDatosSelec(celdaSeleccionada);
-            else
-                limpiaDatos();
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        Celda celda = (Celda) e.getSource();
-        if(!celda.isSelected() && !celda.isMarcada()){
-            celda.setBorder(bordeRaton);
-            
-        }
-        if(SwingUtilities.isMiddleMouseButton(e)){
-            if(celda.isEmpty())
-                limpiaDatos();
-            else
-                actualizaDatosSelec(celda);
-        }
-        celda.oscurece();
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        Celda celda = (Celda) e.getSource(); 
-        if(!celda.isSelected() && !celda.isMarcada()){
-            celda.setBorder(bordeNormal);
-        }
-        celda.aclara();
+    public boolean btnPrueba2() {
+        return this.btnFigura2.isSelected();
     }
 }

@@ -10,22 +10,27 @@ package juego.modelo;
  * @author Álvaro
  */
 public class Partida {
+    
     int contTurnos;
     int turno;
     Jugador j1;
     Jugador j2;
+    
     public Partida(Jugador j1, Jugador j2){
-        this.contTurnos = 0;
+        this.contTurnos = 1;
         this.j1 = j1;
         this.j2 = j2;
-        this.turno = 2;
+        this.turno = 1;
     }
+    
     public Jugador getJugadorActual(){
         return turno == 1 ? j1 : j2;
     }
+    
     public String getTurnoNombre(){
         return turno == 1 ? j1.getNombre() : j2.getNombre();
     }
+    
     public void nuevoTurno(){
         turno = turno == 1 ? 2 : 1;
         contTurnos++;
@@ -62,6 +67,5 @@ public class Partida {
     public void setJ2(Jugador j2) {
         this.j2 = j2;
     }
-    
     
 }
