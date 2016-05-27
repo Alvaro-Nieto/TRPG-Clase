@@ -32,6 +32,7 @@ public class LateralFrame extends javax.swing.JFrame{
         this.setLocation(5, 5);
         controlador.setLateralFrame(this);
         btnMusica.doClick();
+        btnTablero.doClick();
     }
 
     public void escribeLinea(String linea){
