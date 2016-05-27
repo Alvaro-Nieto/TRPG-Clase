@@ -5,8 +5,7 @@
  */
 package juego.controlador;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
@@ -22,11 +21,12 @@ public class Sonidos {
     public static void startHiloMusical(){
         hiloMusical = new Thread(() ->{
             String songName = "champions.mp3";
-            String pathToMp3 = ".\\src\\juego\\"+"sonidos\\"+ songName;
+            //String pathToMp3 = ".\\src\\juego\\"+"sonidos\\"+ songName;
+            String pathToMp3 = "/juego/sonidos/"+ songName;
             System.out.println(pathToMp3);
             try{
-                FileInputStream fis = new FileInputStream(pathToMp3);
-                Player playMP3 = new Player(fis);
+                InputStream is = Sonidos.class.getResourceAsStream(pathToMp3);
+                Player playMP3 = new Player(is);
                 new Thread(()->{
                     boolean fallo = false;
                     while(!fallo && !Thread.interrupted()){
@@ -43,7 +43,7 @@ public class Sonidos {
                         break;
                     }
                 }
-            }  catch(FileNotFoundException | JavaLayerException e){
+            }  catch(JavaLayerException e){
                 System.out.println(e);
             }
         });
@@ -57,10 +57,10 @@ public class Sonidos {
     public static void nuevoTurno(){
         new Thread(() ->{
             String songName = "turno.mp3";
-            String pathToMp3 = ".\\src\\juego\\"+"sonidos\\"+ songName;
+            String pathToMp3 = "/juego/sonidos/"+ songName;
             try{
-                FileInputStream fis = new FileInputStream(pathToMp3);
-                Player playMP3 = new Player(fis);
+                InputStream is = Sonidos.class.getResourceAsStream(pathToMp3);
+                Player playMP3 = new Player(is);
                 playMP3.play();
             }  catch(Exception e){
                  System.out.println(e);

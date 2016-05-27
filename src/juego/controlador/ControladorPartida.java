@@ -152,14 +152,14 @@ public class ControladorPartida  implements MouseListener{
             cuentaUnidad++;
             unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
             unidadTemp.setMovimientos(5);
-            unidadTemp.setImagen("../imagenes/mal/jinetehuargo.jpg");
+            unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
             celdaClic.setUnidad(unidadTemp);
         } 
         else if(lateralFrame.btnPrueba2()){
             cuentaUnidad++;
             unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
             unidadTemp.setMovimientos(3);
-            unidadTemp.setImagen("../imagenes/mal/jefetroll.jpg");
+            unidadTemp.setImagen("/juego/imagenes/mal/jefetroll.jpg");
             celdaClic.setUnidad(unidadTemp);
         } // PARA PRUEBAS FIN
         

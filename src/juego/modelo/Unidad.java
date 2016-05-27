@@ -48,21 +48,21 @@ public class Unidad {
         switch(tipo){
             case "Infanteria":
                 if(this.jugador.getNumero()==1)
-                    this.setFicha("../imagenes/fichas/ficha_naranja_infanteria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_naranja_infanteria.gif");
                 else
-                    this.setFicha("../imagenes/fichas/ficha_verde_infanteria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_verde_infanteria.gif");
             break;
             case "Caballeria":
                 if(this.jugador.getNumero()==1)
-                    this.setFicha("../imagenes/fichas/ficha_naranja_caballeria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_naranja_caballeria.gif");
                 else
-                    this.setFicha("../imagenes/fichas/ficha_verde_caballeria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_verde_caballeria.gif");
             break;
             case "Monstruo":
                 if(this.jugador.getNumero()==1)
-                    this.setFicha("../imagenes/fichas/ficha_naranja_monstruo.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_naranja_monstruo.gif");
                 else
-                    this.setFicha("../imagenes/fichas/ficha_verde_monstruo.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_verde_monstruo.gif");
             break;
         }
     }
