@@ -10,9 +10,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import java.io.*;
 
 public class Conectar {
-  public static void main(String[] args) throws Exception {
+  public static void main (String[] args) throws Exception {
     Connection connection = null;
     Statement statement = null;
     try {
@@ -21,7 +22,7 @@ public class Conectar {
       connection = DriverManager.getConnection(url, "root", "");
       JOptionPane.showMessageDialog(null,"Conectado");
       statement = connection.createStatement();
-      String hrappSQL = "CREATE DATABASE Miguel";
+      String hrappSQL = "CREATE DATABASE Juego";
       statement.executeUpdate(hrappSQL);
     } catch (Exception e) {
       e.printStackTrace();
@@ -45,17 +46,31 @@ public class Conectar {
     String user = "root";
     String pass = "";   
     Class.forName("com.mysql.jdbc.Driver").newInstance();
-    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Miguel", user, pass);
+    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Juego", user, pass);
     Statement st = con.createStatement();
     try{
-    String table = "CREATE TABLE java_DataTypes2(typ_boolean BOOL, "
-        + "typ_byte          TINYINT, typ_short         SMALLINT, "
-        + "typ_int           INTEGER, typ_long          BIGINT, "
-        + "typ_float         FLOAT,   typ_double        DOUBLE PRECISION, "
-        + "typ_bigdecimal    DECIMAL(13,0), typ_string        VARCHAR(254), "
-        + "typ_date          DATE,    typ_time          TIME, " + "typ_timestamp     TIMESTAMP, "
-        + "typ_asciistream   TEXT,    typ_binarystream  LONGBLOB, " + "typ_blob          BLOB)";
-
+    String table = "CREATE TABLE jugadores (" +
+"  Nick varchar(20) NOT NULL," +
+"  Contraseña varchar(8) NOT NULL" +
+");";
+    st.executeUpdate(table);
+    table = "CREATE TABLE partida (" +
+"  ganador varchar(20) NOT NULL," +
+"  perdedor varchar(20) NOT NULL" +
+");";
+    st.executeUpdate(table);
+    table = "CREATE TABLE unidades (" +
+"  Nombre varchar(50) NOT NULL," +
+"  Faccion varchar(10) NOT NULL," +
+"  Combate int(3) NOT NULL," +
+"  Fuerza int(3) NOT NULL," +
+"  Defensa int(3) NOT NULL," +
+"  Num_Ataques int(3) NOT NULL," +
+"  Heridas int(3) NOT NULL," +
+"  Tipo_Unidad varchar(20) NOT NULL," +
+"  Coste int(2) NOT NULL," +
+"  Ruta_Img varchar(30) NOT NULL" +
+");";
     st.executeUpdate(table);}
     catch(Exception e)
             {}
@@ -66,5 +81,5 @@ public class Conectar {
           con.close();
 
       }
-    }  
-  }
+    }
+}
