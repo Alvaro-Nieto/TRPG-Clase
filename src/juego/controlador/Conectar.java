@@ -51,12 +51,14 @@ public class Conectar {
     try{
     String table = "CREATE TABLE jugadores (" +
 "  Nick varchar(20) NOT NULL," +
-"  Contraseña varchar(8) NOT NULL" +
-");";
+"  Contraseña varchar(8) NOT NULL," +
+"  CONSTRAINT pk_jugadores PRIMARY KEY (Nick));";
     st.executeUpdate(table);
     table = "CREATE TABLE partida (" +
 "  ganador varchar(20) NOT NULL," +
-"  perdedor varchar(20) NOT NULL" +
+"  perdedor varchar(20) NOT NULL," +
+"  CONSTRAINT fk_ganador_nick FOREIGN KEY (ganador) REFERENCES jugadores(Nick)," +
+"  CONSTRAINT fk_perdedor_nick FOREIGN KEY (perdedor) REFERENCES jugadores(Nick)" +            
 ");";
     st.executeUpdate(table);
     table = "CREATE TABLE unidades (" +
@@ -69,8 +71,8 @@ public class Conectar {
 "  Heridas int(3) NOT NULL," +
 "  Tipo_Unidad varchar(20) NOT NULL," +
 "  Coste int(2) NOT NULL," +
-"  Ruta_Img varchar(30) NOT NULL" +
-");";
+"  Ruta_Img varchar(30) NOT NULL," +
+"  CONSTRAINT pk_unidades PRIMARY KEY (Nombre));";
     st.executeUpdate(table);
     table = "INSERT INTO unidades (Nombre, Faccion, Combate, Fuerza, Defensa, Num_Ataques, Heridas, Tipo_Unidad, Coste, Ruta_Img) VALUES" +
 "('Guerrero de minas Thirith', 'Bien', 3, 3, 5, 1, 1, 'Infantería', 7, './imagenes/bien/guerrminas.jpg')," +
