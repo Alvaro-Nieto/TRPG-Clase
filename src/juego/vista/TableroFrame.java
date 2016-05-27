@@ -21,7 +21,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     private Celda[][] celdas;
     private int ancho; // Tiene que se multiplo de numCeldas
     private int alto; // Tiene que se multiplo de numCeldas
-    private final int numCeldas = 16;
+    private final int numCeldas = 12;
     private final int HUECO = 2;
     private JPanel panelContenedor;
     private LateralFrame lateral;
@@ -37,7 +37,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
         this.ancho = multiploDesde(750) + (HUECO*numCeldas +HUECO);
         this.alto = ancho;
         initComponents(); // Inicia el contenedor y layouts
-        panelContenedor.setBackground(Color.BLACK); // Si se ve rojo, algo no va bien
+        panelContenedor.setBackground(new Color(25,38,48)); // Si se ve rojo, algo no va bien
         iniciaCeldas();
         controlador.setTableroFrame(this);
     }

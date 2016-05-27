@@ -34,8 +34,8 @@ public class Celda extends JPanel{
         //this.color1 = new Color(107,62,25);
         //this.color2 = new Color(255,228,196);
         this.selected = false;
-        this.color1 = new Color(255,255,255);
-        this.color2 = new Color(200,200,230);
+        this.color1 = new Color(252,155,87);
+        this.color2 = new Color(135,203,250);
         this.indiceX = indiceX;
         this.indiceY = indiceY;
         if(colorSw){
@@ -122,7 +122,7 @@ public class Celda extends JPanel{
     }
     
     public void oscurece(){
-        int diff = 70;
+        int diff = 50;
         Color nuevoColor;
         if(colorSw){
             nuevoColor = (new Color(color1.getRed()-diff,color1.getGreen()-diff,color1.getBlue()));

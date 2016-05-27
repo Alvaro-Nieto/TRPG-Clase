@@ -27,7 +27,7 @@ public class LateralFrame extends javax.swing.JFrame{
     public LateralFrame(ControladorPartida controlador) {
         this.controlador = controlador;
         initComponents(); // Inicia los componentes del diseñador
-        this.getContentPane().setBackground( new Color(200,200,255) );
+        this.getContentPane().setBackground( new Color(163,168,172) );
         tablero = Juego.tableroF;
         this.setLocation(5, 5);
         controlador.setLateralFrame(this);

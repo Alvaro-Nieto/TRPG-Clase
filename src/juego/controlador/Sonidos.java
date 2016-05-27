@@ -16,44 +16,33 @@ import javazoom.jl.player.Player;
  * @author Álvaro
  */
 public class Sonidos {
-    private static Thread hiloMusical;
+    private static Player playerHilo;
+    private static boolean repetirCancion;
     
     public static void startHiloMusical(){
-        hiloMusical = new Thread(() ->{
-            String songName = "champions.mp3";
-            //String pathToMp3 = ".\\src\\juego\\"+"sonidos\\"+ songName;
-            String pathToMp3 = "/juego/sonidos/"+ songName;
-            System.out.println(pathToMp3);
-            try{
-                InputStream is = Sonidos.class.getResourceAsStream(pathToMp3);
-                Player playMP3 = new Player(is);
-                new Thread(()->{
-                    boolean fallo = false;
-                    while(!fallo && !Thread.interrupted()){
-                        try {
-                            playMP3.play();
-                        } catch (JavaLayerException ex) {
-                            Logger.getLogger(Sonidos.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }).start();
-                while(true){
-                    if(Thread.interrupted()){
-                        playMP3.close();
-                        break;
-                    }
+        Sonidos.repetirCancion = true;
+        String songName = "champions.mp3";
+        String pathToMp3 = "/juego/sonidos/"+ songName;
+        new Thread( ()->{
+            while(Sonidos.repetirCancion){
+                try {
+                    InputStream is = Sonidos.class.getResourceAsStream(pathToMp3);
+                    playerHilo = new Player(is);
+                    playerHilo.play();
+                } catch (JavaLayerException ex) {
+                    Sonidos.repetirCancion = false;
+                    if(playerHilo != null)
+                        playerHilo.close();
                 }
-            }  catch(JavaLayerException e){
-                System.out.println(e);
             }
-        });
-        if(!hiloMusical.isAlive())
-            hiloMusical.start();
+        }).start();
     }
+    
     public static void stopHiloMusical(){
-        if(hiloMusical != null && hiloMusical.isAlive())
-            hiloMusical.interrupt();
+        Sonidos.repetirCancion = false;
+        playerHilo.close();
     }
+    
     public static void nuevoTurno(){
         new Thread(() ->{
             String songName = "turno.mp3";
