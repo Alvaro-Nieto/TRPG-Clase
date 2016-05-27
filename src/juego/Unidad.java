@@ -167,7 +167,7 @@ public class Unidad {
                + "\nHeridas: " + this.heridas;
         return mensaje;
     }
-            
+
     public void setFigura(String figura){
         ficha = new ImageIcon(getClass().getResource(figura));
     }

@@ -124,19 +124,24 @@ public class Pelea
      * Obvio, ¿no?
      * 
      */
-    public static Unidad ataques(Unidad unidad1, Unidad unidad2)
+    public static Unidad ataques(Unidad atacante, Unidad defensor)
     {
-        int ataques1=unidad1.getNumAtaques();
-        int ataques2=unidad2.getNumAtaques();
+        int ataquesAtacante=atacante.getNumAtaques();
+        int ataquesDefensor=defensor.getNumAtaques();
         int dadoMasAlto1=0;//con estos atributos lo que se busca es mirar el resultado más alto que haya sacado una unidad.
         int dadoMasAlto2=0;
         Unidad u;
+        
+        if (atacante.getTipo().equalsIgnoreCase("Caballeria"))
+        {
+            ataquesAtacante++;
+        }
         /**
          * En el juego de mesa, lo que hacen los jugadores es tirar los dados y luego ver los resultados más elevados. Eso es lo que hacen estos for.
          * Los bucles recorren el atributo de ataques de cada unidad, y van tirando un dado en cada vuelta. Luego, guardan el valor más alto obtenido 
          * (que es el que interesa).
          */
-        for (int i=0; i<ataques1; i++)
+        for (int i=0; i<ataquesAtacante; i++)
         {
             int dado1=(int)(Math.random()*6)+1;
             if(dado1>dadoMasAlto1)
@@ -144,7 +149,7 @@ public class Pelea
                 dadoMasAlto1=dado1;
             }
         }
-        for(int i=0; i<ataques2; i++)
+        for(int i=0; i<ataquesDefensor; i++)
         {
             int dado2=(int)(Math.random()*6)+1;
             if(dado2>dadoMasAlto2)
@@ -153,16 +158,16 @@ public class Pelea
             }
         }
         
-        u=ganarCombate(unidad1, unidad2, dadoMasAlto1, dadoMasAlto2);//llamamos al método ganar combate y devolvemos al ganador.
+        u=ganarCombate(atacante, defensor, dadoMasAlto1, dadoMasAlto2);//llamamos al método ganar combate y devolvemos al ganador.
         int DPerdedor;
         //comprobamos cual de los dos objetos es el ganador
-        if(u.equals(unidad1))
+        if(u.equals(atacante))
         {
-            DPerdedor=unidad2.getDefensa();
+            DPerdedor=defensor.getDefensa();
         }
         else
         {
-            DPerdedor=unidad1.getDefensa();
+            DPerdedor=atacante.getDefensa();
         }
         
         int ataquesGanador=u.getNumAtaques();
@@ -171,28 +176,28 @@ public class Pelea
         int FGanador=u.getFuerza();
         
         //con este if hacemos dos casos distintos. Uno por si el ganador ha sido unidad1, y otro por si ha sido unidad2.
-        if(u.equals(unidad1))
+        if(u.equals(atacante))
         {
-            while(i<ataquesGanador && unidad2.getHeridas()>0)
+            while(i<ataquesGanador && defensor.getHeridas()>0)
             {
                 herir=false;
                 herir=Comparador(FGanador, DPerdedor);
                 if(herir==true)
                 {
-                    unidad2.setHeridas(unidad2.getHeridas()-1);
+                    defensor.setHeridas(defensor.getHeridas()-1);
                 }
                 i++;
             }
         }
         else
         {
-            while(i<ataquesGanador && unidad1.getHeridas()>0)
+            while(i<ataquesGanador && atacante.getHeridas()>0)
             {
                 herir=false;
                 herir=Comparador(FGanador, DPerdedor);
                 if(herir==true)
                 {
-                    unidad1.setHeridas(unidad1.getHeridas()-1);
+                    atacante.setHeridas(atacante.getHeridas()-1);
                 }
                 i++;
             }
