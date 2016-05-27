@@ -10,6 +10,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import juego.Juego;
 import juego.controlador.ControladorPartida;
+import juego.controlador.Sonidos;
 
 /**
  * JFrame que muestra los datos durante la partida
@@ -30,12 +31,12 @@ public class LateralFrame extends javax.swing.JFrame{
         tablero = Juego.tableroF;
         this.setLocation(5, 5);
         controlador.setLateralFrame(this);
+        btnMusica.doClick();
     }
 
     public void escribeLinea(String linea){
         txtArea.append(linea);
     }
-    
     
     public void tableroCerrando(){
         this.btnTablero.setSelected(false);
@@ -62,6 +63,7 @@ public class LateralFrame extends javax.swing.JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
         btnTurno = new javax.swing.JButton();
+        btnMusica = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
@@ -125,6 +127,13 @@ public class LateralFrame extends javax.swing.JFrame{
             }
         });
 
+        btnMusica.setText("Música");
+        btnMusica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMusicaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,6 +158,11 @@ public class LateralFrame extends javax.swing.JFrame{
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnMusica))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
@@ -159,11 +173,8 @@ public class LateralFrame extends javax.swing.JFrame{
                                 .addComponent(btnFigura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(btnTablero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                                    .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE))))))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,8 +200,10 @@ public class LateralFrame extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTablero)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -232,9 +245,18 @@ public class LateralFrame extends javax.swing.JFrame{
         controlador.nuevoTurno();
     }//GEN-LAST:event_btnTurnoActionPerformed
 
+    private void btnMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMusicaActionPerformed
+        if(btnMusica.isSelected()){
+            Sonidos.startHiloMusical();
+        } else{
+            Sonidos.stopHiloMusical();
+        }
+    }//GEN-LAST:event_btnMusicaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnFigura;
     private javax.swing.JToggleButton btnFigura2;
+    private javax.swing.JToggleButton btnMusica;
     private javax.swing.JToggleButton btnTablero;
     private javax.swing.JButton btnTurno;
     private javax.swing.JComboBox<String> cBoxSize;
