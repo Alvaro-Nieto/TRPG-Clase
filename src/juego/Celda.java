@@ -68,6 +68,10 @@ public class Celda extends JPanel{
             
             g.drawString("J"+String.valueOf(unidad.getJugador().getNumero()), 0,(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
             //g.drawString(unidad.getNombre(), 20,5);
+            
+            if(this.unidad.haActuado())
+                g.drawString("X", (int)this.getWidth() - g.getFontMetrics().getWidths()[0],(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
+
         }
     }    
 
@@ -153,4 +157,6 @@ public class Celda extends JPanel{
             this.setBackground(color2);
         }
     }
+
+    
 }

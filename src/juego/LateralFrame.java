@@ -6,13 +6,10 @@
 package juego;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -29,19 +26,18 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     private final Border bordeMovimiento = BorderFactory.createLineBorder(Color.GREEN,2);
     private final Border bordeRaton = BorderFactory.createLineBorder(Color.CYAN,2);
     
+    private TableroFrame tablero;
+    private Celda[][] celdas;
+    private Jugador j1;
+    private Jugador j2;
+    private Celda celdaSeleccionada;
+    private Partida partida;
+    
     // QUITAR DESPUES
     int contador;
     int cuentaUnidad = 0;
     private Unidad unidadTemp;
     // QUITAR DESPUES
-    
-    private TableroFrame tablero;
-    private Celda[][] celdas;
-    
-    private Jugador j1;
-    private Jugador j2;
-    private Celda celdaSeleccionada;
-    private Partida partida;
     
     /**
      * Creates new form LateralFrame
@@ -59,6 +55,21 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
 
     private void nuevoTurno() {
         partida.nuevoTurno();
+        if(celdaSeleccionada != null)
+            liberaEstadoCeldas();
+        Celda celda;
+        if(celdas!=null){
+            for(int i = 0;i < celdas.length;i++){
+                for(int j = 0;j < celdas[i].length;j++){
+                    celda = celdas[i][j];
+                    if(!celda.isEmpty()){
+                        celda.getUnidad().setHaActuado(false);
+                        celda.repaint();
+                        System.out.println("REINICIANDO ACTUACIONES");
+                    }
+                }
+            }
+        }
         txtArea.append("Turno: "+partida.getContTurnos()+" ("+partida.getTurnoNombre()+")"+"\n");
     }
     
@@ -69,9 +80,6 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     public void buscaMovimientos(int desplazamiento, Celda celda){
         contador = 0;
         buscador(desplazamiento, celda, null);
-        //buscador(desplazamiento, celda, false);
-       // System.out.println(contador);
-        //celdaComprobada = null;
     }
     
     /**
@@ -94,6 +102,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         labelImagen = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
+        btnTurno = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ponme un nombre");
@@ -150,6 +159,13 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         txtArea.setFocusable(false);
         jScrollPane1.setViewportView(txtArea);
 
+        btnTurno.setText("Pasar turno");
+        btnTurno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTurnoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -164,27 +180,31 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(labelHeridas)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnFigura2)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(12, 12, 12)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(btnTablero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(btnFigura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 52, Short.MAX_VALUE)))
+                        .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(35, 35, 35))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(59, 59, 59)
+                        .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnFigura2)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnFigura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnTablero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,15 +221,17 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                     .addComponent(labelHeridas))
                 .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFigura2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnFigura)
                 .addGap(18, 18, 18)
-                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnTurno)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTablero)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -251,10 +273,15 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         btnFigura.setSelected(false);
     }//GEN-LAST:event_btnFigura2ActionPerformed
 
+    private void btnTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnoActionPerformed
+        nuevoTurno();
+    }//GEN-LAST:event_btnTurnoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnFigura;
     private javax.swing.JToggleButton btnFigura2;
     private javax.swing.JToggleButton btnTablero;
+    private javax.swing.JButton btnTurno;
     private javax.swing.JComboBox<String> cBoxSize;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelHeridas;
@@ -271,8 +298,10 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         int indiceY = celdaInicial.getIndiceY();
         int indiceX = celdaInicial.getIndiceX();
         if((celdaInicial.isEmpty()) || celdaAnterior == null){
-            celdaInicial.setBorder(bordeMovimiento);
-            celdaInicial.setMarcada(true);
+            if(celdaAnterior != null)
+                celdaInicial.setBorder(bordeMovimiento);
+            if(celdaInicial.getUnidad() == null || (celdaInicial.getUnidad() != null && !unidadEsJugadorActual(celdaInicial)))
+                celdaInicial.setMarcada(true);
             if(desplazamiento!= 0){
                 for(int i = indiceY - 1; i <= indiceY + 1; i++){
                     for(int j = indiceX - 1; j <= indiceX + 1; j++){
@@ -317,119 +346,49 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
         }
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        Celda celda = (Celda) e.getSource();
-        /*System.out.println(
-                "¡Clic en celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );*/
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        Celda celda = (Celda) e.getSource();
-        /*System.out.println(
-                "¡PULSADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );*/
+    private void manejaClicIzquierdo(Celda celdaClic) {
         
-        /*
-         * IMPORTANTE - Funciona, pero hay que mejorar las condiciones y refactorizar
-         */
-        if(SwingUtilities.isLeftMouseButton(e)){
-            manejaClicIzquierdo(celda);
-        }
-        else if(SwingUtilities.isRightMouseButton(e)){
-            if(!celda.isEmpty()){
-                liberaEstadoCeldas();
-                celda.quitaUnidad();
-                celda.repaint();
-            }
-        }
-        else if(SwingUtilities.isMiddleMouseButton(e)){
-            liberaEstadoCeldas();
-            System.out.println(celda.isEmpty() ? "Esta vacia" : "Tiene figura");
-        }
-    }
-    /*
-    private void manejaClicIzquierdo(Celda celda) {
+        // PARA PRUEBAS
         if(this.btnFigura.isSelected()){
             cuentaUnidad++;
             unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
             unidadTemp.setMovimientos(5);
-            unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
-            celda.setUnidad(unidadTemp);
-        } else if(this.btnFigura2.isSelected()){
-            cuentaUnidad++;
-            unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
-            unidadTemp.setMovimientos(3);
-            unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
-            celda.setUnidad(unidadTemp);
-        }
-        else if(!celda.isEmpty() && !haySeleccionada() && unidadEsJugadorActual(celda) ){
-            liberaEstadoCeldas();
-            actualizaDatosSelec(celda);
-            buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
-            celda.setBorder(bordeSelec);
-        } else if(haySeleccionada() && (!celdaSeleccionada.equals(celda)) ){
-            if(celda.isEmpty() && celda.isMarcada()){
-                mueve(celdaSeleccionada,celda);
-                liberaEstadoCeldas();
-                nuevoTurno();
-            } else if(sonEnemigos(celda,celdaSeleccionada) && celda.isMarcada()){
-                combate(celda);
-                nuevoTurno();
-            } else if(!sonEnemigos(celda,celdaSeleccionada) && !celda.isMarcada()){
-                liberaEstadoCeldas();
-                actualizaDatosSelec(celda);
-                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
-                celda.setBorder(bordeSelec);
-            }
-            
-        }
-        celda.repaint();
-    }*/
-    
-    private void manejaClicIzquierdo(Celda celda) {
-        if(this.btnFigura.isSelected()){
-            cuentaUnidad++;
-            unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-            unidadTemp.setMovimientos(5);
-            unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
-            celda.setUnidad(unidadTemp);
+            unidadTemp.setImagen("./imagenes/mal/jinetehuargo.jpg");
+            celdaClic.setUnidad(unidadTemp);
         } 
         else if(this.btnFigura2.isSelected()){
             cuentaUnidad++;
             unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
             unidadTemp.setMovimientos(3);
             unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
-            celda.setUnidad(unidadTemp);
-        }
-        else if(!haySeleccionada()){
-            if(!celda.isEmpty() && unidadEsJugadorActual(celda) ){
+            celdaClic.setUnidad(unidadTemp);
+        } // PARA PRUEBAS FIN
+        
+        // DURANTE LA PARTIDA
+        else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
+            if(celdaClic.isEmpty()){
+                celdaSeleccionada.getUnidad().setHaActuado(true);
+                mueve(celdaSeleccionada,celdaClic);
                 liberaEstadoCeldas();
-                actualizaDatosSelec(celda);
-                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
-                celda.setBorder(bordeSelec);
+                compruebaFinTurno();
+            } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
+                combate(celdaClic);
+                compruebaFinTurno();
             } 
+        } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
+            selecciona(celdaClic);
+            if(!celdaSeleccionada.getUnidad().haActuado())
+                buscaMovimientos(celdaClic.getUnidad().getMovimientos(),celdaClic);
         }
-        else if(!celdaSeleccionada.equals(celda)){
-            if(celda.isEmpty()){
-                if(celda.isMarcada()){
-                    mueve(celdaSeleccionada,celda);
-                    liberaEstadoCeldas();
-                    nuevoTurno();
-                }
-            } else if(sonEnemigos(celda,celdaSeleccionada) && celda.isMarcada()){
-                combate(celda);
-                nuevoTurno();
-            } else if(!sonEnemigos(celda,celdaSeleccionada)){
-                liberaEstadoCeldas();
-                actualizaDatosSelec(celda);
-                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
-                celda.setBorder(bordeSelec);
-            }
-        }
-        celda.repaint();
+        celdaClic.repaint();
+    }
+
+    private void selecciona(Celda celda) {
+        liberaEstadoCeldas();
+        actualizaDatosSelec(celda);
+        celdaSeleccionada = celda;
+        celda.setSelected(true);
+        celda.setBorder(bordeSelec);
     }
 
     private boolean haySeleccionada() {
@@ -441,12 +400,11 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     }
 
     private void actualizaDatosSelec(Celda celda) {
-        celdaSeleccionada = celda;
-        celda.setSelected(true);
-        celda.setBorder(bordeSelec);
+        //celdaSeleccionada = celda;
+        //celda.setSelected(true);
+        //celda.setBorder(bordeSelec);
         txtNombre.setText(celda.getUnidad().getNombre());
         txtHeridas.setText(String.valueOf(celda.getUnidad().getHeridas()));
-        //ImageIcon img = celda.getUnidad().getImg();
         labelImagen.setIcon(new ImageIcon(celda.getUnidad().getImagen().getImage().getScaledInstance(labelImagen.getWidth(), labelImagen.getHeight(), Image.SCALE_DEFAULT)));
     }
 
@@ -457,7 +415,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
     }
     
     private void combate(Celda celdaAtacada) {
-        
+        celdaSeleccionada.getUnidad().setHaActuado(true);
         txtArea.append("##Combate##\n");
         Unidad uAtacante = celdaSeleccionada.getUnidad();
         Unidad uDefensora = celdaAtacada.getUnidad();
@@ -512,14 +470,71 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             celdaAtacada.quitaUnidad();
         }
     }
+    
+    private void compruebaFinTurno(){
+        boolean acabaTurno = true;
+        Celda celda;
+        for(int i = 0;i < celdas.length && acabaTurno;i++){
+            for(int j = 0;j < celdas[i].length && acabaTurno;j++){
+                celda = celdas[i][j];
+                if(!celda.isEmpty() && 
+                    unidadEsJugadorActual(celda)){
+                    
+                    if(!celda.getUnidad().haActuado()){
+                        acabaTurno = false;
+                        System.out.println("NO HA ACTUADO");
+                    }
+                }
+            }
+        }
+        if(acabaTurno){
+            System.out.println("NEVO TURNO");
+            this.nuevoTurno();
+        }
+        
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // Sin uso de momento
+        /*
+         * Interesa más mousePressed dado que no hace falta soltar el boton
+         */
+    }
+    
+    @Override
+    public void mousePressed(MouseEvent e) {
+        Celda celda = (Celda) e.getSource();
 
+        if(SwingUtilities.isLeftMouseButton(e)){
+            manejaClicIzquierdo(celda);
+        }
+        // PARA PRUEBAS
+        else if(SwingUtilities.isRightMouseButton(e)){
+            if(!celda.isEmpty()){
+                celda.quitaUnidad();
+                celda.repaint();
+            }
+            liberaEstadoCeldas();
+        } 
+        // PARA PRUEBAS FIN
+        else if(SwingUtilities.isMiddleMouseButton(e)){
+            if(celda.isEmpty())
+                limpiaDatos();
+            else
+                actualizaDatosSelec(celda);
+        } 
+    }
+    
     @Override
     public void mouseReleased(MouseEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        Celda celda = (Celda) e.getSource();
-        /*System.out.println(
-                "¡SOLTADO: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );*/
+        // Sin usar de momento
+        if(SwingUtilities.isMiddleMouseButton(e)){
+            if(celdaSeleccionada != null)
+                actualizaDatosSelec(celdaSeleccionada);
+            else
+                limpiaDatos();
+        }
     }
 
     @Override
@@ -529,17 +544,13 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             celda.setBorder(bordeRaton);
             
         }
-        // BLOQUE DE PRUEBA DE RENDIMIENTO DEL METODO DE BUSQUEDA
-        /*
-        liberaEstadoCeldas();
-        celda.setSelected(true);
-        buscaMovimientos(1,celda);
-        celda.setBorder(BorderFactory.createLineBorder(Color.BLUE,3));
-        */
+        if(SwingUtilities.isMiddleMouseButton(e)){
+            if(celda.isEmpty())
+                limpiaDatos();
+            else
+                actualizaDatosSelec(celda);
+        }
         celda.oscurece();
-        /*System.out.println(
-                "¡El puntero entra en la celda: ["+celda.getIndiceY()+","+celda.getIndiceX()+"]!"
-        );*/
     }
 
     @Override
