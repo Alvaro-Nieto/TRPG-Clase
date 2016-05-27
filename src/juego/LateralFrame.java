@@ -336,45 +336,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
          * IMPORTANTE - Funciona, pero hay que mejorar las condiciones y refactorizar
          */
         if(SwingUtilities.isLeftMouseButton(e)){
-            if(this.btnFigura.isSelected()){
-                cuentaUnidad++;
-                unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-                unidadTemp.setMovimientos(5);
-                unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
-                celda.setUnidad(unidadTemp);
-            } else if(this.btnFigura2.isSelected()){
-                cuentaUnidad++;
-                unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
-                unidadTemp.setMovimientos(3);
-                unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
-                celda.setUnidad(unidadTemp);
-            }
-            else if(!celda.isEmpty() && celdaSeleccionada == null && celda.getUnidad().getJugador().equals(partida.getJugadorActual()) ){
-               liberaEstadoCeldas();
-               celda.setSelected(true);
-               celdaSeleccionada = celda;
-               actualizaDatosSelec(celda);
-               buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
-               celda.setBorder(bordeSelec);
-            } else if(celdaSeleccionada != null && (!celdaSeleccionada.equals(celda)) ){
-                if(celda.isEmpty() && celda.isMarcada()){
-                    mueve(celdaSeleccionada,celda);
-                    liberaEstadoCeldas();
-                    this.nuevoTurno();
-                } else if(sonEnemigos(celda,celdaSeleccionada) && celda.isMarcada()){
-                    combate(celda);
-                    this.nuevoTurno();
-                } else if(!sonEnemigos(celda,celdaSeleccionada) && !celda.isMarcada()){
-                    liberaEstadoCeldas();
-                    celda.setSelected(true);
-                    celdaSeleccionada = celda;
-                    actualizaDatosSelec(celda);
-                    buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
-                    celda.setBorder(bordeSelec);
-                }
-                
-            } 
-            celda.repaint();
+            manejaClicIzquierdo(celda);
         }
         else if(SwingUtilities.isRightMouseButton(e)){
             if(!celda.isEmpty()){
@@ -388,8 +350,100 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
             System.out.println(celda.isEmpty() ? "Esta vacia" : "Tiene figura");
         }
     }
+    /*
+    private void manejaClicIzquierdo(Celda celda) {
+        if(this.btnFigura.isSelected()){
+            cuentaUnidad++;
+            unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
+            unidadTemp.setMovimientos(5);
+            unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
+            celda.setUnidad(unidadTemp);
+        } else if(this.btnFigura2.isSelected()){
+            cuentaUnidad++;
+            unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
+            unidadTemp.setMovimientos(3);
+            unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
+            celda.setUnidad(unidadTemp);
+        }
+        else if(!celda.isEmpty() && !haySeleccionada() && unidadEsJugadorActual(celda) ){
+            liberaEstadoCeldas();
+            actualizaDatosSelec(celda);
+            buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
+            celda.setBorder(bordeSelec);
+        } else if(haySeleccionada() && (!celdaSeleccionada.equals(celda)) ){
+            if(celda.isEmpty() && celda.isMarcada()){
+                mueve(celdaSeleccionada,celda);
+                liberaEstadoCeldas();
+                nuevoTurno();
+            } else if(sonEnemigos(celda,celdaSeleccionada) && celda.isMarcada()){
+                combate(celda);
+                nuevoTurno();
+            } else if(!sonEnemigos(celda,celdaSeleccionada) && !celda.isMarcada()){
+                liberaEstadoCeldas();
+                actualizaDatosSelec(celda);
+                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
+                celda.setBorder(bordeSelec);
+            }
+            
+        }
+        celda.repaint();
+    }*/
+    
+    private void manejaClicIzquierdo(Celda celda) {
+        if(this.btnFigura.isSelected()){
+            cuentaUnidad++;
+            unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
+            unidadTemp.setMovimientos(5);
+            unidadTemp.setImagen("./imagenes/mal/jinete_huargo.jpg");
+            celda.setUnidad(unidadTemp);
+        } 
+        else if(this.btnFigura2.isSelected()){
+            cuentaUnidad++;
+            unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
+            unidadTemp.setMovimientos(3);
+            unidadTemp.setImagen("./imagenes/mal/jefetroll.jpg");
+            celda.setUnidad(unidadTemp);
+        }
+        else if(!haySeleccionada()){
+            if(!celda.isEmpty() && unidadEsJugadorActual(celda) ){
+                liberaEstadoCeldas();
+                actualizaDatosSelec(celda);
+                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
+                celda.setBorder(bordeSelec);
+            } 
+        }
+        else if(!celdaSeleccionada.equals(celda)){
+            if(celda.isEmpty()){
+                if(celda.isMarcada()){
+                    mueve(celdaSeleccionada,celda);
+                    liberaEstadoCeldas();
+                    nuevoTurno();
+                }
+            } else if(sonEnemigos(celda,celdaSeleccionada) && celda.isMarcada()){
+                combate(celda);
+                nuevoTurno();
+            } else if(!sonEnemigos(celda,celdaSeleccionada)){
+                liberaEstadoCeldas();
+                actualizaDatosSelec(celda);
+                buscaMovimientos(celda.getUnidad().getMovimientos(),celda);
+                celda.setBorder(bordeSelec);
+            }
+        }
+        celda.repaint();
+    }
+
+    private boolean haySeleccionada() {
+        return celdaSeleccionada != null;
+    }
+
+    private boolean unidadEsJugadorActual(Celda celda) {
+        return celda.getUnidad().getJugador().equals(partida.getJugadorActual());
+    }
 
     private void actualizaDatosSelec(Celda celda) {
+        celdaSeleccionada = celda;
+        celda.setSelected(true);
+        celda.setBorder(bordeSelec);
         txtNombre.setText(celda.getUnidad().getNombre());
         txtHeridas.setText(String.valueOf(celda.getUnidad().getHeridas()));
         //ImageIcon img = celda.getUnidad().getImg();
@@ -432,7 +486,7 @@ public class LateralFrame extends javax.swing.JFrame implements MouseListener{
                  * Desarrollar método que calcule donde debe quedar el atacante
                  + cuando pierde el combate
                  */
-                //calculaMovimiento();
+                // TODO calculaMovimiento();
             }
             System.out.println("GANA DEFENSOR");
         }
