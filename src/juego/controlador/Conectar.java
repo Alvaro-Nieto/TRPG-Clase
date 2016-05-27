@@ -58,6 +58,19 @@ public class Conectar {
 "  ganador varchar(20) NOT NULL," +
 "  perdedor varchar(20) NOT NULL" +
 ");";
+    st.executeUpdate(table);
+    table = "CREATE TABLE unidades (" +
+"  Nombre varchar(50) NOT NULL," +
+"  Faccion varchar(10) NOT NULL," +
+"  Combate int(3) NOT NULL," +
+"  Fuerza int(3) NOT NULL," +
+"  Defensa int(3) NOT NULL," +
+"  Num_Ataques int(3) NOT NULL," +
+"  Heridas int(3) NOT NULL," +
+"  Tipo_Unidad varchar(20) NOT NULL," +
+"  Coste int(2) NOT NULL," +
+"  Ruta_Img varchar(30) NOT NULL" +
+");";
     st.executeUpdate(table);}
     catch(Exception e)
             {}
