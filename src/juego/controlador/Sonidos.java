@@ -43,17 +43,27 @@ public class Sonidos {
         playerHilo.close();
     }
     
-    public static void nuevoTurno(){
+    private static void play(String nombre){
         new Thread(() ->{
-            String songName = "turno.mp3";
-            String pathToMp3 = "/juego/sonidos/"+ songName;
             try{
-                InputStream is = Sonidos.class.getResourceAsStream(pathToMp3);
+                InputStream is = Sonidos.class.getResourceAsStream("/juego/sonidos/"+nombre+".mp3");
                 Player playMP3 = new Player(is);
                 playMP3.play();
             }  catch(Exception e){
                  System.out.println(e);
             }
         }).start();
+    }
+    
+    public static void nuevoTurno(){
+        Sonidos.play("turno");
+    }
+    
+    public static void chasquido(){
+        Sonidos.play("click");
+    }
+    
+    public static void muerte(){
+        Sonidos.play("muerte");
     }
 }

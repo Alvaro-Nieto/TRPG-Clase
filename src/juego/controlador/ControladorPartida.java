@@ -174,6 +174,7 @@ public class ControladorPartida  implements MouseListener{
                 combate(celdaClic);
                 compruebaFinTurno();
             } 
+            Sonidos.chasquido();
         } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
             selecciona(celdaClic);
             if(!celdaSeleccionada.getUnidad().haActuado())
@@ -211,6 +212,7 @@ public class ControladorPartida  implements MouseListener{
             lateralFrame.escribeLinea("Gana "+uAtacante.getNombre()+"\n");
             if(uDefensora.getHeridas() <= 0){
                 lateralFrame.escribeLinea("Muere "+uDefensora.getNombre()+"\n");
+                Sonidos.muerte();
                 //System.out.println("MUERE DEFENSOR");
             } else{
                 retrocede(celdaAtacada);
@@ -221,6 +223,7 @@ public class ControladorPartida  implements MouseListener{
             lateralFrame.escribeLinea("Gana "+uDefensora.getNombre()+"\n");
             if(uAtacante.getHeridas() <= 0){
                 lateralFrame.escribeLinea("Muere "+uAtacante.getNombre()+"\n");
+                Sonidos.muerte();
                 //System.out.println("MUERE ATACANTE");
                 celdaSeleccionada.quitaUnidad();
             } else{
@@ -230,7 +233,7 @@ public class ControladorPartida  implements MouseListener{
                  */
                 // TODO calculaMovimiento();
             }
-            System.out.println("GANA DEFENSOR");
+            //System.out.println("GANA DEFENSOR");
         }
         //System.out.println("---ATACANTE---\n##########\n"+uAtacante+"\n##########");
         //System.out.println("---DEFENSOR---\n##########\n"+uDefensora+"\n##########");
