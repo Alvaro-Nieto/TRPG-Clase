@@ -60,7 +60,7 @@ CREATE TABLE `unidades` (
   `Heridas` int(3) NOT NULL,
   `Tipo_Unidad` varchar(20) NOT NULL,
   `Coste` int(2) NOT NULL,
-  `Ruta_Img` varchar(30) NOT NULL
+  `Ruta_Img` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Características de las unidades';
 
 --
