@@ -41,6 +41,7 @@ public class ControladorPartida  implements MouseListener{
     private Jugador j1;
     private Jugador j2;
     private Celda celdaSeleccionada;
+    private Celda celdaTemp;
     private Partida partida;
     
     // QUITAR DESPUES
@@ -215,6 +216,7 @@ public class ControladorPartida  implements MouseListener{
                 Sonidos.muerte();
                 //System.out.println("MUERE DEFENSOR");
             } else{
+                celdaTemp = celdaAtacada;
                 retrocede(celdaAtacada);
             }
             mueve(celdaSeleccionada,celdaAtacada);
@@ -244,17 +246,27 @@ public class ControladorPartida  implements MouseListener{
     }
 
     private void retrocede(Celda celdaAtacada) {
-        try{
-            Celda celdaAnterior = celdas[celdaAtacada.getIndiceY()-1][celdaAtacada.getIndiceX()];
+        int indiceYAnterior;
+        if(partida.getJugadorActual().getNumero()==1)
+            indiceYAnterior = celdaAtacada.getIndiceY()-1;
+        else
+            indiceYAnterior = celdaAtacada.getIndiceY()+1;
+        if(indiceYAnterior < 0 || indiceYAnterior >= celdas.length){
+            if (celdaTemp == null)
+                celdaTemp = celdaAtacada;
+            lateralFrame.escribeLinea("Muere "+celdaTemp.getUnidad().getNombre()+"-\"Por acorralamiento\"\n");
+            celdaTemp.quitaUnidad();
+            celdaTemp = null;
+            Sonidos.muerte();
+        } else{
+            Celda celdaAnterior = celdas[indiceYAnterior][celdaAtacada.getIndiceX()];
             if(celdaAnterior.isEmpty()){
                 celdaAnterior.setUnidad(celdaAtacada.getUnidad());
                 celdaAnterior.repaint();
             } else{  
                 retrocede(celdaAnterior);
-                mueve(celdaAtacada,celdaAnterior);
+                //mueve(celdaAtacada,celdaAnterior);
             }
-        }catch (ArrayIndexOutOfBoundsException aioobe){
-            celdaAtacada.quitaUnidad();
         }
     }
     
