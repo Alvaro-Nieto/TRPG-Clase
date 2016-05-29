@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-public class Conectar {
+public class BD {
   public static void creaBaseDeDatos () throws Exception {
     Connection connection = null;
     Statement statement = null;

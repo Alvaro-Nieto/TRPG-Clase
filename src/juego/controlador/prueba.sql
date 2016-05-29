@@ -18,7 +18,7 @@ CREATE TABLE `unidades` (
   `Heridas` int(3) NOT NULL,
   `Tipo_Unidad` varchar(20) NOT NULL,
   `Coste` int(2) NOT NULL,
-  `Ruta_Img` varchar(30) NOT NULL
+  `Ruta_Img` varchar(50) NOT NULL
 );
 INSERT INTO `unidades` (`Nombre`, `Faccion`, `Combate`, `Fuerza`, `Defensa`, `Num_Ataques`, `Heridas`, `Tipo_Unidad`, `Coste`, `Ruta_Img`) VALUES
 ('Guerrero de minas Thirith', 'Bien', 3, 3, 5, 1, 1, 'Infantería', 7, './imagenes/bien/guerrminas.jpg'),
