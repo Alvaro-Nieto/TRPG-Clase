@@ -230,8 +230,9 @@ public class ControladorPartida  implements MouseListener{
                 celdaSeleccionada.quitaUnidad();
             } else{
                 /*
-                 * Desarrollar método que calcule donde debe quedar el atacante
-                 + cuando pierde el combate
+                 * TODO Desarrollar método que calcule donde debe quedar el atacante
+                 * cuando pierde el combate
+                 * Una posibilidad es darle a elegir que casilla quiere
                  */
                 // TODO calculaMovimiento();
             }
@@ -245,6 +246,9 @@ public class ControladorPartida  implements MouseListener{
         //System.out.println(celdaSeleccionada.getUnidad().equals(celda.getUnidad()));
     }
 
+    /**
+     * TODO Todavia no funciona correctamente
+     */
     private void retrocede(Celda celdaAtacada) {
         int indiceYAnterior;
         if(partida.getJugadorActual().getNumero()==1)
@@ -265,7 +269,7 @@ public class ControladorPartida  implements MouseListener{
                 celdaAnterior.repaint();
             } else{  
                 retrocede(celdaAnterior);
-                //mueve(celdaAtacada,celdaAnterior);
+                mueve(celdaAtacada,celdaAnterior);
             }
         }
     }
