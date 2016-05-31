@@ -131,7 +131,7 @@ public class Pelea
         int ataquesAtacante=atacante.getNumAtaques();
         int ataquesDefensor=defensor.getNumAtaques();
         int dadoMasAlto1=0;//con estos atributos lo que se busca es mirar el resultado más alto que haya sacado una unidad.
-        int dadoMasAlto2=0;
+        int dadoMasAlto2=0; 
         Unidad u;
         
         if (atacante.getTipo().equalsIgnoreCase("Caballeria"))
