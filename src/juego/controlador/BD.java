@@ -12,15 +12,27 @@ import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 public class BD {
+    private static Connection conexion;
+    
+  public static void Conectar( ) throws Exception {
+    Class.forName("org.gjt.mm.mysql.Driver");
+    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/Juego2", "root", "");
+    conexion = connection;
+  }
+
+    public static Connection getConexion() {
+        return conexion;
+    }
+  
+  
+  
   public static void creaBaseDeDatos () throws Exception {
-    Connection connection = null;
+    Class.forName("org.gjt.mm.mysql.Driver");
+    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/mysql", "root", "");
     Statement statement = null;
     try {
-      Class.forName("org.gjt.mm.mysql.Driver").newInstance();
-      connection = DriverManager.getConnection("jdbc:mysql://localhost/mysql", "root", "");
-      JOptionPane.showMessageDialog(null,"Conectado");
       statement = connection.createStatement();
-      statement.executeUpdate("CREATE DATABASE Juego");
+      statement.executeUpdate("CREATE DATABASE Juego2");
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -30,18 +42,9 @@ public class BD {
         } catch (SQLException e) {
         } 
       }
-      if (connection != null) {
-        try {
-          connection.close();
-        } catch (SQLException e) {
-        }
       }
     }
-    creaTablas();
-  }
-  public static void creaTablas () throws Exception {   
-    Class.forName("com.mysql.jdbc.Driver").newInstance();
-    Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Juego", "root", "");
+  public static void creaTablas (Connection con) throws Exception {   
     Statement st = con.createStatement();
     try{
     st.executeUpdate("CREATE TABLE jugadores (" +
@@ -96,8 +99,15 @@ public class BD {
       
           st.close();
 
-          con.close();
-
       }
     }
+  public static void main (String []args) throws Exception{
+     creaBaseDeDatos();
+     if (conexion==null)
+     {Conectar();}
+     Connection con = getConexion();
+     creaTablas(con);
+     con.close();
+      
+  }
 }
