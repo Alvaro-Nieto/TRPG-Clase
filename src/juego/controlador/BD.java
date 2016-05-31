@@ -7,8 +7,14 @@ package juego.controlador;
  */
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import juego.modelo.Jugador;
+import juego.modelo.Unidad;
 
 public class BD {
     
@@ -143,6 +149,28 @@ public class BD {
      * PARA PRUEBAS
      */
     public static void main (String []args){
-        generaBD();
+        //generaBD();
+        Unidad unidad = new Unidad(getUnidad("Jefe Troll"),new Jugador("prueba",1));
+        System.out.println(unidad);
+    }
+    
+    public static ResultSet getUnidad(String nombreUnidad){
+        ResultSet rs = null;
+        if(conecta()){
+            try {
+                PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM unidades WHERE Nombre = ?");
+                stmt.setString(1, nombreUnidad);
+
+                rs = stmt.executeQuery();
+                rs.next();
+                if(!rs.isLast()){
+                    rs = null;
+                    System.out.println("Ha devuelto más de una tupla");
+                } 
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return rs;
     }
 }

@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javazoom.jl.player.Player;
+import static juego.controlador.BD.getUnidad;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
 import juego.modelo.Unidad;
@@ -151,16 +152,18 @@ public class ControladorPartida  implements MouseListener{
         // PARA PRUEBAS
         if(lateralFrame.btnPrueba1()){
             cuentaUnidad++;
-            unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-            unidadTemp.setMovimientos(5);
-            unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
+            //unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
+            unidadTemp = new Unidad(getUnidad("Jinete de Huargo"),j1);
+            //unidadTemp.setMovimientos(5);
+            //unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
             celdaClic.setUnidad(unidadTemp);
         } 
         else if(lateralFrame.btnPrueba2()){
             cuentaUnidad++;
-            unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
-            unidadTemp.setMovimientos(3);
-            unidadTemp.setImagen("/juego/imagenes/mal/jefetroll.jpg");
+            //unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
+            unidadTemp = new Unidad(getUnidad("Jefe Troll"),j2);
+            //unidadTemp.setMovimientos(3);
+            //unidadTemp.setImagen("/juego/imagenes/mal/jefetroll.jpg");
             celdaClic.setUnidad(unidadTemp);
         } // PARA PRUEBAS FIN
         

@@ -5,6 +5,8 @@
  */
 package juego.modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
 /**
@@ -26,11 +28,28 @@ public class Unidad {
     private String tipo;
     private boolean haActuado;
     
-    public Unidad()
-    {
+    public Unidad(){
     
     }
 
+    public Unidad(ResultSet rs, Jugador j){
+        try {
+            this.nombre = rs.getString("Nombre");
+            this.combate = rs.getInt("Combate");
+            this.fuerza = rs.getInt("Fuerza");
+            this.defensa = rs.getInt("Defensa");
+            this.numAtaques = rs.getInt("Num_Ataques");
+            this.heridas = rs.getInt("Heridas");
+            this.jugador = j;
+            this.tipo = rs.getString("Tipo_Unidad");
+            this.setImagen(rs.getString("Ruta_Img"));
+            setFichaAuto(tipo);
+            this.haActuado = false;
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+    }
+    
     public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas,Jugador jugador, String tipo){
         this.nombre=nombre;
         this.combate=combate;
@@ -44,26 +63,32 @@ public class Unidad {
         this.haActuado = false;
         // DEPENDE DE LA BD
         this.setImagen("");
-        // DEPENDE DE LA BD
-        switch(tipo){
-            case "Infanteria":
+        setFichaAuto(tipo);
+    }
+
+    private void setFichaAuto(String tipo1) {
+        switch (tipo1) {
+            case "Infantería":
+                this.movimientos = 2;
                 if(this.jugador.getNumero()==1)
                     this.setFicha("/juego/imagenes/fichas/ficha_naranja_infanteria.gif");
                 else
                     this.setFicha("/juego/imagenes/fichas/ficha_verde_infanteria.gif");
-            break;
-            case "Caballeria":
+                break;
+            case "Caballería":
+                this.movimientos = 5;
                 if(this.jugador.getNumero()==1)
                     this.setFicha("/juego/imagenes/fichas/ficha_naranja_caballeria.gif");
                 else
                     this.setFicha("/juego/imagenes/fichas/ficha_verde_caballeria.gif");
-            break;
+                break;
             case "Monstruo":
+                this.movimientos = 3;
                 if(this.jugador.getNumero()==1)
                     this.setFicha("/juego/imagenes/fichas/ficha_naranja_monstruo.gif");
                 else
                     this.setFicha("/juego/imagenes/fichas/ficha_verde_monstruo.gif");
-            break;
+                break;
         }
     }
 
