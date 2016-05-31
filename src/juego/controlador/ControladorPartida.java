@@ -53,10 +53,10 @@ public class ControladorPartida  implements MouseListener{
     /**
      * Constructor
      */
-    public ControladorPartida() {
-        j1 = new Jugador("Jugador1",1);
-        j2 = new Jugador("Jugador2",2);
-        partida = new Partida(j1,j2);
+    public ControladorPartida(Partida partida) {
+        this.partida = partida;
+        this.j1 = partida.getJ1();
+        this.j2 = partida.getJ2();
     }
     
     public void setLateralFrame(LateralFrame lateralFrame){

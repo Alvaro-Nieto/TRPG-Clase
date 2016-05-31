@@ -9,6 +9,8 @@ import java.io.FileInputStream;
 import javazoom.jl.player.Player;
 import juego.controlador.ControladorPartida;
 import juego.controlador.Sonidos;
+import juego.modelo.Partida;
+import juego.vista.InicioFrame;
 import juego.vista.LateralFrame;
 import juego.vista.TableroFrame;
 
@@ -51,8 +53,19 @@ public class Juego {
         //</editor-fold>
         
         // Controlador que maneja los eventos y actua entre los frames
-        controlador = new ControladorPartida();
         
+        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            new InicioFrame().setVisible(true);
+        });
+        
+
+        
+    }
+
+    public static void nuevoJuego(Partida partida) {
+        controlador = new ControladorPartida(partida);
         /* Crea el tablero */
         java.awt.EventQueue.invokeLater(() -> {
             tableroF = new TableroFrame(controlador);
@@ -67,10 +80,7 @@ public class Juego {
             tableroF.setLateralFrame(lateralF);
             controlador.setTableroFrame(tableroF);
         });
-        /*
-         * Reproduce música en bucle. ES UNA PRUEBA
-         */
-        //Sonidos.startHiloMusical();
+        
     }
     
 }
