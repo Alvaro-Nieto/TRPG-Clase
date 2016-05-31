@@ -5,10 +5,7 @@
  */
 package juego;
 
-import java.io.FileInputStream;
-import javazoom.jl.player.Player;
 import juego.controlador.ControladorPartida;
-import juego.controlador.Sonidos;
 import juego.modelo.Partida;
 import juego.vista.InicioFrame;
 import juego.vista.LateralFrame;

@@ -11,7 +11,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import juego.Juego;
+import juego.controlador.BD;
 import juego.controlador.ControladorPartida;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
@@ -136,10 +138,18 @@ public class InicioFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPartidaActionPerformed
-        Jugador j1 = new Jugador(txtJ1.getText(),1);
-        Jugador j2 = new Jugador(txtJ2.getText(),2);
-        Juego.nuevoJuego(new Partida(j1,j2));
-        this.dispose();
+        if(!BD.conecta()) {
+            int resp = JOptionPane.showConfirmDialog(this, "No se puede conectar a la BD. ¿Quieres intentar generarla?.");
+            if(resp == 0){
+                JOptionPane.showMessageDialog(this, "Generando... Intente de nuevo.");
+                BD.generaBD();
+            }
+        } else {
+            Jugador j1 = new Jugador(txtJ1.getText(),1);
+            Jugador j2 = new Jugador(txtJ2.getText(),2);
+            Juego.nuevoJuego(new Partida(j1,j2));
+            this.dispose();
+        }
     }//GEN-LAST:event_btnNuevaPartidaActionPerformed
 
     private void txtJ2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJ2ActionPerformed
