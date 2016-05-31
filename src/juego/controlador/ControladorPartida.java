@@ -29,11 +29,11 @@ import juego.vista.TableroFrame;
  * @author Álvaro
  */
 public class ControladorPartida  implements MouseListener{
-    private final Border bordeNormal = null;
-    private final Border bordeEnemigo = BorderFactory.createLineBorder(Color.RED,2);
-    private final Border bordeSelec = BorderFactory.createLineBorder(Color.BLUE,2);
-    private final Border bordeMovimiento = BorderFactory.createLineBorder(Color.GREEN,2);
-    private final Border bordeRaton = BorderFactory.createLineBorder(Color.CYAN,2);
+    private final Border B_NORMAL = null;
+    private final Border B_ENEMIGO = BorderFactory.createLineBorder(Color.RED,2);
+    private final Border B_SELEC = BorderFactory.createLineBorder(Color.BLUE,2);
+    private final Border B_MOVIMIENTO = BorderFactory.createLineBorder(Color.GREEN,2);
+    private final Border B_RATON = BorderFactory.createLineBorder(Color.CYAN,2);
     
     private TableroFrame tableroFrame;
     private LateralFrame lateralFrame;
@@ -99,7 +99,7 @@ public class ControladorPartida  implements MouseListener{
         int indiceX = celdaInicial.getIndiceX();
         if((celdaInicial.isEmpty()) || celdaAnterior == null){
             if(celdaAnterior != null)
-                celdaInicial.setBorder(bordeMovimiento);
+                celdaInicial.setBorder(B_MOVIMIENTO);
             if(celdaInicial.getUnidad() == null || (celdaInicial.getUnidad() != null && !unidadEsJugadorActual(celdaInicial)))
                 celdaInicial.setMarcada(true);
             if(desplazamiento!= 0){
@@ -116,7 +116,7 @@ public class ControladorPartida  implements MouseListener{
                 }
             }
         } else if(!celdaInicial.isEmpty() && sonEnemigos(celdaInicial,celdaSeleccionada)){
-            celdaInicial.setBorder(bordeEnemigo);
+            celdaInicial.setBorder(B_ENEMIGO);
             celdaInicial.setMarcada(true);
         } else if(sonEnemigos(celdaInicial,celdaSeleccionada)){
             // por si acaso
@@ -142,7 +142,7 @@ public class ControladorPartida  implements MouseListener{
             for(Celda celda : celdasArr){
                 celda.setSelected(false);
                 celda.setMarcada(false);
-                celda.setBorder(bordeNormal);
+                celda.setBorder(B_NORMAL);
             }
         }
     }
@@ -189,7 +189,7 @@ public class ControladorPartida  implements MouseListener{
         lateralFrame.actualizaDatosSelec(celda);
         celdaSeleccionada = celda;
         celda.setSelected(true);
-        celda.setBorder(bordeSelec);
+        celda.setBorder(B_SELEC);
     }
 
     private boolean haySeleccionada() {
@@ -339,7 +339,7 @@ public class ControladorPartida  implements MouseListener{
     public void mouseEntered(MouseEvent e) {
         Celda celda = (Celda) e.getSource();
         if(!celda.isSelected() && !celda.isMarcada()){
-            celda.setBorder(bordeRaton);
+            celda.setBorder(B_RATON);
             
         }
         if(SwingUtilities.isMiddleMouseButton(e)){
@@ -355,7 +355,7 @@ public class ControladorPartida  implements MouseListener{
     public void mouseExited(MouseEvent e) {
         Celda celda = (Celda) e.getSource(); 
         if(!celda.isSelected() && !celda.isMarcada()){
-            celda.setBorder(bordeNormal);
+            celda.setBorder(B_NORMAL);
         }
         celda.aclara();
     }
