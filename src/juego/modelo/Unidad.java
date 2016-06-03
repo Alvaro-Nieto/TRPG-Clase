@@ -101,23 +101,23 @@ public class Unidad {
             case "Infantería":
                 this.movimientos = MOV_INFANTERIA;
                 if(this.faccion.equals("Bien"))
-                    this.setFicha("/juego/imagenes/fichas/ficha_naranja_infanteria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_bien_infanteria.gif");
                 else
-                    this.setFicha("/juego/imagenes/fichas/ficha_verde_infanteria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_mal_infanteria.gif");
                 break;
             case "Caballería":
                 this.movimientos = MOV_CABALLERIA;
                 if(this.faccion.equals("Bien"))
-                    this.setFicha("/juego/imagenes/fichas/ficha_naranja_caballeria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_bien_caballeria.gif");
                 else
-                    this.setFicha("/juego/imagenes/fichas/ficha_verde_caballeria.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_mal_caballeria.gif");
                 break;
             case "Monstruo":
                 this.movimientos = MOV_MONSTRUO;
                 if(this.faccion.equals("Bien"))
-                    this.setFicha("/juego/imagenes/fichas/ficha_naranja_monstruo.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_bien_monstruo.gif");
                 else
-                    this.setFicha("/juego/imagenes/fichas/ficha_verde_monstruo.gif");
+                    this.setFicha("/juego/imagenes/fichas/ficha_mal_monstruo.gif");
                 break;
         }
     }

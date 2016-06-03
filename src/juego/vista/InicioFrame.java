@@ -57,7 +57,6 @@ public class InicioFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOTR - TRPG");
         setMinimumSize(new java.awt.Dimension(500, 300));
-        setPreferredSize(new java.awt.Dimension(500, 300));
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 0, 0));
