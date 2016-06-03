@@ -30,10 +30,10 @@ import juego.vista.TableroFrame;
  */
 public class ControladorPartida  implements MouseListener{
     private final Border B_NORMAL = null;
-    private final Border B_ENEMIGO = BorderFactory.createLineBorder(Color.RED,2);
-    private final Border B_SELEC = BorderFactory.createLineBorder(Color.BLUE,2);
-    private final Border B_MOVIMIENTO = BorderFactory.createLineBorder(Color.GREEN,2);
-    private final Border B_RATON = BorderFactory.createLineBorder(Color.CYAN,2);
+    private final Border B_ENEMIGO = BorderFactory.createLineBorder(Color.RED,3);
+    private final Border B_SELEC = BorderFactory.createLineBorder(Color.BLUE,3);
+    private final Border B_MOVIMIENTO = BorderFactory.createLineBorder(Color.GREEN,3);
+    private final Border B_RATON = BorderFactory.createLineBorder(Color.CYAN,3);
     
     private TableroFrame tableroFrame;
     private LateralFrame lateralFrame;

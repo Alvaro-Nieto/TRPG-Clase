@@ -5,6 +5,10 @@
  */
 package juego;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 import juego.controlador.ControladorJuego;
 import juego.vista.TableroFrame;
 
@@ -43,6 +47,17 @@ public class Juego {
             java.util.logging.Logger.getLogger(TableroFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+
+        /* Registra la fuente para que esté disponible */
+        try {
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, Juego.class.getResourceAsStream("/juego/fuentes/RINGM___.TTF")));
+        } catch (IOException e) {
+            System.out.println(e);
+        } catch(FontFormatException e) {
+            System.out.println(e);;
+        }
+
         ControladorJuego cj = new ControladorJuego();
         cj.startInicio();
     }
