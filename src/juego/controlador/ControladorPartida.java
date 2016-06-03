@@ -216,6 +216,7 @@ public class ControladorPartida  implements MouseListener{
                 } else{
                     JOptionPane.showMessageDialog(tableroFrame, "No puedes permitirte esa unidad");
                 }
+                
             }
         }
         else if(SwingUtilities.isRightMouseButton(e)){
@@ -226,7 +227,7 @@ public class ControladorPartida  implements MouseListener{
             }
         }
         despliegueFrame.actualizaDatos();
-        
+        despliegueFrame.cBoxUnidades.requestFocus();
         celda.repaint();
     }
 

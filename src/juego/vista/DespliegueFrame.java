@@ -5,6 +5,7 @@
  */
 package juego.vista;
 
+import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -92,6 +93,11 @@ public class DespliegueFrame extends javax.swing.JFrame {
         cBoxUnidades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cBoxUnidadesActionPerformed(evt);
+            }
+        });
+        cBoxUnidades.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                cBoxUnidadesKeyPressed(evt);
             }
         });
 
@@ -307,6 +313,11 @@ public class DespliegueFrame extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnFinActionPerformed
+
+    private void cBoxUnidadesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cBoxUnidadesKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            btnFin.doClick();
+    }//GEN-LAST:event_cBoxUnidadesKeyPressed
 
     public Unidad getUnidadSelec() {
         return unidadSelec;
