@@ -64,6 +64,6 @@ public class Sonidos {
     }
     
     public static void muerte(){
-        Sonidos.play("muerte");
+        Sonidos.play("grito");
     }
 }
