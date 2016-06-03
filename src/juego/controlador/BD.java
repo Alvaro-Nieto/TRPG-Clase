@@ -152,8 +152,8 @@ public class BD {
         //generaBD();
         //Unidad unidad = new Unidad(getUnidad("Jefe Troll"),new Jugador("prueba",1));
         //System.out.println(unidad);
-        for(String nombre: getNombresUnidades("Bien")){
-            System.out.println(nombre);
+        for(Unidad unidad: getUnidades("Bien")){
+            System.out.println(unidad.toString());
         }
     }
     
@@ -177,21 +177,22 @@ public class BD {
         return rs;
     }
     
-    public static List<String> getNombresUnidades(String faccion){
-        List<String> nombres = new ArrayList<String>();
+    public static List<Unidad> getUnidades(String faccion){
+        
+        List<Unidad> unidades = new ArrayList<>();
         ResultSet rs = null;
         if(conecta()){
             try {
-                PreparedStatement stmt = conexion.prepareStatement("SELECT nombre FROM unidades WHERE Faccion = ?");
+                PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM unidades WHERE Faccion = ?");
                 stmt.setString(1, faccion);
                 rs = stmt.executeQuery();
                 while(rs.next()){
-                    nombres.add(rs.getString("nombre"));
+                    unidades.add(new Unidad(rs));
                 } 
             } catch (SQLException ex) {
                 System.out.println(ex);
             }
         }
-        return nombres;
+        return unidades;
     }
 }

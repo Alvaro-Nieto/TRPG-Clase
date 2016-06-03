@@ -15,15 +15,21 @@ import javax.swing.ImageIcon;
  */
 public class Unidad {
     
+    private final static int MOV_INFANTERIA = 2;
+    private final static int MOV_MONSTRUO = 3;
+    private final static int MOV_CABALLERIA = 5;
+    
     private int combate;
     private int fuerza;
     private int defensa;
     private int numAtaques;
     private int heridas;
     private String nombre;
+    private String faccion;
     private ImageIcon ficha;
     private ImageIcon imagen;
     private int movimientos;
+    private int coste;
     private Jugador jugador;
     private String tipo;
     private boolean haActuado;
@@ -32,8 +38,11 @@ public class Unidad {
     
     }
     
+    public Unidad(Unidad unidad, Jugador j){
+        this.jugador = j;
+    }
     
-    public Unidad(ResultSet rs, Jugador j){
+    public Unidad(ResultSet rs){
         try {
             this.nombre = rs.getString("Nombre");
             this.combate = rs.getInt("Combate");
@@ -41,16 +50,23 @@ public class Unidad {
             this.defensa = rs.getInt("Defensa");
             this.numAtaques = rs.getInt("Num_Ataques");
             this.heridas = rs.getInt("Heridas");
-            this.jugador = j;
             this.tipo = rs.getString("Tipo_Unidad");
+            this.coste = rs.getInt("Coste");
             this.setImagen(rs.getString("Ruta_Img"));
-            setFichaAuto(tipo);
+            this.faccion = rs.getString("Faccion");
             this.haActuado = false;
+            setFichaAuto();
         } catch (SQLException ex) {
             System.out.println(ex);
         }
     }
     
+    public Unidad(ResultSet rs, Jugador j){
+        this(rs);
+        this.jugador = j;
+    }
+    
+    /*
     public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas,Jugador jugador, String tipo){
         this.nombre=nombre;
         this.combate=combate;
@@ -66,26 +82,27 @@ public class Unidad {
         this.setImagen("");
         setFichaAuto(tipo);
     }
-
-    private void setFichaAuto(String tipo1) {
-        switch (tipo1) {
+    */
+    
+    private void setFichaAuto() {
+        switch (tipo) {
             case "Infantería":
-                this.movimientos = 2;
-                if(this.jugador.getNumero()==1)
+                this.movimientos = MOV_INFANTERIA;
+                if(this.faccion.equals("Bien"))
                     this.setFicha("/juego/imagenes/fichas/ficha_naranja_infanteria.gif");
                 else
                     this.setFicha("/juego/imagenes/fichas/ficha_verde_infanteria.gif");
                 break;
             case "Caballería":
-                this.movimientos = 5;
-                if(this.jugador.getNumero()==1)
+                this.movimientos = MOV_CABALLERIA;
+                if(this.faccion.equals("Bien"))
                     this.setFicha("/juego/imagenes/fichas/ficha_naranja_caballeria.gif");
                 else
                     this.setFicha("/juego/imagenes/fichas/ficha_verde_caballeria.gif");
                 break;
             case "Monstruo":
-                this.movimientos = 3;
-                if(this.jugador.getNumero()==1)
+                this.movimientos = MOV_MONSTRUO;
+                if(this.faccion.equals("Bien"))
                     this.setFicha("/juego/imagenes/fichas/ficha_naranja_monstruo.gif");
                 else
                     this.setFicha("/juego/imagenes/fichas/ficha_verde_monstruo.gif");
@@ -93,6 +110,15 @@ public class Unidad {
         }
     }
 
+    public String getFaccion() {
+        return faccion;
+    }
+
+    public int getCoste() {
+        return coste;
+    }
+
+    
     public ImageIcon getImagen() {
         return imagen;
     }
@@ -185,14 +211,20 @@ public class Unidad {
     public Jugador getJugador() {
         return jugador;
     }
-      
+
+    @Override
+    public String toString() {
+        return this.nombre;
+    }
+    
+      /*
     @Override
     public String toString(){
         String mensaje = "Datos:\n " +"Nombre: " + this.nombre + "\nCombate: " + this.combate + "\nFuerza: " 
                + this.fuerza + "\nDefensa: " + this.defensa +  "\nNumero de ataques: " + this.numAtaques 
                + "\nHeridas: " + this.heridas;
         return mensaje;
-    }
+    }*/
 
     public void setFigura(String figura){
         ficha = new ImageIcon(getClass().getResource(figura));

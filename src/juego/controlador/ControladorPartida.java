@@ -153,7 +153,7 @@ public class ControladorPartida  implements MouseListener{
         if(lateralFrame.btnPrueba1()){
             cuentaUnidad++;
             //unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-            unidadTemp = new Unidad(getUnidad("Jinete de Huargo"),j1);
+            unidadTemp = new Unidad(getUnidad("Damrod"),j1);
             //unidadTemp.setMovimientos(5);
             //unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
             celdaClic.setUnidad(unidadTemp);
