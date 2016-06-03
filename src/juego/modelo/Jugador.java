@@ -12,14 +12,35 @@ package juego.modelo;
 public class Jugador {
 
     private String nombre;
-    private int clasificacion;
-    private int victorias;
-    private int derrotas;
+    private String faccion;
     private int numero;
+    private int puntos;
 
-    public Jugador(String nombre, int numero){
+    public Jugador(String nombre, int numero, int puntos){
         this.nombre = nombre;
         this.numero = numero;
+        this.puntos = puntos;
+        /*
+         * De momento las facciones son fijas segun el número
+         * esto puede cambiar en el futuro
+         */
+        if(numero == 1)
+            faccion = "Bien";
+        else
+            faccion = "Mal";
+    }
+
+    public int getPuntos() {
+        return puntos;
+    }
+
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+    
+    
+    public String getFaccion() {
+        return faccion;
     }
 
     public String getNombre() {

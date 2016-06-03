@@ -8,17 +8,16 @@ package juego.controlador;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileInputStream;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-import javazoom.jl.player.Player;
 import static juego.controlador.BD.getUnidad;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
 import juego.modelo.Unidad;
 import juego.vista.Celda;
+import juego.vista.DespliegueFrame;
 import juego.vista.LateralFrame;
 import juego.vista.TableroFrame;
 
@@ -38,6 +37,7 @@ public class ControladorPartida  implements MouseListener{
     
     private TableroFrame tableroFrame;
     private LateralFrame lateralFrame;
+    private DespliegueFrame despliegueFrame;
     private Celda[][] celdas;
     private Jugador j1;
     private Jugador j2;
@@ -49,15 +49,25 @@ public class ControladorPartida  implements MouseListener{
     int cuentaUnidad = 0;
     private Unidad unidadTemp;
     // QUITAR DESPUES
+    private final ControladorJuego controladorJuego;
     
     
     /**
      * Constructor
      */
-    public ControladorPartida(Partida partida) {
+    public ControladorPartida(Partida partida, ControladorJuego controladorJuego) {
+        this.controladorJuego = controladorJuego;
         this.partida = partida;
         this.j1 = partida.getJ1();
         this.j2 = partida.getJ2();
+    }
+
+    public ControladorJuego getControladorJuego() {
+        return controladorJuego;
+    }
+
+    public void setDespliegueFrame(DespliegueFrame despliegueFrame) {
+        this.despliegueFrame = despliegueFrame;
     }
     
     public void setLateralFrame(LateralFrame lateralFrame){
@@ -137,7 +147,8 @@ public class ControladorPartida  implements MouseListener{
     }
     private void liberaEstadoCeldas() {
         celdaSeleccionada = null;
-        lateralFrame.limpiaDatos();
+        if(controladorJuego.getEstado() == Estado.JUGANDO)
+            lateralFrame.limpiaDatos();
 
         for(Celda[] celdasArr : celdas){
             for(Celda celda : celdasArr){
@@ -149,44 +160,105 @@ public class ControladorPartida  implements MouseListener{
     }
 
     private void manejaClicIzquierdo(Celda celdaClic) {
-        // PARA PRUEBAS
-        if(lateralFrame.btnPrueba1()){
-            cuentaUnidad++;
-            //unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-            unidadTemp = new Unidad(getUnidad("Damrod"),j1);
-            //unidadTemp.setMovimientos(5);
-            //unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
-            celdaClic.setUnidad(unidadTemp);
-        } 
-        else if(lateralFrame.btnPrueba2()){
-            cuentaUnidad++;
-            //unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
-            unidadTemp = new Unidad(getUnidad("Jefe Troll"),j2);
-            //unidadTemp.setMovimientos(3);
-            //unidadTemp.setImagen("/juego/imagenes/mal/jefetroll.jpg");
-            celdaClic.setUnidad(unidadTemp);
-        } // PARA PRUEBAS FIN
-        
-        // DURANTE LA PARTIDA
-        else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
-            if(celdaClic.isEmpty()){
-                celdaSeleccionada.getUnidad().setHaActuado(true);
-                mueve(celdaSeleccionada,celdaClic);
-                liberaEstadoCeldas();
-                compruebaFinTurno();
-            } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
-                combate(celdaClic);
-                compruebaFinTurno();
+            // PARA PRUEBAS
+            if(lateralFrame.btnPrueba1()){
+                cuentaUnidad++;
+                //unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
+                unidadTemp = new Unidad(getUnidad("Damrod"),j1);
+                //unidadTemp.setMovimientos(5);
+                //unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
+                celdaClic.setUnidad(unidadTemp);
             } 
-            Sonidos.chasquido();
-        } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
-            selecciona(celdaClic);
-            if(!celdaSeleccionada.getUnidad().haActuado())
-                buscaMovimientos(celdaClic.getUnidad().getMovimientos(),celdaClic);
-        }
-        celdaClic.repaint();
+            else if(lateralFrame.btnPrueba2()){
+                cuentaUnidad++;
+                //unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
+                unidadTemp = new Unidad(getUnidad("Jefe Troll"),j2);
+                //unidadTemp.setMovimientos(3);
+                //unidadTemp.setImagen("/juego/imagenes/mal/jefetroll.jpg");
+                celdaClic.setUnidad(unidadTemp);
+            } // PARA PRUEBAS FIN
+
+            // DURANTE LA PARTIDA
+            else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
+                if(celdaClic.isEmpty()){
+                    celdaSeleccionada.getUnidad().setHaActuado(true);
+                    mueve(celdaSeleccionada,celdaClic);
+                    liberaEstadoCeldas();
+                    compruebaFinTurno();
+                } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
+                    combate(celdaClic);
+                    compruebaFinTurno();
+                } 
+                Sonidos.chasquido();
+                compruebaFinPartida();
+            } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
+                selecciona(celdaClic);
+                if(!celdaSeleccionada.getUnidad().haActuado())
+                    buscaMovimientos(celdaClic.getUnidad().getMovimientos(),celdaClic);
+            }
+            celdaClic.repaint();
+        
     }
 
+    private void clickEnDespliegue(MouseEvent e) {
+        Celda celda = (Celda) e.getSource();
+        int puntos = partida.getJugadorActual().getPuntos();
+        if(SwingUtilities.isLeftMouseButton(e)){
+            if(celda.isEmpty()){
+                int coste = ((Unidad)despliegueFrame.cBoxUnidades.getSelectedItem()).getCoste();
+                if(puntos - coste >= 0){
+                    Unidad unidad = new Unidad(
+                        (Unidad)despliegueFrame.cBoxUnidades.getSelectedItem(),
+                        partida.getJugadorActual()
+                    );
+                    celda.setUnidad(unidad);
+                    partida.getJugadorActual().setPuntos(puntos - coste);
+                } else{
+                    JOptionPane.showMessageDialog(tableroFrame, "No puedes permitirte esa unidad");
+                }
+            }
+        }
+        else if(SwingUtilities.isRightMouseButton(e)){
+            if(!celda.isEmpty()){
+                partida.getJugadorActual().setPuntos(partida.getJugadorActual().getPuntos() + celda.getUnidad().getCoste()); 
+                celda.quitaUnidad();
+                celda.repaint();
+            }
+        }
+        despliegueFrame.actualizaDatos();
+        
+        celda.repaint();
+    }
+
+    private void compruebaFinPartida(){
+        boolean j1TieneUnidades = false;
+        boolean j2TieneUnidades = false;
+        Celda celda;
+        for(int i = 0;i < celdas.length && (!j1TieneUnidades || !j2TieneUnidades);i++){
+            for(int j = 0;j < celdas[i].length && (!j1TieneUnidades || !j2TieneUnidades);j++){
+                celda = celdas[i][j];
+                if (!celda.isEmpty())
+                    if(celda.getUnidad().getJugador().getNumero() == 1)
+                        j1TieneUnidades = true;
+                    else
+                        j2TieneUnidades = true;
+            }
+        }
+        if(!j1TieneUnidades || !j2TieneUnidades){
+            String ganador;
+            if(!j1TieneUnidades)
+                ganador = partida.getJ2().getNombre();
+            else
+                ganador = partida.getJ1().getNombre();
+            JOptionPane.showMessageDialog(tableroFrame, "Partida finalizada. "+ganador+" ha ganado.");
+            controladorJuego.startInicio();
+            Sonidos.stopHiloMusical();
+            lateralFrame.dispose();
+            tableroFrame.dispose();
+        }
+            
+    }
+    
     private void selecciona(Celda celda) {
         liberaEstadoCeldas();
         lateralFrame.actualizaDatosSelec(celda);
@@ -307,25 +379,28 @@ public class ControladorPartida  implements MouseListener{
     @Override
     public void mousePressed(MouseEvent e) {
         Celda celda = (Celda) e.getSource();
-
-        if(SwingUtilities.isLeftMouseButton(e)){
-            manejaClicIzquierdo(celda);
-        }
-        // PARA PRUEBAS
-        else if(SwingUtilities.isRightMouseButton(e)){
-            if(!celda.isEmpty()){
-                celda.quitaUnidad();
-                celda.repaint();
+        if(controladorJuego.getEstado() == Estado.DESPLIEGUE){
+            clickEnDespliegue(e);
+        } else{
+            if(SwingUtilities.isLeftMouseButton(e)){
+                manejaClicIzquierdo(celda);
             }
-            liberaEstadoCeldas();
-        } 
-        // PARA PRUEBAS FIN
-        else if(SwingUtilities.isMiddleMouseButton(e)){
-            if(celda.isEmpty())
-                lateralFrame.limpiaDatos();
-            else
-                lateralFrame.actualizaDatosSelec(celda);
-        } 
+            // PARA PRUEBAS
+            else if(SwingUtilities.isRightMouseButton(e)){
+                if(!celda.isEmpty()){
+                    celda.quitaUnidad();
+                    celda.repaint();
+                }
+                liberaEstadoCeldas();
+            } 
+            // PARA PRUEBAS FIN
+            else if(SwingUtilities.isMiddleMouseButton(e)){
+                if(celda.isEmpty())
+                    lateralFrame.limpiaDatos();
+                else
+                    lateralFrame.actualizaDatosSelec(celda);
+            } 
+        }
     }
     
     @Override
@@ -362,4 +437,10 @@ public class ControladorPartida  implements MouseListener{
         }
         celda.aclara();
     }
+
+    public Partida getPartida() {
+        return partida;
+    }
+    
+    
 }

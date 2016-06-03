@@ -5,9 +5,16 @@
  */
 package juego.vista;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Image;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import juego.controlador.BD;
+import juego.controlador.ControladorPartida;
 import juego.modelo.Unidad;
 
 /**
@@ -16,13 +23,27 @@ import juego.modelo.Unidad;
  */
 public class DespliegueFrame extends javax.swing.JFrame {
 
+    private final ControladorPartida controladorPartida;
+    private String faccion;
+    private Unidad unidadSelec;
+    
+
     /**
      * Creates new form DespliegueFrame
      */
-    public DespliegueFrame() {
+    public DespliegueFrame(ControladorPartida controladorPartida) {
         initComponents();
-        for(Unidad unidad : BD.getUnidades("Bien")){
-            elegirTropa.addItem(unidad);
+        this.setLocation(5, 5); 
+        this.controladorPartida = controladorPartida;
+        this.controladorPartida.setDespliegueFrame(this);
+        cargaUnidades();
+    }
+
+    private void cargaUnidades() {
+        cBoxUnidades.removeAllItems();
+        faccion = controladorPartida.getPartida().getJugadorActual().getFaccion();
+        for(Unidad unidad : BD.getUnidades(faccion)){
+            cBoxUnidades.addItem(unidad);
         }
     }
 
@@ -37,7 +58,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
 
         labelImagen = new javax.swing.JLabel();
         txtJuActual = new javax.swing.JLabel();
-        elegirTropa = new javax.swing.JComboBox();
+        cBoxUnidades = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtHeridas = new javax.swing.JTextField();
@@ -59,6 +80,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
         txtPuntosDespues = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
@@ -66,9 +88,9 @@ public class DespliegueFrame extends javax.swing.JFrame {
         txtJuActual.setText("JUGADOR 1");
         txtJuActual.setToolTipText("");
 
-        elegirTropa.addActionListener(new java.awt.event.ActionListener() {
+        cBoxUnidades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                elegirTropaActionPerformed(evt);
+                cBoxUnidadesActionPerformed(evt);
             }
         });
 
@@ -145,7 +167,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
                                         .addGap(1, 1, 1)
                                         .addComponent(jLabel4)))
                                 .addGap(36, 36, 36)
-                                .addComponent(elegirTropa, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(cBoxUnidades, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -200,7 +222,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(elegirTropa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cBoxUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -243,63 +265,52 @@ public class DespliegueFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void elegirTropaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elegirTropaActionPerformed
+    private void cBoxUnidadesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxUnidadesActionPerformed
         actualizaDatos();
-    }//GEN-LAST:event_elegirTropaActionPerformed
+    }//GEN-LAST:event_cBoxUnidadesActionPerformed
 
-    private void actualizaDatos() {
-        Unidad unidad = (Unidad) elegirTropa.getSelectedItem();
-        txtHeridas.setText(String.valueOf(unidad.getHeridas()));
-        txtFuerza.setText(String.valueOf(unidad.getFuerza()));
-        txtCombate.setText(String.valueOf(unidad.getCombate()));
-        txtMovimientos.setText(String.valueOf(unidad.getMovimientos()));
-        txtCoste.setText(String.valueOf(unidad.getCoste()));
-        txtDefensa.setText(String.valueOf(unidad.getDefensa()));
-        labelImagen.setIcon(new ImageIcon(unidad.getImagen().getImage().getScaledInstance(labelImagen.getWidth(), labelImagen.getHeight(), Image.SCALE_DEFAULT)));
+    public void actualizaDatos() {
+        unidadSelec = (Unidad) cBoxUnidades.getSelectedItem();
+        if(unidadSelec != null){
+            txtHeridas.setText(String.valueOf(unidadSelec.getHeridas()));
+            txtFuerza.setText(String.valueOf(unidadSelec.getFuerza()));
+            txtCombate.setText(String.valueOf(unidadSelec.getCombate()));
+            txtMovimientos.setText(String.valueOf(unidadSelec.getMovimientos()));
+            txtCoste.setText(String.valueOf(unidadSelec.getCoste()));
+            txtDefensa.setText(String.valueOf(unidadSelec.getDefensa()));
+            labelImagen.setIcon(new ImageIcon(unidadSelec.getImagen().getImage().getScaledInstance(labelImagen.getWidth(), labelImagen.getHeight(), Image.SCALE_DEFAULT)));
+            
+            txtPuntos.setText(String.valueOf(controladorPartida.getPartida().getJugadorActual().getPuntos()));
+            txtPuntosDespues.setText(String.valueOf(
+                controladorPartida.getPartida().getJugadorActual().getPuntos() - unidadSelec.getCoste())
+            );
+        }
     }
+    
 
     private void btnFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinActionPerformed
         // TODO add your handling code here:
+        if(controladorPartida.getPartida().getJugadorActual().getNumero() == 1){
+            controladorPartida.getPartida().nuevoTurno();
+            txtJuActual.setText("JUGADOR 2");
+            cargaUnidades();
+        }
+        else{
+            controladorPartida.getPartida().resetTurnos();
+            controladorPartida.getControladorJuego().startPartida();
+            this.dispose();
+        }
+        
     }//GEN-LAST:event_btnFinActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DespliegueFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DespliegueFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DespliegueFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DespliegueFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DespliegueFrame().setVisible(true);
-            }
-        });
+    public Unidad getUnidadSelec() {
+        return unidadSelec;
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFin;
-    private javax.swing.JComboBox elegirTropa;
+    public javax.swing.JComboBox cBoxUnidades;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -322,3 +333,5 @@ public class DespliegueFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtPuntosDespues;
     // End of variables declaration//GEN-END:variables
 }
+
+

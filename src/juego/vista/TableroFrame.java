@@ -40,6 +40,9 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
         panelContenedor.setBackground(new Color(25,38,48)); // Si se ve rojo, algo no va bien
         iniciaCeldas();
         controlador.setTableroFrame(this);
+        DespliegueFrame despliegueF = controlador.getControladorJuego().getDespliegueF();
+        this.setLocation((int)despliegueF.getLocation().getX() + despliegueF.getWidth() + 5, (int)despliegueF.getLocation().getY());
+        
     }
 
     /*

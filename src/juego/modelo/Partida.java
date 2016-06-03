@@ -35,6 +35,11 @@ public class Partida {
         turno = turno == 1 ? 2 : 1;
         contTurnos++;
     }
+    
+    public void resetTurnos(){
+        turno = 1;
+        contTurnos = 1;
+    }
 
     public int getContTurnos() {
         return contTurnos;

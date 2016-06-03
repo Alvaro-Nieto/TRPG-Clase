@@ -5,10 +5,7 @@
  */
 package juego;
 
-import juego.controlador.ControladorPartida;
-import juego.modelo.Partida;
-import juego.vista.InicioFrame;
-import juego.vista.LateralFrame;
+import juego.controlador.ControladorJuego;
 import juego.vista.TableroFrame;
 
 
@@ -18,9 +15,7 @@ import juego.vista.TableroFrame;
  * @author Álvaro
  */
 public class Juego {
-    public static TableroFrame tableroF;
-    public static LateralFrame lateralF;
-    public static ControladorPartida controlador;
+
     
     /**
      * @param args the command line arguments
@@ -48,36 +43,10 @@ public class Juego {
             java.util.logging.Logger.getLogger(TableroFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
-        // Controlador que maneja los eventos y actua entre los frames
-        
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new InicioFrame().setVisible(true);
-        });
-        
-
-        
+        ControladorJuego cj = new ControladorJuego();
+        cj.startInicio();
     }
 
-    public static void nuevoJuego(Partida partida) {
-        controlador = new ControladorPartida(partida);
-        /* Crea el tablero */
-        java.awt.EventQueue.invokeLater(() -> {
-            tableroF = new TableroFrame(controlador);
-            tableroF.setVisible(false);
-            
-        });
-        
-        // Crea el lateral lo muestra y establece las referencias.
-        java.awt.EventQueue.invokeLater(() -> {
-            lateralF = new LateralFrame(controlador);
-            lateralF.setVisible(true);
-            tableroF.setLateralFrame(lateralF);
-            controlador.setTableroFrame(tableroF);
-        });
-        
-    }
+
     
 }

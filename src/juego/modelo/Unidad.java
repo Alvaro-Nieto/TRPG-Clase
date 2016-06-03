@@ -39,7 +39,19 @@ public class Unidad {
     }
     
     public Unidad(Unidad unidad, Jugador j){
+        this.nombre = unidad.getNombre();
+        this.combate = unidad.getCombate();
+        this.fuerza = unidad.getFuerza();
+        this.defensa = unidad.getDefensa();
+        this.numAtaques = unidad.getNumAtaques();
+        this.heridas = unidad.getHeridas();
+        this.tipo = unidad.getTipo();
+        this.coste = unidad.getCoste();
+        this.setImagen(unidad.getImagen());
+        this.faccion = unidad.getFaccion();
+        this.haActuado = false;
         this.jugador = j;
+        setFichaAuto();
     }
     
     public Unidad(ResultSet rs){
