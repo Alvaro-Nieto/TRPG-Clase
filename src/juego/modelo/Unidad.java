@@ -31,7 +31,8 @@ public class Unidad {
     public Unidad(){
     
     }
-
+    
+    
     public Unidad(ResultSet rs, Jugador j){
         try {
             this.nombre = rs.getString("Nombre");

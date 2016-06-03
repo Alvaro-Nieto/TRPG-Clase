@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import juego.modelo.Jugador;
 import juego.modelo.Unidad;
 
@@ -148,8 +150,11 @@ public class BD {
      */
     public static void main (String []args){
         //generaBD();
-        Unidad unidad = new Unidad(getUnidad("Jefe Troll"),new Jugador("prueba",1));
-        System.out.println(unidad);
+        //Unidad unidad = new Unidad(getUnidad("Jefe Troll"),new Jugador("prueba",1));
+        //System.out.println(unidad);
+        for(String nombre: getNombresUnidades("Bien")){
+            System.out.println(nombre);
+        }
     }
     
     public static ResultSet getUnidad(String nombreUnidad){
@@ -170,5 +175,23 @@ public class BD {
             }
         }
         return rs;
+    }
+    
+    public static List<String> getNombresUnidades(String faccion){
+        List<String> nombres = new ArrayList<String>();
+        ResultSet rs = null;
+        if(conecta()){
+            try {
+                PreparedStatement stmt = conexion.prepareStatement("SELECT nombre FROM unidades WHERE Faccion = ?");
+                stmt.setString(1, faccion);
+                rs = stmt.executeQuery();
+                while(rs.next()){
+                    nombres.add(rs.getString("nombre"));
+                } 
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return nombres;
     }
 }
