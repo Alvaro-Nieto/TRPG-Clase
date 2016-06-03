@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import juego.controlador.BD;
 import juego.controlador.ControladorPartida;
+import juego.controlador.Sonidos;
 import juego.modelo.Unidad;
 
 /**
@@ -86,7 +87,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
 
         labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
 
-        txtJuActual.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        txtJuActual.setFont(new java.awt.Font("Ringbearer", 1, 36)); // NOI18N
         txtJuActual.setText("JUGADOR 1");
         txtJuActual.setToolTipText("");
 
@@ -214,7 +215,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(140, 140, 140)
                         .addComponent(btnFin)))
-                .addGap(20, 77, Short.MAX_VALUE))
+                .addGap(20, 45, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,6 +302,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
 
     private void btnFinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinActionPerformed
         // TODO add your handling code here:
+        Sonidos.chasquido();
         if(controladorPartida.getPartida().getJugadorActual().getNumero() == 1){
             controladorPartida.getPartida().nuevoTurno();
             txtJuActual.setText("JUGADOR 2");

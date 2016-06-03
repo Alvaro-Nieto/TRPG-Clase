@@ -213,6 +213,7 @@ public class ControladorPartida  implements MouseListener{
                     );
                     celda.setUnidad(unidad);
                     partida.getJugadorActual().setPuntos(puntos - coste);
+                    Sonidos.chasquido();
                 } else{
                     JOptionPane.showMessageDialog(tableroFrame, "No puedes permitirte esa unidad");
                 }

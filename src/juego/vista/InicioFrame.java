@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import juego.controlador.BD;
 import juego.controlador.ControladorJuego;
+import juego.controlador.Sonidos;
 
 /**
  *
@@ -232,6 +233,7 @@ public class InicioFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPartidaActionPerformed
+        Sonidos.chasquido();
         if(!BD.conecta()) {
             int resp = JOptionPane.showConfirmDialog(this, "No se puede conectar a la BD. ¿Quieres intentar generarla?.");
             if(resp == 0){
