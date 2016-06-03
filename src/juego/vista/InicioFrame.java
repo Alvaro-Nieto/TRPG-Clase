@@ -7,6 +7,7 @@ package juego.vista;
 
 import java.awt.Color;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import juego.controlador.BD;
 import juego.controlador.ControladorJuego;
@@ -24,6 +25,7 @@ public class InicioFrame extends javax.swing.JFrame {
      */
     public InicioFrame(ControladorJuego controladorJuego) {
         initComponents();
+        this.getRootPane().setDefaultButton(btnNuevaPartida);
         this.controladorJuego = controladorJuego;
         int width = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
         int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
@@ -104,6 +106,11 @@ public class InicioFrame extends javax.swing.JFrame {
                 txtJ1ActionPerformed(evt);
             }
         });
+        txtJ1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtJ1KeyPressed(evt);
+            }
+        });
         jPanel1.add(txtJ1);
         txtJ1.setBounds(210, 60, 90, 30);
 
@@ -113,6 +120,11 @@ public class InicioFrame extends javax.swing.JFrame {
         txtJ2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtJ2ActionPerformed(evt);
+            }
+        });
+        txtJ2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtJ2KeyPressed(evt);
             }
         });
         jPanel1.add(txtJ2);
@@ -154,6 +166,11 @@ public class InicioFrame extends javax.swing.JFrame {
         txtPuntos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPuntosActionPerformed(evt);
+            }
+        });
+        txtPuntos.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPuntosKeyPressed(evt);
             }
         });
         jPanel1.add(txtPuntos);
@@ -242,6 +259,24 @@ public class InicioFrame extends javax.swing.JFrame {
     private void txtJ1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJ1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtJ1ActionPerformed
+
+    private void txtPuntosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPuntosKeyPressed
+        compruebaEnter(evt);
+    }//GEN-LAST:event_txtPuntosKeyPressed
+
+    private void txtJ2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJ2KeyPressed
+        compruebaEnter(evt);
+    }//GEN-LAST:event_txtJ2KeyPressed
+
+    private void txtJ1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtJ1KeyPressed
+        compruebaEnter(evt);
+    }//GEN-LAST:event_txtJ1KeyPressed
+
+    private void compruebaEnter(KeyEvent evt) {
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            btnNuevaPartida.doClick();
+        }
+    }
 
 
 

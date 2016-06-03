@@ -5,6 +5,7 @@
  */
 package juego.vista;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Image;
@@ -284,6 +285,10 @@ public class DespliegueFrame extends javax.swing.JFrame {
             txtPuntosDespues.setText(String.valueOf(
                 controladorPartida.getPartida().getJugadorActual().getPuntos() - unidadSelec.getCoste())
             );
+            if(Integer.parseInt(txtPuntosDespues.getText()) <= 0){
+                txtPuntosDespues.setBackground(Color.red);
+            } else
+                txtPuntosDespues.setBackground(null);
         }
     }
     
