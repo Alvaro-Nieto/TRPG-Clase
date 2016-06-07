@@ -99,7 +99,7 @@ public class BD {
                 "  Num_Ataques int(3) NOT NULL," +
                 "  Heridas int(3) NOT NULL," +
                 "  Tipo_Unidad varchar(20) NOT NULL," +
-                "  Coste int(2) NOT NULL," +
+                "  Coste int(3) NOT NULL," +
                 "  Ruta_Img varchar(50) NOT NULL," +
                 "  CONSTRAINT pk_unidades PRIMARY KEY (Nombre));");
             st.executeUpdate("INSERT INTO unidades VALUES('Guerrero de minas Thirith', 'Bien', 3, 3, 5, 1, 1, 'Infantería', 7, '/juego/imagenes/bien/guerrminas.jpg')"); 
@@ -118,13 +118,13 @@ public class BD {
             st.executeUpdate("INSERT INTO unidades VALUES('Gorbag', 'Mal', 4, 4, 5, 2, 2, 'Infantería', 15, '/juego/imagenes/mal/gorbag.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Capitán Orco', 'Mal', 4, 4, 5, 2, 2, 'Infantería', 15, '/juego/imagenes/mal/capitanorco.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Capitán Uruk-hai', 'Mal', 5, 5, 5, 2, 2, 'Infantería', 17, '/juego/imagenes/mal/capitanuruk.jpg')");
-            st.executeUpdate("INSERT INTO unidades VALUES('Jefe Troll', 'Mal', 7, 7, 8, 3, 3, 'Monstruo', 90, '/juego/imagenes/mal/jefetroll.jpg')");
+            st.executeUpdate("INSERT INTO unidades VALUES('Jefe Troll', 'Mal', 7, 7, 8, 3, 3, 'Monstruo', 120, '/juego/imagenes/mal/jefetroll.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Guerrero Orco', 'Mal', 3, 3, 4, 1, 1, 'Infantería', 5, '/juego/imagenes/mal/guerreroorco.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Orco de Morannon', 'Mal', 3, 4, 5, 1, 1, 'Infantería', 7, '/juego/imagenes/mal/orcomoranon.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Jinete de Huargo', 'Mal', 3, 4, 4, 2, 2, 'Caballería', 14, '/juego/imagenes/mal/jinetehuargo.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Uruk-hai de Mordor', 'Mal', 4, 4, 4, 1, 1, 'Infantería', 8, '/juego/imagenes/mal/urukmordor.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Grishnákh', 'Mal', 4, 4, 5, 2, 2, 'Infantería', 15, '/juego/imagenes/mal/grisnackh.jpg')");
-            st.executeUpdate("INSERT INTO unidades VALUES('Troll de Mordor', 'Mal', 7, 7, 7, 3, 3, 'Monstruo', 70, '/juego/imagenes/mal/trollmordor.jpg')");
+            st.executeUpdate("INSERT INTO unidades VALUES('Troll de Mordor', 'Mal', 7, 7, 7, 3, 3, 'Monstruo', 100, '/juego/imagenes/mal/trollmordor.jpg')");
         } catch (SQLException ex) {
             System.out.println(ex);
         } finally {
