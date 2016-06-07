@@ -27,7 +27,7 @@ public class LateralFrame extends javax.swing.JFrame{
     public LateralFrame(ControladorPartida controlador) {
         this.controlador = controlador;
         initComponents(); // Inicia los componentes del diseñador
-        this.getContentPane().setBackground( new Color(163,168,172) );
+        this.getContentPane().setBackground( new Color(0,0,0) );
         tablero = controlador.getControladorJuego().getTableroF();
         this.setLocation(5, 5);
         controlador.setLateralFrame(this);
@@ -54,9 +54,7 @@ public class LateralFrame extends javax.swing.JFrame{
     private void initComponents() {
 
         btnTablero = new javax.swing.JToggleButton();
-        cBoxSize = new javax.swing.JComboBox<>();
-        btnFigura = new javax.swing.JToggleButton();
-        btnFigura2 = new javax.swing.JToggleButton();
+        cBoxSize = new javax.swing.JComboBox<String>();
         txtHeridas = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         labelNombre = new javax.swing.JLabel();
@@ -78,6 +76,9 @@ public class LateralFrame extends javax.swing.JFrame{
         setTitle("Ponme un nombre");
         setResizable(false);
 
+        btnTablero.setBackground(new java.awt.Color(0, 0, 0));
+        btnTablero.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        btnTablero.setForeground(new java.awt.Color(255, 255, 255));
         btnTablero.setText("Tablero");
         btnTablero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -85,7 +86,10 @@ public class LateralFrame extends javax.swing.JFrame{
             }
         });
 
-        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Mediano", "Pequeño" }));
+        cBoxSize.setBackground(new java.awt.Color(0, 0, 0));
+        cBoxSize.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        cBoxSize.setForeground(new java.awt.Color(255, 255, 255));
+        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Grande", "Mediano", "Pequeño" }));
         cBoxSize.setSelectedIndex(1);
         cBoxSize.setToolTipText("");
         cBoxSize.addActionListener(new java.awt.event.ActionListener() {
@@ -94,42 +98,47 @@ public class LateralFrame extends javax.swing.JFrame{
             }
         });
 
-        btnFigura.setText("Test FIGURA");
-        btnFigura.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFiguraActionPerformed(evt);
-            }
-        });
-
-        btnFigura2.setText("Test FIGURA2");
-        btnFigura2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFigura2ActionPerformed(evt);
-            }
-        });
-
         txtHeridas.setEditable(false);
+        txtHeridas.setBackground(new java.awt.Color(0, 0, 0));
+        txtHeridas.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
+        txtHeridas.setForeground(new java.awt.Color(255, 255, 255));
         txtHeridas.setFocusable(false);
         txtHeridas.setRequestFocusEnabled(false);
 
         txtNombre.setEditable(false);
+        txtNombre.setBackground(new java.awt.Color(0, 0, 0));
+        txtNombre.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        txtNombre.setForeground(new java.awt.Color(255, 255, 255));
         txtNombre.setFocusable(false);
         txtNombre.setRequestFocusEnabled(false);
 
+        labelNombre.setBackground(new java.awt.Color(0, 0, 0));
+        labelNombre.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        labelNombre.setForeground(new java.awt.Color(255, 255, 255));
         labelNombre.setText("Nombre");
 
+        labelHeridas.setBackground(new java.awt.Color(0, 0, 0));
+        labelHeridas.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        labelHeridas.setForeground(new java.awt.Color(255, 255, 255));
         labelHeridas.setText("Heridas");
 
-        labelImagen.setBackground(new java.awt.Color(255, 255, 255));
-        labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
+        labelImagen.setBackground(new java.awt.Color(0, 0, 0));
+        labelImagen.setForeground(new java.awt.Color(255, 255, 255));
+        labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
         labelImagen.setFocusable(false);
         labelImagen.setOpaque(true);
 
+        txtArea.setBackground(new java.awt.Color(0, 0, 0));
         txtArea.setColumns(20);
+        txtArea.setFont(new java.awt.Font("Ringbearer", 0, 10)); // NOI18N
+        txtArea.setForeground(new java.awt.Color(255, 255, 255));
         txtArea.setRows(5);
         txtArea.setFocusable(false);
         jScrollPane1.setViewportView(txtArea);
 
+        btnTurno.setBackground(new java.awt.Color(0, 0, 0));
+        btnTurno.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        btnTurno.setForeground(new java.awt.Color(255, 255, 255));
         btnTurno.setText("Pasar turno");
         btnTurno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,6 +146,9 @@ public class LateralFrame extends javax.swing.JFrame{
             }
         });
 
+        btnMusica.setBackground(new java.awt.Color(0, 0, 0));
+        btnMusica.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        btnMusica.setForeground(new java.awt.Color(255, 255, 255));
         btnMusica.setText("Música");
         btnMusica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,21 +156,39 @@ public class LateralFrame extends javax.swing.JFrame{
             }
         });
 
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Fuerza");
 
         txtFuerza.setEditable(false);
+        txtFuerza.setBackground(new java.awt.Color(0, 0, 0));
+        txtFuerza.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
+        txtFuerza.setForeground(new java.awt.Color(255, 255, 255));
         txtFuerza.setFocusable(false);
 
         jLabel2.setText("jLabel2");
 
+        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Defensa");
 
         txtDefensa.setEditable(false);
+        txtDefensa.setBackground(new java.awt.Color(0, 0, 0));
+        txtDefensa.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
+        txtDefensa.setForeground(new java.awt.Color(255, 255, 255));
         txtDefensa.setFocusable(false);
 
+        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel4.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Combate");
 
         txtCombate.setEditable(false);
+        txtCombate.setBackground(new java.awt.Color(0, 0, 0));
+        txtCombate.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
+        txtCombate.setForeground(new java.awt.Color(255, 255, 255));
         txtCombate.setFocusable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -179,13 +209,9 @@ public class LateralFrame extends javax.swing.JFrame{
                                 .addComponent(btnMusica))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(76, 76, 76)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnFigura2)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(btnFigura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(btnTablero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(btnTablero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(20, 20, 20)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -209,7 +235,7 @@ public class LateralFrame extends javax.swing.JFrame{
                                     .addComponent(txtNombre))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 24, Short.MAX_VALUE)))
+                        .addGap(0, 8, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
@@ -221,7 +247,7 @@ public class LateralFrame extends javax.swing.JFrame{
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(25, 25, 25)
                 .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addGap(57, 57, 57)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelNombre))
@@ -246,11 +272,7 @@ public class LateralFrame extends javax.swing.JFrame{
                             .addComponent(txtCombate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnFigura2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnFigura)
-                .addGap(18, 18, 18)
+                .addGap(81, 81, 81)
                 .addComponent(btnTurno)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTablero)
@@ -279,14 +301,6 @@ public class LateralFrame extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_cBoxSizeActionPerformed
 
-    private void btnFiguraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiguraActionPerformed
-        btnFigura2.setSelected(false);
-    }//GEN-LAST:event_btnFiguraActionPerformed
-
-    private void btnFigura2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFigura2ActionPerformed
-        btnFigura.setSelected(false);
-    }//GEN-LAST:event_btnFigura2ActionPerformed
-
     private void btnTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnoActionPerformed
         controlador.nuevoTurno();
     }//GEN-LAST:event_btnTurnoActionPerformed
@@ -310,8 +324,6 @@ public class LateralFrame extends javax.swing.JFrame{
     }//GEN-LAST:event_btnTableroActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton btnFigura;
-    private javax.swing.JToggleButton btnFigura2;
     private javax.swing.JToggleButton btnMusica;
     private javax.swing.JToggleButton btnTablero;
     private javax.swing.JButton btnTurno;
@@ -350,12 +362,5 @@ public class LateralFrame extends javax.swing.JFrame{
         labelImagen.setIcon(null);
     }
     
-    // TEMPORAL
-    public boolean btnPrueba1() {
-        return this.btnFigura.isSelected();
-    }
-
-    public boolean btnPrueba2() {
-        return this.btnFigura2.isSelected();
-    }
+    
 }

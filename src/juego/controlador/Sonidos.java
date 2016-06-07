@@ -6,8 +6,6 @@
 package juego.controlador;
 
 import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 

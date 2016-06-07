@@ -160,26 +160,7 @@ public class ControladorPartida  implements MouseListener{
     }
 
     private void manejaClicIzquierdo(Celda celdaClic) {
-            // PARA PRUEBAS
-            if(lateralFrame.btnPrueba1()){
-                cuentaUnidad++;
-                //unidadTemp = new Unidad("Jinete Huargo"+cuentaUnidad,3,2,2,2,3,j1,"Caballeria");
-                unidadTemp = new Unidad(getUnidad("Damrod"),j1);
-                //unidadTemp.setMovimientos(5);
-                //unidadTemp.setImagen("/juego/imagenes/mal/jinetehuargo.jpg");
-                celdaClic.setUnidad(unidadTemp);
-            } 
-            else if(lateralFrame.btnPrueba2()){
-                cuentaUnidad++;
-                //unidadTemp = new Unidad("Jefe Troll"+cuentaUnidad,3,2,2,2,3,j2,"Monstruo");
-                unidadTemp = new Unidad(getUnidad("Jefe Troll"),j2);
-                //unidadTemp.setMovimientos(3);
-                //unidadTemp.setImagen("/juego/imagenes/mal/jefetroll.jpg");
-                celdaClic.setUnidad(unidadTemp);
-            } // PARA PRUEBAS FIN
-
-            // DURANTE LA PARTIDA
-            else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
+            if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
                 if(celdaClic.isEmpty()){
                     celdaSeleccionada.getUnidad().setHaActuado(true);
                     mueve(celdaSeleccionada,celdaClic);
@@ -252,6 +233,7 @@ public class ControladorPartida  implements MouseListener{
                 ganador = partida.getJ2().getNombre();
             else
                 ganador = partida.getJ1().getNombre();
+            
             JOptionPane.showMessageDialog(tableroFrame, "Partida finalizada. "+ganador+" ha ganado.");
             controladorJuego.startInicio();
             Sonidos.stopHiloMusical();
@@ -387,27 +369,19 @@ public class ControladorPartida  implements MouseListener{
             if(SwingUtilities.isLeftMouseButton(e)){
                 manejaClicIzquierdo(celda);
             }
-            // PARA PRUEBAS
             else if(SwingUtilities.isRightMouseButton(e)){
-                if(!celda.isEmpty()){
-                    celda.quitaUnidad();
-                    celda.repaint();
-                }
-                liberaEstadoCeldas();
-            } 
-            // PARA PRUEBAS FIN
-            else if(SwingUtilities.isMiddleMouseButton(e)){
                 if(celda.isEmpty())
                     lateralFrame.limpiaDatos();
                 else
                     lateralFrame.actualizaDatosSelec(celda);
             } 
+
         }
     }
     
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(SwingUtilities.isMiddleMouseButton(e)){
+        if(SwingUtilities.isRightMouseButton(e)){
             if(celdaSeleccionada != null)
                 lateralFrame.actualizaDatosSelec(celdaSeleccionada);
             else
@@ -422,7 +396,7 @@ public class ControladorPartida  implements MouseListener{
             celda.setBorder(B_RATON);
             
         }
-        if(SwingUtilities.isMiddleMouseButton(e)){
+        if(SwingUtilities.isRightMouseButton(e)){
             if(celda.isEmpty())
                 lateralFrame.limpiaDatos();
             else
