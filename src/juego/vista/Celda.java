@@ -18,21 +18,17 @@ import java.awt.Graphics;
 public class Celda extends JPanel{
     private int indiceX; // Indice J en el array
     private int indiceY; // Indice I en el array
-    private boolean colorSw; // Sirver para ir cambiando entre dos colores
-   // private ImageIcon img; // Imagen en la celda. Cambiar más adelante por objeto FIGURA
+    private boolean colorSw; // Sirve para ir cambiando entre dos colores
     private Unidad unidad;
     private Color color1;
     private Color color2;
     private boolean selected;
     private boolean marcada;
-    //public JLabel jlabel;
     
     
     
     
     public Celda(boolean colorSw, int indiceX, int indiceY, int numCeldas){
-        //this.color1 = new Color(107,62,25);
-        //this.color2 = new Color(255,228,196);
         this.selected = false;
         this.color1 = new Color(252,155,87);
         this.color2 = new Color(135,203,250);
@@ -44,10 +40,6 @@ public class Celda extends JPanel{
             this.setBackground(color2);
         }
         this.colorSw = colorSw;
-        //this.setFigura("./imagenes/mal/gorbag.jpg");
-        /*jlabel = new JLabel("");
-        jlabel.setFont(new Font("Verdana",1,15));
-        this.add(jlabel);*/
     }
     
     /**
@@ -64,10 +56,12 @@ public class Celda extends JPanel{
             g.setFont(new Font("Arial",1,(int)this.getHeight()/4));
             
             g.drawString("J"+String.valueOf(unidad.getJugador().getNumero()), 0,(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
-            //g.drawString(unidad.getNombre(), 20,5);
             
-            if(this.unidad.haActuado())
+            if(this.unidad.haActuado()){
                 g.drawString("X", (int)this.getWidth() - g.getFontMetrics().getWidths()[0],(int)this.getHeight() - g.getFontMetrics().getHeight() /8);
+                this.oscurece();
+            } else
+                this.aclara();
 
         }
     }    
@@ -99,18 +93,9 @@ public class Celda extends JPanel{
     public int getIndiceY(){
         return this.indiceY;
     }
-    /*
-    public void setFigura(String figura){
-        img = new ImageIcon(getClass().getResource(figura));
-    }
     
-    public void quitaFigura(){
-        img = null;
-    }
-    */
     public void setUnidad(Unidad unidad){
         this.unidad = unidad;
-        //this.jlabel.setText(unidad.getNombre());
     }
 
     public Unidad getUnidad() {
@@ -122,7 +107,7 @@ public class Celda extends JPanel{
     }
     
     public void oscurece(){
-        int diff = 50;
+        int diff = 70;
         Color nuevoColor;
         if(colorSw){
             nuevoColor = (new Color(color1.getRed()-diff,color1.getGreen()-diff,color1.getBlue()));
@@ -138,8 +123,9 @@ public class Celda extends JPanel{
             this.setBackground(color2);
         }
     }
+    
     /**
-     * @return Devuelve true si está vacia
+     * @return Devuelve true si no hay unidad en esta celda
      */
     public boolean isEmpty(){
         return this.unidad == null;
