@@ -336,7 +336,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
         Sonidos.chasquido();
         if(controladorPartida.getPartida().getJugadorActual().getNumero() == 1){
             controladorPartida.getPartida().nuevoTurno();
-            txtJuActual.setText("JUGADOR 2");
+            txtJuActual.setText(" JUGADOR 2");
             cargaUnidades();
             this.jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo-mal.png")));
             controladorPartida.liberaEstadoCeldas();

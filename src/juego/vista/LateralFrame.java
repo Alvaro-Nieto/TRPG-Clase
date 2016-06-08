@@ -8,7 +8,6 @@ package juego.vista;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import juego.Juego;
 import juego.controlador.ControladorPartida;
 import juego.controlador.Sonidos;
 
