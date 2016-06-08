@@ -5,6 +5,8 @@
  */
 package juego.controlador;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
 import juego.vista.DespliegueFrame;
@@ -70,10 +72,8 @@ public class ControladorJuego {
             tableroF = new TableroFrame(controladorPartida);
             tableroF.setVisible(true);
         });
-        
-        
-        
         nuevoEstado();
+        
     }
     
     public void startPartida(){

@@ -37,7 +37,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
         this.controladorPartida = controladorPartida;
         this.controladorPartida.setDespliegueFrame(this);
         cargaUnidades();
-        
+
     }
 
     private void cargaUnidades() {
@@ -339,8 +339,11 @@ public class DespliegueFrame extends javax.swing.JFrame {
             txtJuActual.setText("JUGADOR 2");
             cargaUnidades();
             this.jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo-mal.png")));
+            controladorPartida.liberaEstadoCeldas();
+            controladorPartida.marcaRegiones();
         }
         else{
+            controladorPartida.liberaEstadoCeldas();
             controladorPartida.getPartida().resetTurnos();
             controladorPartida.getControladorJuego().startPartida();
             this.dispose();

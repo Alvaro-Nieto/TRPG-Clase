@@ -149,7 +149,7 @@ public class ControladorPartida  implements MouseListener{
         origen.repaint();
         destino.repaint();
     }
-    private void liberaEstadoCeldas() {
+    public void liberaEstadoCeldas() {
         celdaSeleccionada = null;
         if(controladorJuego.getEstado() == Estado.JUGANDO)
             lateralFrame.limpiaDatos();
@@ -189,7 +189,7 @@ public class ControladorPartida  implements MouseListener{
         Celda celda = (Celda) e.getSource();
         int puntos = partida.getJugadorActual().getPuntos();
         if(SwingUtilities.isLeftMouseButton(e)){
-            if(celda.isEmpty()){
+            if(celda.isEmpty() && celda.isMarcada()){
                 int coste = ((Unidad)despliegueFrame.cBoxUnidades.getSelectedItem()).getCoste();
                 if(puntos - coste >= 0){
                     Unidad unidad = new Unidad(
@@ -355,6 +355,17 @@ public class ControladorPartida  implements MouseListener{
             this.nuevoTurno();
         
         
+    }
+    
+    public void marcaRegiones(){
+        int rango = tableroFrame.getNumCeldas() / 4;
+        int jActual = partida.getJugadorActual().getNumero();
+        for(int i = (jActual == 2 ? 0 : rango*3); i < (jActual == 2 ? rango : celdas.length);i++){
+            for(int j = 0; j < celdas.length; j++){
+                celdas[i][j].setBorder(B_MOVIMIENTO);
+                celdas[i][j].setMarcada(true);
+            }
+        }
     }
     
     @Override

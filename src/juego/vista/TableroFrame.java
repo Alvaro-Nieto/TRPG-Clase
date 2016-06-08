@@ -7,6 +7,7 @@ package juego.vista;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JPanel;
@@ -34,14 +35,14 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
      */
     public TableroFrame(ControladorPartida controlador) {
         this.controlador = controlador;
-        this.ancho = multiploDesde(750) + (HUECO*numCeldas +HUECO);
-        this.alto = ancho;
         initComponents(); // Inicia el contenedor y layouts
         panelContenedor.setBackground(new Color(25,38,48)); // Si se ve rojo, algo no va bien
         iniciaCeldas();
         controlador.setTableroFrame(this);
         DespliegueFrame despliegueF = controlador.getControladorJuego().getDespliegueF();
         this.setLocation((int)despliegueF.getLocation().getX() + despliegueF.getWidth() + 5, (int)despliegueF.getLocation().getY());
+        controlador.marcaRegiones();
+        this.redimensionar('M');
         
     }
 
@@ -147,18 +148,23 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
         }
         return desde;
     }
+
+    public int getNumCeldas() {
+        return numCeldas;
+    }
     
     public void redimensionar(char letra){
+        int height = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
         int medida;
         switch(letra){
             case 'P':
-                medida = multiploDesde(450);
+                medida = multiploDesde(height / 2);
                 break;
             case 'G':
-                medida = multiploDesde(950);
+                medida = multiploDesde(height - 120);
                 break;
             default:
-                medida = multiploDesde(750);
+                medida = multiploDesde((int) (height / 1.5));
         }
         this.ancho = medida + (HUECO*numCeldas +HUECO);
         this.alto = ancho;
