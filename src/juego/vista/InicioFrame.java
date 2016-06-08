@@ -18,7 +18,6 @@ import juego.controlador.Sonidos;
  * @author Adrian
  */
 public class InicioFrame extends javax.swing.JFrame {
-    private Object btnIngresar;
     private final ControladorJuego controladorJuego;
 
     /**
@@ -235,17 +234,28 @@ public class InicioFrame extends javax.swing.JFrame {
     private void btnNuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPartidaActionPerformed
         Sonidos.chasquido();
         if(!BD.conecta()) {
-            int resp = JOptionPane.showConfirmDialog(this, "No se puede conectar a la BD. ¿Quieres intentar generarla?.");
-            if(resp == 0){
+            if(JOptionPane.showConfirmDialog(this, "No se puede conectar a la BD. ¿Quieres intentar generarla?.") == 0){
+                
                 JOptionPane.showMessageDialog(this, "Generando... Intente de nuevo.");
                 BD.generaBD();
             }
         } else {
-            if(txtPuntos.getText().equals("") || txtJ1.getText().equals("") || txtJ2.getText().equals(""))
-                JOptionPane.showMessageDialog(this, "Rellene todos los campos, porfavor");
-            else{
-                controladorJuego.startDespliegue(txtJ1.getText(), txtJ2.getText(),Integer.parseInt(txtPuntos.getText()));
-                this.dispose();
+            try{
+                if(txtPuntos.getText().equals("") || txtJ1.getText().equals("") || txtJ2.getText().equals(""))
+                    JOptionPane.showMessageDialog(this, "Rellene todos los campos, porfavor");
+
+                else if(txtJ1.getText().length() > 10 || txtJ2.getText().length() > 10)
+                    JOptionPane.showMessageDialog(this, "El nombre del jugador es demasiado largo. Máximo 10 letras.");
+
+                else if(Integer.parseInt(txtPuntos.getText()) < 10 || Integer.parseInt(txtPuntos.getText()) > 2000)
+                    JOptionPane.showMessageDialog(this, "Los puntos deben estar entre 10 y 2000");
+
+                else{
+                    controladorJuego.startDespliegue(txtJ1.getText(), txtJ2.getText(),Integer.parseInt(txtPuntos.getText()));
+                    this.dispose();
+                }
+            } catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(this, "Introduce un número valido para los puntos entre 10 y 2000");
             }
         }
     }//GEN-LAST:event_btnNuevaPartidaActionPerformed

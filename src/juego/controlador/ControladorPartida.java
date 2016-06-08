@@ -12,7 +12,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
-import static juego.controlador.BD.getUnidad;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
 import juego.modelo.Unidad;
@@ -34,6 +33,7 @@ public class ControladorPartida  implements MouseListener{
     private final Border B_SELEC = BorderFactory.createLineBorder(Color.BLUE,3);
     private final Border B_MOVIMIENTO = BorderFactory.createLineBorder(Color.GREEN,3);
     private final Border B_RATON = BorderFactory.createLineBorder(Color.CYAN,3);
+    private final Border B_ACTUADO = BorderFactory.createLineBorder(Color.BLACK,3);
     
     private TableroFrame tableroFrame;
     private LateralFrame lateralFrame;
@@ -78,6 +78,10 @@ public class ControladorPartida  implements MouseListener{
     public  void setTableroFrame(TableroFrame tableroFrame){
         this.tableroFrame = tableroFrame;
         this.celdas = tableroFrame.getCeldas();
+    }
+    
+    public Partida getPartida() {
+        return partida;
     }
     
     public void nuevoTurno() {
@@ -145,7 +149,7 @@ public class ControladorPartida  implements MouseListener{
         origen.repaint();
         destino.repaint();
     }
-    private void liberaEstadoCeldas() {
+    public void liberaEstadoCeldas() {
         celdaSeleccionada = null;
         if(controladorJuego.getEstado() == Estado.JUGANDO)
             lateralFrame.limpiaDatos();
@@ -185,7 +189,7 @@ public class ControladorPartida  implements MouseListener{
         Celda celda = (Celda) e.getSource();
         int puntos = partida.getJugadorActual().getPuntos();
         if(SwingUtilities.isLeftMouseButton(e)){
-            if(celda.isEmpty()){
+            if(celda.isEmpty() && celda.isMarcada()){
                 int coste = ((Unidad)despliegueFrame.cBoxUnidades.getSelectedItem()).getCoste();
                 if(puntos - coste >= 0){
                     Unidad unidad = new Unidad(
@@ -233,10 +237,11 @@ public class ControladorPartida  implements MouseListener{
                 ganador = partida.getJ2().getNombre();
             else
                 ganador = partida.getJ1().getNombre();
-            
+            Sonidos.stopHiloMusical();
+            Sonidos.victoria();
             JOptionPane.showMessageDialog(tableroFrame, "Partida finalizada. "+ganador+" ha ganado.");
             controladorJuego.startInicio();
-            Sonidos.stopHiloMusical();
+            
             lateralFrame.dispose();
             tableroFrame.dispose();
         }
@@ -352,6 +357,17 @@ public class ControladorPartida  implements MouseListener{
         
     }
     
+    public void marcaRegiones(){
+        int rango = tableroFrame.getNumCeldas() / 4;
+        int jActual = partida.getJugadorActual().getNumero();
+        for(int i = (jActual == 2 ? 0 : rango*3); i < (jActual == 2 ? rango : celdas.length);i++){
+            for(int j = 0; j < celdas.length; j++){
+                celdas[i][j].setBorder(B_MOVIMIENTO);
+                celdas[i][j].setMarcada(true);
+            }
+        }
+    }
+    
     @Override
     public void mouseClicked(MouseEvent e) {
         // Sin uso de momento
@@ -381,7 +397,7 @@ public class ControladorPartida  implements MouseListener{
     
     @Override
     public void mouseReleased(MouseEvent e) {
-        if(SwingUtilities.isRightMouseButton(e)){
+        if(SwingUtilities.isRightMouseButton(e) && controladorJuego.getEstado() == Estado.JUGANDO){
             if(celdaSeleccionada != null)
                 lateralFrame.actualizaDatosSelec(celdaSeleccionada);
             else
@@ -396,7 +412,7 @@ public class ControladorPartida  implements MouseListener{
             celda.setBorder(B_RATON);
             
         }
-        if(SwingUtilities.isRightMouseButton(e)){
+        if(SwingUtilities.isRightMouseButton(e) && controladorJuego.getEstado() == Estado.JUGANDO){
             if(celda.isEmpty())
                 lateralFrame.limpiaDatos();
             else
@@ -414,9 +430,4 @@ public class ControladorPartida  implements MouseListener{
         celda.aclara();
     }
 
-    public Partida getPartida() {
-        return partida;
-    }
-    
-    
 }

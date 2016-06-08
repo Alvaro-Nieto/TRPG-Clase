@@ -6,15 +6,12 @@
 package juego.vista;
 
 import com.sun.glass.events.KeyEvent;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
+import java.awt.FlowLayout;
 import java.awt.Image;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import juego.controlador.BD;
 import juego.controlador.ControladorPartida;
 import juego.controlador.Sonidos;
@@ -40,6 +37,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
         this.controladorPartida = controladorPartida;
         this.controladorPartida.setDespliegueFrame(this);
         cargaUnidades();
+
     }
 
     private void cargaUnidades() {
@@ -82,23 +80,38 @@ public class DespliegueFrame extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtPuntosDespues = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
+        setMaximumSize(new java.awt.Dimension(400, 658));
+        setMinimumSize(new java.awt.Dimension(400, 658));
+        setPreferredSize(new java.awt.Dimension(400, 658));
         setResizable(false);
+        setSize(new java.awt.Dimension(400, 658));
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setMaximumSize(new java.awt.Dimension(400, 658));
+        jPanel1.setMinimumSize(new java.awt.Dimension(400, 658));
+        jPanel1.setPreferredSize(new java.awt.Dimension(400, 658));
+        jPanel1.setLayout(null);
 
         labelImagen.setForeground(new java.awt.Color(255, 255, 255));
         labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
+        jPanel1.add(labelImagen);
+        labelImagen.setBounds(10, 10, 120, 120);
 
+        txtJuActual.setBackground(new Color(0,0,0,150));
         txtJuActual.setFont(new java.awt.Font("Ringbearer", 1, 36)); // NOI18N
         txtJuActual.setForeground(new java.awt.Color(255, 255, 255));
-        txtJuActual.setText("JUGADOR 1");
+        txtJuActual.setText(" JUGADOR 1");
         txtJuActual.setToolTipText("");
+        txtJuActual.setOpaque(true);
+        jPanel1.add(txtJuActual);
+        txtJuActual.setBounds(140, 10, 240, 60);
 
         cBoxUnidades.setBackground(new java.awt.Color(204, 255, 255));
-        cBoxUnidades.setFont(new java.awt.Font("Ringbearer", 0, 11)); // NOI18N
+        cBoxUnidades.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         cBoxUnidades.setForeground(new java.awt.Color(255, 255, 255));
         cBoxUnidades.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,83 +123,131 @@ public class DespliegueFrame extends javax.swing.JFrame {
                 cBoxUnidadesKeyPressed(evt);
             }
         });
+        jPanel1.add(cBoxUnidades);
+        cBoxUnidades.setBounds(100, 160, 280, 30);
 
+        jLabel1.setBackground(new Color(0,0,0,150));
         jLabel1.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Nombre");
+        jLabel1.setText(" Nombre");
+        jLabel1.setOpaque(true);
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(10, 160, 80, 30);
 
+        jLabel2.setBackground(new Color(0,0,0,150));
         jLabel2.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Heridas");
+        jLabel2.setText(" Heridas");
+        jLabel2.setOpaque(true);
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(10, 220, 120, 30);
 
         txtHeridas.setEditable(false);
         txtHeridas.setBackground(new java.awt.Color(0, 0, 0));
         txtHeridas.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtHeridas.setForeground(new java.awt.Color(255, 255, 255));
         txtHeridas.setFocusable(false);
+        jPanel1.add(txtHeridas);
+        txtHeridas.setBounds(140, 220, 50, 30);
 
+        jLabel3.setBackground(new Color(0,0,0,150));
         jLabel3.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Fuerza");
+        jLabel3.setText(" Fuerza");
+        jLabel3.setOpaque(true);
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(200, 220, 120, 30);
 
         txtFuerza.setEditable(false);
         txtFuerza.setBackground(new java.awt.Color(0, 0, 0));
         txtFuerza.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtFuerza.setForeground(new java.awt.Color(255, 255, 255));
         txtFuerza.setFocusable(false);
+        jPanel1.add(txtFuerza);
+        txtFuerza.setBounds(330, 220, 50, 30);
 
+        jLabel4.setBackground(new Color(0,0,0,150));
         jLabel4.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Defensa");
+        jLabel4.setText(" Defensa");
         jLabel4.setToolTipText("");
+        jLabel4.setOpaque(true);
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(10, 260, 120, 30);
 
         txtDefensa.setEditable(false);
         txtDefensa.setBackground(new java.awt.Color(0, 0, 0));
         txtDefensa.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtDefensa.setForeground(new java.awt.Color(255, 255, 255));
         txtDefensa.setFocusable(false);
+        jPanel1.add(txtDefensa);
+        txtDefensa.setBounds(140, 260, 50, 30);
 
+        jLabel5.setBackground(new Color(0,0,0,150));
         jLabel5.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Combate");
+        jLabel5.setText(" Combate");
+        jLabel5.setOpaque(true);
+        jPanel1.add(jLabel5);
+        jLabel5.setBounds(200, 260, 120, 30);
 
         txtCombate.setEditable(false);
         txtCombate.setBackground(new java.awt.Color(0, 0, 0));
         txtCombate.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtCombate.setForeground(new java.awt.Color(255, 255, 255));
         txtCombate.setFocusable(false);
+        jPanel1.add(txtCombate);
+        txtCombate.setBounds(330, 260, 50, 30);
 
+        jLabel6.setBackground(new Color(0,0,0,150));
         jLabel6.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Movimientos");
+        jLabel6.setText(" Movimientos");
+        jLabel6.setOpaque(true);
+        jPanel1.add(jLabel6);
+        jLabel6.setBounds(10, 300, 120, 30);
 
         txtMovimientos.setEditable(false);
         txtMovimientos.setBackground(new java.awt.Color(0, 0, 0));
         txtMovimientos.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtMovimientos.setForeground(new java.awt.Color(255, 255, 255));
         txtMovimientos.setFocusable(false);
+        jPanel1.add(txtMovimientos);
+        txtMovimientos.setBounds(140, 300, 50, 30);
 
+        jLabel7.setBackground(new Color(0,0,0,150));
         jLabel7.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Coste");
+        jLabel7.setText(" Coste");
         jLabel7.setToolTipText("");
+        jLabel7.setOpaque(true);
+        jPanel1.add(jLabel7);
+        jLabel7.setBounds(200, 300, 120, 30);
 
         txtCoste.setEditable(false);
         txtCoste.setBackground(new java.awt.Color(0, 0, 0));
         txtCoste.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtCoste.setForeground(new java.awt.Color(255, 255, 255));
         txtCoste.setFocusable(false);
+        jPanel1.add(txtCoste);
+        txtCoste.setBounds(330, 300, 50, 30);
 
+        jLabel8.setBackground(new Color(0,0,0,150));
         jLabel8.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Puntos");
+        jLabel8.setText(" Puntos");
         jLabel8.setToolTipText("");
+        jLabel8.setOpaque(true);
+        jPanel1.add(jLabel8);
+        jLabel8.setBounds(10, 340, 120, 30);
 
         txtPuntos.setEditable(false);
         txtPuntos.setBackground(new java.awt.Color(0, 0, 0));
         txtPuntos.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtPuntos.setForeground(new java.awt.Color(255, 255, 255));
         txtPuntos.setFocusable(false);
+        jPanel1.add(txtPuntos);
+        txtPuntos.setBounds(140, 340, 50, 30);
 
         btnFin.setBackground(new java.awt.Color(0, 0, 0));
         btnFin.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
@@ -197,132 +258,37 @@ public class DespliegueFrame extends javax.swing.JFrame {
                 btnFinActionPerformed(evt);
             }
         });
+        jPanel1.add(btnFin);
+        btnFin.setBounds(110, 550, 185, 43);
 
+        jLabel9.setBackground(new Color(0,0,0,150));
         jLabel9.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Despliega tus unidades");
+        jLabel9.setText("  Despliega tus unidades");
+        jLabel9.setOpaque(true);
+        jPanel1.add(jLabel9);
+        jLabel9.setBounds(140, 90, 200, 30);
 
+        jLabel10.setBackground(new Color(0,0,0,150));
         jLabel10.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Puntos - Coste");
+        jLabel10.setText(" Puntos - Coste");
+        jLabel10.setOpaque(true);
+        jPanel1.add(jLabel10);
+        jLabel10.setBounds(200, 340, 120, 30);
 
         txtPuntosDespues.setEditable(false);
         txtPuntosDespues.setBackground(new java.awt.Color(0, 0, 0));
         txtPuntosDespues.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtPuntosDespues.setForeground(new java.awt.Color(255, 255, 255));
         txtPuntosDespues.setFocusable(false);
+        jPanel1.add(txtPuntosDespues);
+        txtPuntosDespues.setBounds(330, 340, 50, 30);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(btnFin)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(52, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel4)))
-                        .addGap(36, 36, 36)
-                        .addComponent(cBoxUnidades, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtJuActual)
-                            .addComponent(jLabel9)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel8))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMovimientos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtPuntosDespues, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel3))
-                                        .addGap(47, 47, 47))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(62, 62, 62)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFuerza, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCoste, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCombate, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addGap(39, 39, 39))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtJuActual)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel9)))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cBoxUnidades, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtMovimientos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtFuerza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCombate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(txtCoste, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel10)
-                        .addComponent(txtPuntosDespues, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtPuntos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(btnFin, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29))
-        );
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo-bien.png"))); // NOI18N
+        jLabel11.setText("jLabel11");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(0, 0, 444, 658);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -357,7 +323,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
             txtPuntosDespues.setText(String.valueOf(
                 controladorPartida.getPartida().getJugadorActual().getPuntos() - unidadSelec.getCoste())
             );
-            if(Integer.parseInt(txtPuntosDespues.getText()) <= 0){
+            if(Integer.parseInt(txtPuntosDespues.getText()) < 0){
                 txtPuntosDespues.setBackground(Color.red);
             } else
                 txtPuntosDespues.setBackground(null);
@@ -370,17 +336,21 @@ public class DespliegueFrame extends javax.swing.JFrame {
         Sonidos.chasquido();
         if(controladorPartida.getPartida().getJugadorActual().getNumero() == 1){
             controladorPartida.getPartida().nuevoTurno();
-            txtJuActual.setText("JUGADOR 2");
+            txtJuActual.setText(" JUGADOR 2");
             cargaUnidades();
+            this.jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo-mal.png")));
+            controladorPartida.liberaEstadoCeldas();
+            controladorPartida.marcaRegiones();
         }
         else{
+            controladorPartida.liberaEstadoCeldas();
             controladorPartida.getPartida().resetTurnos();
             controladorPartida.getControladorJuego().startPartida();
             this.dispose();
         }
         
     }//GEN-LAST:event_btnFinActionPerformed
-
+    
     private void cBoxUnidadesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cBoxUnidadesKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER)
             btnFin.doClick();
@@ -396,6 +366,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
     public javax.swing.JComboBox cBoxUnidades;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
