@@ -343,8 +343,8 @@ public class ControladorPartida  implements MouseListener{
                  * Una posibilidad es darle a elegir que casilla quiere
                  */
                 // TODO calculaMovimiento();
-                prueba(celdaAtacada);
-                decidiendoPosicion = true;
+                buscaMovimientosSobreviviente(celdaAtacada);
+                
                
 
                 
@@ -354,30 +354,35 @@ public class ControladorPartida  implements MouseListener{
         lateralFrame.repaint();
         
     }
-    private void prueba(Celda celdaAtacada){
+    private void buscaMovimientosSobreviviente(Celda celdaAtacada){
         Celda celdaAtacante = celdaSeleccionada;
         HashSet<Celda> celdasDisponibles = new HashSet<>();
         int indiceY = celdaAtacada.getIndiceY();
         int indiceX = celdaAtacada.getIndiceX();
 
-            for(int i = indiceY - 1; i <= indiceY + 1; i++){
-                for(int j = indiceX - 1; j <= indiceX + 1; j++){
-                    if((i!=indiceY) && (j!=indiceX) || (i==indiceY && j==indiceX))
-                        continue;
-                    if(celdas[i][j].isEmpty() && celdas[i][j].isMarcada())
-                        celdasDisponibles.add(celdas[i][j]);
-                }
+        for(int i = indiceY - 1; i <= indiceY + 1; i++){
+            for(int j = indiceX - 1; j <= indiceX + 1; j++){
+                if((i!=indiceY) && (j!=indiceX) || (i==indiceY && j==indiceX))
+                    continue;
+                if(celdas[i][j].isEmpty() && celdas[i][j].isMarcada())
+                    celdasDisponibles.add(celdas[i][j]);
             }
+        }
             
+        if(!celdasDisponibles.isEmpty()){
             liberaEstadoCeldas();
             celdaSeleccionada = celdaAtacante;
             celdaSeleccionada.setSelected(true);
             celdaSeleccionada.setBorder(B_SELEC);
             lateralFrame.actualizaDatosSelec(celdaSeleccionada);
+            decidiendoPosicion = true;
+            
             for(Celda celda : celdasDisponibles){
                 celda.setBorder(B_MOVIMIENTO);
                 celda.setMarcada(true);
             }
+        } else
+            liberaEstadoCeldas();
     }
     /**
      * TODO Todavia no funciona correctamente
