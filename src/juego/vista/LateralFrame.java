@@ -53,7 +53,7 @@ public class LateralFrame extends javax.swing.JFrame{
     private void initComponents() {
 
         btnTablero = new javax.swing.JToggleButton();
-        cBoxSize = new javax.swing.JComboBox<>();
+        cBoxSize = new javax.swing.JComboBox<String>();
         txtHeridas = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         labelNombre = new javax.swing.JLabel();
@@ -72,7 +72,7 @@ public class LateralFrame extends javax.swing.JFrame{
         txtCombate = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Ponme un nombre");
+        setTitle("LOTR - Lateral");
         setResizable(false);
 
         btnTablero.setBackground(new java.awt.Color(0, 0, 0));
@@ -88,7 +88,7 @@ public class LateralFrame extends javax.swing.JFrame{
         cBoxSize.setBackground(new java.awt.Color(0, 0, 0));
         cBoxSize.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
         cBoxSize.setForeground(new java.awt.Color(255, 255, 255));
-        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Mediano", "Pequeño" }));
+        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Grande", "Mediano", "Pequeño" }));
         cBoxSize.setSelectedIndex(1);
         cBoxSize.setToolTipText("");
         cBoxSize.addActionListener(new java.awt.event.ActionListener() {
@@ -235,8 +235,7 @@ public class LateralFrame extends javax.swing.JFrame{
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(20, 20, 20))
+                                        .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(btnTablero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING)))))

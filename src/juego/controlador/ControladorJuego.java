@@ -5,10 +5,9 @@
  */
 package juego.controlador;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import juego.modelo.Jugador;
 import juego.modelo.Partida;
+import juego.vista.ClasificacionFrame;
 import juego.vista.DespliegueFrame;
 import juego.vista.InicioFrame;
 import juego.vista.LateralFrame;
@@ -24,6 +23,7 @@ enum Estado{
 
 public class ControladorJuego {
     ControladorPartida controladorPartida;
+    ClasificacionFrame clasificacionFrame;
     DespliegueFrame despliegueF;
     TableroFrame tableroF;
     LateralFrame lateralF;
@@ -57,6 +57,11 @@ public class ControladorJuego {
         java.awt.EventQueue.invokeLater(() -> {
             inicioF = new InicioFrame(this);
             inicioF.setVisible(true);
+        });
+        
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> {
+            clasificacionFrame = new ClasificacionFrame(this);
         });
     }
     public void startDespliegue(String j1,String j2,int puntos){
@@ -107,6 +112,11 @@ public class ControladorJuego {
         return tableroF;
     }
 
+    public ClasificacionFrame getClasificacionFrame() {
+        return clasificacionFrame;
+    }
+    
+    
     public void setTableroF(TableroFrame tableroF) {
         this.tableroF = tableroF;
     }

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import javax.swing.JToggleButton;
 import juego.controlador.BD;
 import juego.controlador.ControladorJuego;
 import juego.controlador.Sonidos;
@@ -44,6 +45,7 @@ public class InicioFrame extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         lblTitulo = new javax.swing.JLabel();
+        btnClasificacion = new javax.swing.JToggleButton();
         lblJ1 = new javax.swing.JLabel();
         lblJ2 = new javax.swing.JLabel();
         txtJ1 = new javax.swing.JTextField();
@@ -78,7 +80,19 @@ public class InicioFrame extends javax.swing.JFrame {
         lblTitulo.setToolTipText("");
         lblTitulo.setOpaque(true);
         jPanel1.add(lblTitulo);
-        lblTitulo.setBounds(80, 20, 320, 32);
+        lblTitulo.setBounds(80, 20, 320, 30);
+
+        btnClasificacion.setBackground(new java.awt.Color(0, 0, 0));
+        btnClasificacion.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
+        btnClasificacion.setForeground(new java.awt.Color(255, 255, 255));
+        btnClasificacion.setText("Clasificacion");
+        btnClasificacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClasificacionActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnClasificacion);
+        btnClasificacion.setBounds(325, 270, 170, 23);
 
         lblJ1.setBackground(new Color(0,0,0,150));
         lblJ1.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
@@ -284,6 +298,17 @@ public class InicioFrame extends javax.swing.JFrame {
         compruebaEnter(evt);
     }//GEN-LAST:event_txtJ1KeyPressed
 
+    private void btnClasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasificacionActionPerformed
+        if(btnClasificacion.isSelected())
+            controladorJuego.getClasificacionFrame().setVisible(true);
+        else
+            controladorJuego.getClasificacionFrame().setVisible(false);
+    }//GEN-LAST:event_btnClasificacionActionPerformed
+
+    public JToggleButton getBtnClasificacion() {
+        return btnClasificacion;
+    }
+    
     private void compruebaEnter(KeyEvent evt) {
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
             btnNuevaPartida.doClick();
@@ -293,6 +318,7 @@ public class InicioFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnClasificacion;
     private javax.swing.JButton btnNuevaPartida;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

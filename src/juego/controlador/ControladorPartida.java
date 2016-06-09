@@ -233,10 +233,17 @@ public class ControladorPartida  implements MouseListener{
         }
         if(!j1TieneUnidades || !j2TieneUnidades){
             String ganador;
-            if(!j1TieneUnidades)
+            String perdedor;
+            if(!j1TieneUnidades){
                 ganador = partida.getJ2().getNombre();
-            else
+                perdedor = partida.getJ1().getNombre();
+            }
+            else{
                 ganador = partida.getJ1().getNombre();
+                perdedor = partida.getJ2().getNombre();
+            }
+            
+            BD.insertaResultadosPartida(ganador, perdedor);
             Sonidos.stopHiloMusical();
             Sonidos.victoria();
             JOptionPane.showMessageDialog(tableroFrame, "Partida finalizada. "+ganador+" ha ganado.");

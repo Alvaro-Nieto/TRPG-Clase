@@ -9,18 +9,25 @@ package juego.vista;
  *
  * @author Miguel
  */
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
-import juego.controlador.BDPruebaClasificacion;
-public class ClasificacionFrame extends javax.swing.JFrame {
+import juego.controlador.BD;
+import juego.controlador.ControladorJuego;
+public class ClasificacionFrame extends javax.swing.JFrame implements WindowListener{
 
+    ControladorJuego controladorJuego;
     /**
      * Creates new form ClasificacionFrame
      */
-    public ClasificacionFrame() {
+    public ClasificacionFrame(ControladorJuego controladorJuego) {
         initComponents();
+        this.controladorJuego = controladorJuego;
+        this.addWindowListener(this);
+        setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +57,15 @@ public class ClasificacionFrame extends javax.swing.JFrame {
             new String [] {
                 "Ganador", "Perdedor", "Fecha y hora del fin de la partidal"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tablaClasificacion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -72,76 +87,72 @@ public class ClasificacionFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-            try
+        try
         {
-            //BDPruebaClasificacion.conecta();
-            //Connection con = BDPruebaClasificacion.getConexion();
-            //Statement stm = con.createStatement();
-            //ResultSet rst = stm.executeQuery("SELECT * FROM partida ORDER BY FechaHora");
-            ResultSet rst = BDPruebaClasificacion.getClasificacion();
+            ResultSet rst = BD.getClasificacion();
             ResultSetMetaData rsMd = rst.getMetaData();
             int numeroColumnas=rsMd.getColumnCount();
             DefaultTableModel modelo = new DefaultTableModel();
             this.tablaClasificacion.setModel(modelo);
-            
-            //for (int x=1; x<=numeroColumnas; x++)
-            //{
-                //modelo.addColumn(rsMd.getColumnLabel(x));
-            //}
+
             modelo.addColumn("Ganador");
             modelo.addColumn("Perdedor");
             modelo.addColumn("Fecha y hora del fin de la partida");
-            
+            tablaClasificacion.setEnabled(false);
             while(rst.next())
             {
-                Object [] fila = new Object [numeroColumnas];
+                String [] fila = new String [numeroColumnas];
                 for (int y=0; y<numeroColumnas; y++)
                 {
-                    fila [y]=rst.getObject(y+1);
+                    fila [y]=rst.getString(y+1);
                 }
                 modelo.addRow(fila);
             }
         }
-        catch (SQLException se) {se.printStackTrace();}
+        catch (SQLException se) {
+            System.out.println(se);
+        }
     }//GEN-LAST:event_formWindowActivated
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ClasificacionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ClasificacionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ClasificacionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ClasificacionFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ClasificacionFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaClasificacion;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        controladorJuego.getInicioF().getBtnClasificacion().setSelected(false);
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

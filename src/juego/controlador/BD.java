@@ -13,7 +13,6 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import juego.modelo.Jugador;
 import juego.modelo.Unidad;
 
 public class BD {
@@ -28,7 +27,7 @@ public class BD {
             } else{
                 try {
                     Class.forName("org.gjt.mm.mysql.Driver");
-                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/Juego2", "root", "");
+                    Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/Juego", "root", "");
                     conexion = connection;
                     conectado = conexion != null && conexion.isValid(10);
                 } catch (ClassNotFoundException | SQLException ex) {
@@ -61,7 +60,7 @@ public class BD {
             Class.forName("org.gjt.mm.mysql.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://localhost/mysql", "root", "");
             statement = connection.createStatement();
-            statement.executeUpdate("CREATE DATABASE Juego2");
+            statement.executeUpdate("CREATE DATABASE Juego");
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex);
         } finally {
@@ -85,10 +84,10 @@ public class BD {
                 "  Contraseña varchar(8) NOT NULL," +
                 "  CONSTRAINT pk_jugadores PRIMARY KEY (Nick));");
             st.executeUpdate("CREATE TABLE partida (" +
-                "  ganador varchar(20) NOT NULL," +
-                "  perdedor varchar(20) NOT NULL," +
-                "  CONSTRAINT fk_ganador_nick FOREIGN KEY (ganador) REFERENCES jugadores(Nick)," +
-                "  CONSTRAINT fk_perdedor_nick FOREIGN KEY (perdedor) REFERENCES jugadores(Nick)" +            
+                "  Ganador varchar(20) NOT NULL," +
+                "  Perdedor varchar(20) NOT NULL," +
+                "  FechaHora datetime NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                "  CONSTRAINT pk_partida PRIMARY KEY (Ganador,Perdedor,FechaHora)" + 
                 ");");
             st.executeUpdate("CREATE TABLE unidades (" +
                 "  Nombre varchar(50) NOT NULL," +
@@ -152,9 +151,10 @@ public class BD {
         //generaBD();
         //Unidad unidad = new Unidad(getUnidad("Jefe Troll"),new Jugador("prueba",1));
         //System.out.println(unidad);
-        for(Unidad unidad: getUnidades("Bien")){
-            System.out.println(unidad.toString());
-        }
+        //for(Unidad unidad: getUnidades("Bien")){
+        //    System.out.println(unidad.toString());
+        insertaResultadosPartida("adry","miguel");
+        //}
     }
     
     public static ResultSet getUnidad(String nombreUnidad){
@@ -177,6 +177,19 @@ public class BD {
         return rs;
     }
     
+    public static ResultSet getClasificacion(){
+        ResultSet rs = null;
+        Statement stmt;
+        if(conecta()){
+            try {
+                stmt = getConexion().createStatement();
+                rs = stmt.executeQuery("SELECT * FROM partida ORDER BY FechaHora");
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
+        return rs;
+    }
     public static List<Unidad> getUnidades(String faccion){
         
         List<Unidad> unidades = new ArrayList<>();
@@ -194,5 +207,23 @@ public class BD {
             }
         }
         return unidades;
+    }
+    public static void insertaResultadosPartida (String ganador, String perdedor){   
+        Statement st = null;
+        try {
+            if(conecta()){
+            st = getConexion().createStatement();
+            st.executeUpdate("INSERT INTO partida VALUES('"+ ganador + "', '" + perdedor + "', CURRENT_TIMESTAMP)");
+                } 
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        } finally {
+            try {
+                if(st!=null)
+                    st.close();
+            } catch (SQLException ex) {
+                System.out.println(ex);
+            }
+        }
     }
 }

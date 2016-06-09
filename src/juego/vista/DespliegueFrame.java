@@ -83,10 +83,10 @@ public class DespliegueFrame extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("LOTR - Despliegue");
         setBackground(new java.awt.Color(0, 0, 0));
         setMaximumSize(new java.awt.Dimension(400, 658));
         setMinimumSize(new java.awt.Dimension(400, 658));
-        setPreferredSize(new java.awt.Dimension(400, 658));
         setResizable(false);
         setSize(new java.awt.Dimension(400, 658));
 

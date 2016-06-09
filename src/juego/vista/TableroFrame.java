@@ -91,7 +91,7 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     @SuppressWarnings("unchecked")                   
     private void initComponents() {
 
-        this.setTitle("Tablero - \"EL JUEGO DE BATALLAS ESTRATEGICAS\"");
+        this.setTitle("LOTR - Tablero");
         this.addWindowListener(this);
         panelContenedor = new javax.swing.JPanel();
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
