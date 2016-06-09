@@ -104,7 +104,7 @@ public class BD {
             st.executeUpdate("INSERT INTO unidades VALUES('Guerrero de minas Thirith', 'Bien', 3, 3, 5, 1, 1, 'Infantería', 7, '/juego/imagenes/bien/guerrminas.jpg')"); 
             st.executeUpdate("INSERT INTO unidades VALUES('Caballero de Minas Thirith', 'Bien', 3, 3, 5, 2, 2, 'Caballería', 15, '/juego/imagenes/bien/caballerominas.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Guardia del Patio del Manantial', 'Bien', 4, 3, 6, 1, 1, 'Infantería', 10, '/juego/imagenes/bien/guardiapatio.jpg')");
-            st.executeUpdate("INSERT INTO unidades VALUES('Guardia de la ciudadela', 'Bien', 4, 3, 5, 1, 1, 'Infantería', 8, '/juego/imagenes/bien/guardiapatio.jpg')");
+            st.executeUpdate("INSERT INTO unidades VALUES('Guardia de la ciudadela', 'Bien', 4, 3, 5, 1, 1, 'Infantería', 8, '/juego/imagenes/bien/guardiaciudadela.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Caballero de Dol Amroth', 'Bien', 4, 3, 6, 1, 1, 'Infantería', 9, '/juego/imagenes/bien/caballerodol.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Capitán de Minas Thirith', 'Bien', 4, 4, 6, 2, 2, 'Infantería', 17, '/juego/imagenes/bien/capitanminas.jpg')");
             st.executeUpdate("INSERT INTO unidades VALUES('Faramir', 'Bien', 5, 4, 5, 2, 2, 'Infantería', 20, '/juego/imagenes/bien/faramir.jpg')");
