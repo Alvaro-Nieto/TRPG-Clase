@@ -6,12 +6,9 @@
 package juego.vista;
 
 import com.sun.glass.events.KeyEvent;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import juego.controlador.BD;
 import juego.controlador.ControladorPartida;
 import juego.controlador.Sonidos;
@@ -285,7 +282,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
         jPanel1.add(txtPuntosDespues);
         txtPuntosDespues.setBounds(330, 340, 50, 30);
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo-bien.png"))); // NOI18N
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondos/fondo-bien-despliegue.png"))); // NOI18N
         jLabel11.setText("jLabel11");
         jPanel1.add(jLabel11);
         jLabel11.setBounds(0, 0, 444, 658);
@@ -338,7 +335,7 @@ public class DespliegueFrame extends javax.swing.JFrame {
             controladorPartida.getPartida().nuevoTurno();
             txtJuActual.setText(" JUGADOR 2");
             cargaUnidades();
-            this.jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo-mal.png")));
+            this.jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondos/fondo-mal-despliegue.png")));
             controladorPartida.liberaEstadoCeldas();
             controladorPartida.marcaRegiones();
         }

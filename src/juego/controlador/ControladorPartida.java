@@ -6,8 +6,11 @@
 package juego.controlador;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -33,7 +36,6 @@ public class ControladorPartida  implements MouseListener{
     private final Border B_SELEC = BorderFactory.createLineBorder(Color.BLUE,3);
     private final Border B_MOVIMIENTO = BorderFactory.createLineBorder(Color.GREEN,3);
     private final Border B_RATON = BorderFactory.createLineBorder(Color.CYAN,3);
-    private final Border B_ACTUADO = BorderFactory.createLineBorder(Color.BLACK,3);
     
     private TableroFrame tableroFrame;
     private LateralFrame lateralFrame;
@@ -44,12 +46,10 @@ public class ControladorPartida  implements MouseListener{
     private Celda celdaSeleccionada;
     private Celda celdaTemp;
     private Partida partida;
-    
-    // QUITAR DESPUES
-    int cuentaUnidad = 0;
     private Unidad unidadTemp;
-    // QUITAR DESPUES
     private final ControladorJuego controladorJuego;
+    
+    private boolean decidiendoPosicion;
     
     
     /**
@@ -60,6 +60,7 @@ public class ControladorPartida  implements MouseListener{
         this.partida = partida;
         this.j1 = partida.getJ1();
         this.j2 = partida.getJ2();
+        this.decidiendoPosicion = false;
     }
 
     public ControladorJuego getControladorJuego() {
@@ -87,11 +88,15 @@ public class ControladorPartida  implements MouseListener{
     public void nuevoTurno() {
         Sonidos.nuevoTurno();
         Celda celda;
-        //JOptionPane.showMessageDialog(tableroFrame,"Nuevo TURNO");
         partida.nuevoTurno();
+        lateralFrame.limpiaDatos();
         if(haySeleccionada())
             liberaEstadoCeldas();
-  
+        if(partida.getJugadorActual().getNumero() == 1)
+            lateralFrame.setFondo("/juego/imagenes/fondos/fondo-bien-lateral.png");
+        else
+            lateralFrame.setFondo("/juego/imagenes/fondos/fondo-mal-lateral.png");
+        
         // Reinicia el estado de todas las Unidades
         for(int i = 0;i < celdas.length;i++){
             for(int j = 0;j < celdas[i].length;j++){
@@ -104,7 +109,7 @@ public class ControladorPartida  implements MouseListener{
         }
         lateralFrame.escribeLinea("Turno: "+partida.getContTurnos()+" ("+partida.getTurnoNombre()+")"+"\n");
     }
-
+    
     public void buscaMovimientos(int desplazamiento, Celda celda){
         buscador(desplazamiento, celda, null);
     }
@@ -133,9 +138,7 @@ public class ControladorPartida  implements MouseListener{
         } else if(!celdaInicial.isEmpty() && sonEnemigos(celdaInicial,celdaSeleccionada)){
             celdaInicial.setBorder(B_ENEMIGO);
             celdaInicial.setMarcada(true);
-        } else if(sonEnemigos(celdaInicial,celdaSeleccionada)){
-            // por si acaso
-        }
+        } 
     }
 
     private boolean sonEnemigos(Celda celda1,Celda celda2) {
@@ -164,7 +167,17 @@ public class ControladorPartida  implements MouseListener{
     }
 
     private void manejaClicIzquierdo(Celda celdaClic) {
-            if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
+            if(decidiendoPosicion){
+                if(celdaClic.isEmpty() && celdaClic.isMarcada()){
+                    Sonidos.chasquido();
+                    mueve(celdaSeleccionada, celdaClic);
+                    decidiendoPosicion = false;
+                    liberaEstadoCeldas();
+                    compruebaFinTurno();
+                } else
+                    JOptionPane.showMessageDialog(tableroFrame, "Tienes que terminar el movimiento");
+            }
+            else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
                 if(celdaClic.isEmpty()){
                     celdaSeleccionada.getUnidad().setHaActuado(true);
                     mueve(celdaSeleccionada,celdaClic);
@@ -172,7 +185,8 @@ public class ControladorPartida  implements MouseListener{
                     compruebaFinTurno();
                 } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
                     combate(celdaClic);
-                    compruebaFinTurno();
+                    if(!decidiendoPosicion)
+                        compruebaFinTurno();
                 } 
                 Sonidos.chasquido();
                 compruebaFinPartida();
@@ -234,6 +248,7 @@ public class ControladorPartida  implements MouseListener{
         if(!j1TieneUnidades || !j2TieneUnidades){
             String ganador;
             String perdedor;
+            
             if(!j1TieneUnidades){
                 ganador = partida.getJ2().getNombre();
                 perdedor = partida.getJ1().getNombre();
@@ -243,16 +258,35 @@ public class ControladorPartida  implements MouseListener{
                 perdedor = partida.getJ2().getNombre();
             }
             
-            BD.insertaResultadosPartida(ganador, perdedor);
-            Sonidos.stopHiloMusical();
-            Sonidos.victoria();
-            JOptionPane.showMessageDialog(tableroFrame, "Partida finalizada. "+ganador+" ha ganado.");
-            controladorJuego.startInicio();
-            
-            lateralFrame.dispose();
-            tableroFrame.dispose();
+            terminaPartida(ganador, perdedor);
         }
             
+    }
+
+    private void terminaPartida(String ganador, String perdedor){
+        BD.insertaResultadosPartida(ganador, perdedor);
+        Sonidos.stopHiloMusical();
+        Sonidos.victoria();
+        JOptionPane.showMessageDialog(tableroFrame, "Partida finalizada. "+ganador+" ha ganado.");
+        controladorJuego.startInicio();
+        
+        lateralFrame.dispose();
+        tableroFrame.dispose();
+    }
+    
+    public void rendirse(){
+        String ganador;
+        String perdedor;
+            
+        if(partida.getJugadorActual().getNumero() == 1){
+            ganador = partida.getJ2().getNombre();
+            perdedor = partida.getJ1().getNombre();
+        }
+        else{
+            ganador = partida.getJ1().getNombre();
+            perdedor = partida.getJ2().getNombre();
+        }
+        terminaPartida(ganador,perdedor);
     }
     
     private void selecciona(Celda celda) {
@@ -277,28 +311,31 @@ public class ControladorPartida  implements MouseListener{
         Unidad uAtacante = celdaSeleccionada.getUnidad();
         Unidad uDefensora = celdaAtacada.getUnidad();
         Unidad ganadora = Pelea.ataques(uAtacante,  uDefensora);
-        //System.out.println("--------------------- SUCEDE COMBATE ---------------------");
         lateralFrame.escribeLinea(uAtacante.getNombre()+"("+uAtacante.getJugador().getNombre()+")"+" ataca a "+uDefensora.getNombre()+"("+uDefensora.getJugador().getNombre()+")"+"\n");
+        
         if(ganadora.equals(uAtacante)){
-           // System.out.println("GANA ATACANTE");  
+            // GANA ATACANTE
             lateralFrame.escribeLinea("Gana "+uAtacante.getNombre()+"\n");
             if(uDefensora.getHeridas() <= 0){
                 lateralFrame.escribeLinea("Muere "+uDefensora.getNombre()+"\n");
                 Sonidos.muerte();
-                //System.out.println("MUERE DEFENSOR");
+                // MUERE DEFENSOR
             } else{
                 celdaTemp = celdaAtacada;
                 retrocede(celdaAtacada);
             }
             mueve(celdaSeleccionada,celdaAtacada);
             lateralFrame.repaint();
+            liberaEstadoCeldas();
         } else{
+            // GANA DEFENSOR
             lateralFrame.escribeLinea("Gana "+uDefensora.getNombre()+"\n");
             if(uAtacante.getHeridas() <= 0){
                 lateralFrame.escribeLinea("Muere "+uAtacante.getNombre()+"\n");
                 Sonidos.muerte();
-                //System.out.println("MUERE ATACANTE");
+                // MUERE ATACANTE
                 celdaSeleccionada.quitaUnidad();
+                liberaEstadoCeldas();
             } else{
                 /*
                  * TODO Desarrollar método que calcule donde debe quedar el atacante
@@ -306,17 +343,42 @@ public class ControladorPartida  implements MouseListener{
                  * Una posibilidad es darle a elegir que casilla quiere
                  */
                 // TODO calculaMovimiento();
-            }
-            //System.out.println("GANA DEFENSOR");
-        }
-        //System.out.println("---ATACANTE---\n##########\n"+uAtacante+"\n##########");
-        //System.out.println("---DEFENSOR---\n##########\n"+uDefensora+"\n##########");
-        //System.out.println("--------------------- TERMINA COMBATE ---------------------");
-        lateralFrame.repaint();
-        liberaEstadoCeldas();
-        //System.out.println(celdaSeleccionada.getUnidad().equals(celda.getUnidad()));
-    }
+                prueba(celdaAtacada);
+                decidiendoPosicion = true;
+               
 
+                
+            }
+            
+        }
+        lateralFrame.repaint();
+        
+    }
+    private void prueba(Celda celdaAtacada){
+        Celda celdaAtacante = celdaSeleccionada;
+        HashSet<Celda> celdasDisponibles = new HashSet<>();
+        int indiceY = celdaAtacada.getIndiceY();
+        int indiceX = celdaAtacada.getIndiceX();
+
+            for(int i = indiceY - 1; i <= indiceY + 1; i++){
+                for(int j = indiceX - 1; j <= indiceX + 1; j++){
+                    if((i!=indiceY) && (j!=indiceX) || (i==indiceY && j==indiceX))
+                        continue;
+                    if(celdas[i][j].isEmpty() && celdas[i][j].isMarcada())
+                        celdasDisponibles.add(celdas[i][j]);
+                }
+            }
+            
+            liberaEstadoCeldas();
+            celdaSeleccionada = celdaAtacante;
+            celdaSeleccionada.setSelected(true);
+            celdaSeleccionada.setBorder(B_SELEC);
+            lateralFrame.actualizaDatosSelec(celdaSeleccionada);
+            for(Celda celda : celdasDisponibles){
+                celda.setBorder(B_MOVIMIENTO);
+                celda.setMarcada(true);
+            }
+    }
     /**
      * TODO Todavia no funciona correctamente
      */
@@ -389,13 +451,16 @@ public class ControladorPartida  implements MouseListener{
         if(controladorJuego.getEstado() == Estado.DESPLIEGUE){
             clickEnDespliegue(e);
         } else{
+            // ESTADO JUGANDO
             if(SwingUtilities.isLeftMouseButton(e)){
                 manejaClicIzquierdo(celda);
             }
             else if(SwingUtilities.isRightMouseButton(e)){
-                if(celda.isEmpty())
+                if(celda.isEmpty() && !decidiendoPosicion){
+                    liberaEstadoCeldas();
                     lateralFrame.limpiaDatos();
-                else
+                }
+                else if(!celda.isEmpty())
                     lateralFrame.actualizaDatosSelec(celda);
             } 
 
@@ -419,7 +484,7 @@ public class ControladorPartida  implements MouseListener{
             celda.setBorder(B_RATON);
             
         }
-        if(SwingUtilities.isRightMouseButton(e) && controladorJuego.getEstado() == Estado.JUGANDO){
+        if(!haySeleccionada() && controladorJuego.getEstado() == Estado.JUGANDO){
             if(celda.isEmpty())
                 lateralFrame.limpiaDatos();
             else

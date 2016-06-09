@@ -58,8 +58,7 @@ public class Juego {
             System.out.println(e);;
         }
 
-        ControladorJuego cj = new ControladorJuego();
-        cj.startInicio();
+        new ControladorJuego().startInicio();
     }
 
 

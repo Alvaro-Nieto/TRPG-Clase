@@ -6,6 +6,7 @@
 package juego.vista;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
@@ -198,7 +199,7 @@ public class InicioFrame extends javax.swing.JFrame {
         jPanel1.add(jLabel7);
         jLabel7.setBounds(110, 160, 90, 30);
 
-        lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondo.jpg"))); // NOI18N
+        lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondos/fondo-inicio.jpg"))); // NOI18N
         lblImagen.setMinimumSize(new java.awt.Dimension(400, 255));
         lblImagen.setPreferredSize(new java.awt.Dimension(400, 255));
         jPanel1.add(lblImagen);
@@ -248,11 +249,7 @@ public class InicioFrame extends javax.swing.JFrame {
     private void btnNuevaPartidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaPartidaActionPerformed
         Sonidos.chasquido();
         if(!BD.conecta()) {
-            if(JOptionPane.showConfirmDialog(this, "No se puede conectar a la BD. ¿Quieres intentar generarla?.") == 0){
-                
-                JOptionPane.showMessageDialog(this, "Generando... Intente de nuevo.");
-                BD.generaBD();
-            }
+            preguntaGeneraBD();
         } else {
             try{
                 if(txtPuntos.getText().equals("") || txtJ1.getText().equals("") || txtJ2.getText().equals(""))
@@ -273,6 +270,17 @@ public class InicioFrame extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnNuevaPartidaActionPerformed
+
+    private void preguntaGeneraBD() throws HeadlessException {
+        if(JOptionPane.showConfirmDialog(this, "No se puede conectar a la BD. ¿Quieres intentar generarla?.") == 0){
+            BD.generaBD();
+            if(BD.conecta())
+                JOptionPane.showMessageDialog(this, "BD Generada");
+            else
+                JOptionPane.showMessageDialog(this, "No se pudo generar");
+            
+        }
+    }
 
     private void txtJ2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJ2ActionPerformed
         // TODO add your handling code here:
@@ -299,8 +307,14 @@ public class InicioFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtJ1KeyPressed
 
     private void btnClasificacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClasificacionActionPerformed
-        if(btnClasificacion.isSelected())
-            controladorJuego.getClasificacionFrame().setVisible(true);
+        if(btnClasificacion.isSelected()){
+            if(BD.conecta())
+                controladorJuego.getClasificacionFrame().setVisible(true);
+            else{
+                preguntaGeneraBD();
+                btnClasificacion.setSelected(false);
+            }
+        }
         else
             controladorJuego.getClasificacionFrame().setVisible(false);
     }//GEN-LAST:event_btnClasificacionActionPerformed

@@ -8,6 +8,7 @@ package juego.vista;
 import java.awt.Color;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import juego.controlador.ControladorPartida;
 import juego.controlador.Sonidos;
 
@@ -31,16 +32,10 @@ public class LateralFrame extends javax.swing.JFrame{
         this.setLocation(5, 5);
         controlador.setLateralFrame(this);
         btnMusica.doClick();
-        btnTablero.setSelected(true);
-        //btnTablero.doClick();
     }
 
     public void escribeLinea(String linea){
         txtArea.append(linea);
-    }
-    
-    public void tableroCerrando(){
-        this.btnTablero.setSelected(false);
     }
     
     /**
@@ -52,8 +47,8 @@ public class LateralFrame extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnTablero = new javax.swing.JToggleButton();
-        cBoxSize = new javax.swing.JComboBox<String>();
+        jPanel1 = new javax.swing.JPanel();
+        cBoxSize = new javax.swing.JComboBox<>();
         txtHeridas = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         labelNombre = new javax.swing.JLabel();
@@ -70,25 +65,27 @@ public class LateralFrame extends javax.swing.JFrame{
         txtDefensa = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtCombate = new javax.swing.JTextField();
+        btnRendirse = new javax.swing.JButton();
+        lblFondo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOTR - Lateral");
+        setMaximumSize(new java.awt.Dimension(300, 685));
+        setMinimumSize(new java.awt.Dimension(300, 685));
+        setPreferredSize(new java.awt.Dimension(300, 685));
         setResizable(false);
+        setSize(new java.awt.Dimension(300, 685));
 
-        btnTablero.setBackground(new java.awt.Color(0, 0, 0));
-        btnTablero.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
-        btnTablero.setForeground(new java.awt.Color(255, 255, 255));
-        btnTablero.setText("Tablero");
-        btnTablero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTableroActionPerformed(evt);
-            }
-        });
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setMaximumSize(new java.awt.Dimension(300, 685));
+        jPanel1.setMinimumSize(new java.awt.Dimension(300, 685));
+        jPanel1.setPreferredSize(new java.awt.Dimension(300, 685));
+        jPanel1.setLayout(null);
 
-        cBoxSize.setBackground(new java.awt.Color(0, 0, 0));
+        cBoxSize.setBackground(new java.awt.Color(204, 255, 255));
         cBoxSize.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
         cBoxSize.setForeground(new java.awt.Color(255, 255, 255));
-        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Grande", "Mediano", "Pequeño" }));
+        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Mediano", "Pequeño" }));
         cBoxSize.setSelectedIndex(1);
         cBoxSize.setToolTipText("");
         cBoxSize.addActionListener(new java.awt.event.ActionListener() {
@@ -96,6 +93,8 @@ public class LateralFrame extends javax.swing.JFrame{
                 cBoxSizeActionPerformed(evt);
             }
         });
+        jPanel1.add(cBoxSize);
+        cBoxSize.setBounds(10, 590, 123, 33);
 
         txtHeridas.setEditable(false);
         txtHeridas.setBackground(new java.awt.Color(0, 0, 0));
@@ -103,37 +102,52 @@ public class LateralFrame extends javax.swing.JFrame{
         txtHeridas.setForeground(new java.awt.Color(255, 255, 255));
         txtHeridas.setFocusable(false);
         txtHeridas.setRequestFocusEnabled(false);
+        jPanel1.add(txtHeridas);
+        txtHeridas.setBounds(90, 250, 45, 25);
 
         txtNombre.setEditable(false);
         txtNombre.setBackground(new java.awt.Color(0, 0, 0));
-        txtNombre.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Ringbearer", 0, 14)); // NOI18N
         txtNombre.setForeground(new java.awt.Color(255, 255, 255));
         txtNombre.setFocusable(false);
         txtNombre.setRequestFocusEnabled(false);
+        jPanel1.add(txtNombre);
+        txtNombre.setBounds(90, 210, 195, 30);
 
-        labelNombre.setBackground(new java.awt.Color(0, 0, 0));
-        labelNombre.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        labelNombre.setBackground(new Color(0,0,0,150));
+        labelNombre.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         labelNombre.setForeground(new java.awt.Color(255, 255, 255));
-        labelNombre.setText("Nombre");
+        labelNombre.setText(" Nombre");
+        labelNombre.setOpaque(true);
+        jPanel1.add(labelNombre);
+        labelNombre.setBounds(10, 210, 70, 30);
 
-        labelHeridas.setBackground(new java.awt.Color(0, 0, 0));
-        labelHeridas.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        labelHeridas.setBackground(new Color(0,0,0,150));
+        labelHeridas.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         labelHeridas.setForeground(new java.awt.Color(255, 255, 255));
-        labelHeridas.setText("Heridas");
+        labelHeridas.setText(" Heridas");
+        labelHeridas.setOpaque(true);
+        jPanel1.add(labelHeridas);
+        labelHeridas.setBounds(10, 250, 70, 25);
 
         labelImagen.setBackground(new java.awt.Color(0, 0, 0));
         labelImagen.setForeground(new java.awt.Color(255, 255, 255));
         labelImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
         labelImagen.setFocusable(false);
         labelImagen.setOpaque(true);
+        jPanel1.add(labelImagen);
+        labelImagen.setBounds(69, 25, 160, 160);
 
         txtArea.setBackground(new java.awt.Color(0, 0, 0));
         txtArea.setColumns(20);
-        txtArea.setFont(new java.awt.Font("Consolas", 0, 10)); // NOI18N
+        txtArea.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         txtArea.setForeground(new java.awt.Color(255, 255, 255));
         txtArea.setRows(5);
         txtArea.setFocusable(false);
         jScrollPane1.setViewportView(txtArea);
+
+        jPanel1.add(jScrollPane1);
+        jScrollPane1.setBounds(10, 326, 276, 172);
 
         btnTurno.setBackground(new java.awt.Color(0, 0, 0));
         btnTurno.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
@@ -144,6 +158,8 @@ public class LateralFrame extends javax.swing.JFrame{
                 btnTurnoActionPerformed(evt);
             }
         });
+        jPanel1.add(btnTurno);
+        btnTurno.setBounds(160, 520, 123, 33);
 
         btnMusica.setBackground(new java.awt.Color(0, 0, 0));
         btnMusica.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
@@ -154,133 +170,93 @@ public class LateralFrame extends javax.swing.JFrame{
                 btnMusicaActionPerformed(evt);
             }
         });
+        jPanel1.add(btnMusica);
+        btnMusica.setBounds(10, 520, 123, 32);
 
-        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        jLabel1.setBackground(new Color(0,0,0,150));
+        jLabel1.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Fuerza");
+        jLabel1.setText(" Fuerza");
+        jLabel1.setOpaque(true);
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(160, 250, 70, 25);
 
         txtFuerza.setEditable(false);
         txtFuerza.setBackground(new java.awt.Color(0, 0, 0));
         txtFuerza.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtFuerza.setForeground(new java.awt.Color(255, 255, 255));
         txtFuerza.setFocusable(false);
+        jPanel1.add(txtFuerza);
+        txtFuerza.setBounds(240, 250, 45, 25);
 
         jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(145, 257, 0, 14);
 
-        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel3.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        jLabel3.setBackground(new Color(0,0,0,150));
+        jLabel3.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Defensa");
+        jLabel3.setText(" Defensa");
+        jLabel3.setOpaque(true);
+        jPanel1.add(jLabel3);
+        jLabel3.setBounds(10, 290, 70, 25);
 
         txtDefensa.setEditable(false);
         txtDefensa.setBackground(new java.awt.Color(0, 0, 0));
         txtDefensa.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtDefensa.setForeground(new java.awt.Color(255, 255, 255));
         txtDefensa.setFocusable(false);
+        jPanel1.add(txtDefensa);
+        txtDefensa.setBounds(90, 290, 45, 25);
 
-        jLabel4.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel4.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        jLabel4.setBackground(new Color(0,0,0,150));
+        jLabel4.setFont(new java.awt.Font("Ringbearer", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Combate");
+        jLabel4.setText(" Combate");
+        jLabel4.setOpaque(true);
+        jPanel1.add(jLabel4);
+        jLabel4.setBounds(160, 290, 70, 25);
 
         txtCombate.setEditable(false);
         txtCombate.setBackground(new java.awt.Color(0, 0, 0));
         txtCombate.setFont(new java.awt.Font("Ringbearer", 1, 14)); // NOI18N
         txtCombate.setForeground(new java.awt.Color(255, 255, 255));
         txtCombate.setFocusable(false);
+        jPanel1.add(txtCombate);
+        txtCombate.setBounds(240, 290, 45, 25);
+
+        btnRendirse.setBackground(new java.awt.Color(0, 0, 0));
+        btnRendirse.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
+        btnRendirse.setForeground(new java.awt.Color(255, 255, 255));
+        btnRendirse.setText("Rendirse");
+        btnRendirse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRendirseActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnRendirse);
+        btnRendirse.setBounds(160, 590, 123, 33);
+
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/juego/imagenes/fondos/fondo-bien-lateral.png"))); // NOI18N
+        lblFondo.setText("jLabel5");
+        jPanel1.add(lblFondo);
+        lblFondo.setBounds(0, 0, 338, 670);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(labelHeridas)
-                                    .addComponent(labelNombre))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtDefensa, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                                            .addComponent(txtHeridas))
-                                        .addGap(34, 34, 34)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel1))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtCombate, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtFuerza, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(txtNombre))
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(69, 69, 69)
-                                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(91, 91, 91)
-                                .addComponent(btnMusica))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(80, 80, 80)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(btnTablero, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnTurno, javax.swing.GroupLayout.Alignment.LEADING)))))
-                        .addGap(0, 8, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(labelImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelNombre))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtHeridas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelHeridas)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtDefensa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtFuerza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtCombate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(10, 10, 10)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTurno)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnTablero)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cBoxSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -313,29 +289,26 @@ public class LateralFrame extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_btnMusicaActionPerformed
 
-    private void btnTableroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTableroActionPerformed
-        // TODO add your handling code here:
-        
-        if(btnTablero.isSelected()){
-            tablero.setVisible(true);
-        } else{
-            tablero.setVisible(false);
-        }
-    }//GEN-LAST:event_btnTableroActionPerformed
+    private void btnRendirseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRendirseActionPerformed
+        if(JOptionPane.showConfirmDialog(tablero, controlador.getPartida().getJugadorActual().getNombre()+", ¿Quieres rendirte?") == 0)
+            controlador.rendirse();
+    }//GEN-LAST:event_btnRendirseActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnMusica;
-    private javax.swing.JToggleButton btnTablero;
+    private javax.swing.JButton btnRendirse;
     private javax.swing.JButton btnTurno;
     private javax.swing.JComboBox<String> cBoxSize;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelHeridas;
     private javax.swing.JLabel labelImagen;
     private javax.swing.JLabel labelNombre;
+    private javax.swing.JLabel lblFondo;
     private javax.swing.JTextArea txtArea;
     private javax.swing.JTextField txtCombate;
     private javax.swing.JTextField txtDefensa;
@@ -359,7 +332,11 @@ public class LateralFrame extends javax.swing.JFrame{
         txtFuerza.setText("");
         txtDefensa.setText("");
         txtCombate.setText("");
-        labelImagen.setIcon(null);
+        labelImagen.setIcon(new ImageIcon(getClass().getResource("/juego/imagenes/J"+controlador.getPartida().getJugadorActual().getNumero()+".png")));
+    }
+
+    public void setFondo(String ruta) {
+        lblFondo.setIcon(new javax.swing.ImageIcon(getClass().getResource(ruta)));
     }
     
     

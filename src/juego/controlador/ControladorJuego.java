@@ -65,6 +65,8 @@ public class ControladorJuego {
         });
     }
     public void startDespliegue(String j1,String j2,int puntos){
+        inicioF.dispose();
+        clasificacionFrame.dispose();
         controladorPartida = new ControladorPartida(new Partida(new Jugador(j1,1,puntos),new Jugador(j2,2,puntos)),this);
         
         java.awt.EventQueue.invokeLater(() -> {
@@ -82,6 +84,7 @@ public class ControladorJuego {
     }
     
     public void startPartida(){
+        despliegueF.dispose();
         // Crea el lateral lo muestra y establece las referencias.
         java.awt.EventQueue.invokeLater(() -> {
             lateralF = new LateralFrame(controladorPartida);

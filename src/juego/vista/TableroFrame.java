@@ -8,8 +8,6 @@ package juego.vista;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JPanel;
 import juego.controlador.ControladorPartida;
 
@@ -17,7 +15,7 @@ import juego.controlador.ControladorPartida;
  *
  * @author Álvaro
  */
-public class TableroFrame extends javax.swing.JFrame implements WindowListener{
+public class TableroFrame extends javax.swing.JFrame{
 
     private Celda[][] celdas;
     private int ancho; // Tiene que se multiplo de numCeldas
@@ -32,6 +30,8 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
      * Constructor.
      * Crea el tablero con sus celdas y lo dibuja.
      * Tablero es a su vez un JFrame (ventana). Deberiamos separar en dos clases
+     * 
+     * @param controlador Controlador de la partida
      */
     public TableroFrame(ControladorPartida controlador) {
         this.controlador = controlador;
@@ -92,14 +92,9 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     private void initComponents() {
 
         this.setTitle("LOTR - Tablero");
-        this.addWindowListener(this);
         panelContenedor = new javax.swing.JPanel();
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
-        //setSize(new java.awt.Dimension(ancho, alto));
-
-        //this.setPreferredSize(new java.awt.Dimension(ancho, alto));
-        //this.setSize(new java.awt.Dimension(ancho, alto));
         
         panelContenedor.setPreferredSize(new java.awt.Dimension(ancho, alto));
 
@@ -176,49 +171,11 @@ public class TableroFrame extends javax.swing.JFrame implements WindowListener{
     
     public void setLateralFrame(LateralFrame lateral){
         this.lateral = lateral;
-        //iniciaCeldas();
         this.setLocation((int)lateral.getLocation().getX() + lateral.getWidth() + 5, (int)lateral.getLocation().getY());
     }
     
     public Celda[][] getCeldas() {
         return celdas;
-    }
-    
-
-    @Override
-    public void windowOpened(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void windowClosing(WindowEvent e) {
-        this.setVisible(false);
-        lateral.tableroCerrando();
-    }
-
-    @Override
-    public void windowClosed(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void windowIconified(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

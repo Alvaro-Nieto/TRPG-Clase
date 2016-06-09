@@ -18,6 +18,7 @@ import juego.controlador.ControladorJuego;
 public class ClasificacionFrame extends javax.swing.JFrame implements WindowListener{
 
     ControladorJuego controladorJuego;
+    
     /**
      * Creates new form ClasificacionFrame
      */
@@ -41,6 +42,7 @@ public class ClasificacionFrame extends javax.swing.JFrame implements WindowList
         tablaClasificacion = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("LOTR - Clasificación");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -135,37 +137,36 @@ public class ClasificacionFrame extends javax.swing.JFrame implements WindowList
 
     @Override
     public void windowOpened(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // No hace nada
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         controladorJuego.getInicioF().getBtnClasificacion().setSelected(false);
     }
 
     @Override
     public void windowClosed(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // No hace nada
     }
 
     @Override
     public void windowIconified(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // No hace nada
     }
 
     @Override
     public void windowDeiconified(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // No hace nada
     }
 
     @Override
     public void windowActivated(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // No hace nada
     }
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // No hace nada
     }
 }

@@ -16,6 +16,7 @@ import java.awt.Graphics;
  * @author Álvaro
  */
 public class Celda extends JPanel{
+    
     private int indiceX; // Indice J en el array
     private int indiceY; // Indice I en el array
     private boolean colorSw; // Sirve para ir cambiando entre dos colores
@@ -24,9 +25,6 @@ public class Celda extends JPanel{
     private Color color2;
     private boolean selected;
     private boolean marcada;
-    
-    
-    
     
     public Celda(boolean colorSw, int indiceX, int indiceY, int numCeldas){
         this.selected = false;
@@ -62,8 +60,8 @@ public class Celda extends JPanel{
                 this.oscurece();
             } else
                 this.aclara();
-
-        }
+        } else
+            this.aclara();
     }    
 
     public boolean isMarcada() {
@@ -141,5 +139,4 @@ public class Celda extends JPanel{
         }
     }
 
-    
 }
