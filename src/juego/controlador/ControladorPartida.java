@@ -6,11 +6,11 @@
 package juego.controlador;
 
 import java.awt.Color;
-import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -31,6 +31,7 @@ import juego.vista.TableroFrame;
  * @author Álvaro
  */
 public class ControladorPartida  implements MouseListener{
+    
     private final Border B_NORMAL = null;
     private final Border B_ENEMIGO = BorderFactory.createLineBorder(Color.RED,3);
     private final Border B_SELEC = BorderFactory.createLineBorder(Color.BLUE,3);
@@ -46,7 +47,6 @@ public class ControladorPartida  implements MouseListener{
     private Celda celdaSeleccionada;
     private Celda celdaTemp;
     private Partida partida;
-    private Unidad unidadTemp;
     private final ControladorJuego controladorJuego;
     
     private boolean decidiendoPosicion;
@@ -152,6 +152,7 @@ public class ControladorPartida  implements MouseListener{
         origen.repaint();
         destino.repaint();
     }
+    
     public void liberaEstadoCeldas() {
         celdaSeleccionada = null;
         if(controladorJuego.getEstado() == Estado.JUGANDO)
@@ -167,36 +168,35 @@ public class ControladorPartida  implements MouseListener{
     }
 
     private void manejaClicIzquierdo(Celda celdaClic) {
-            if(decidiendoPosicion){
-                if(celdaClic.isEmpty() && celdaClic.isMarcada()){
-                    Sonidos.chasquido();
-                    mueve(celdaSeleccionada, celdaClic);
-                    decidiendoPosicion = false;
-                    liberaEstadoCeldas();
-                    compruebaFinTurno();
-                } else
-                    JOptionPane.showMessageDialog(tableroFrame, "Tienes que terminar el movimiento");
-            }
-            else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
-                if(celdaClic.isEmpty()){
-                    celdaSeleccionada.getUnidad().setHaActuado(true);
-                    mueve(celdaSeleccionada,celdaClic);
-                    liberaEstadoCeldas();
-                    compruebaFinTurno();
-                } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
-                    combate(celdaClic);
-                    if(!decidiendoPosicion)
-                        compruebaFinTurno();
-                } 
+        if(decidiendoPosicion){
+            if(celdaClic.isMarcada()){
                 Sonidos.chasquido();
-                compruebaFinPartida();
-            } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
-                selecciona(celdaClic);
-                if(!celdaSeleccionada.getUnidad().haActuado())
-                    buscaMovimientos(celdaClic.getUnidad().getMovimientos(),celdaClic);
-            }
-            celdaClic.repaint();
-        
+                mueve(celdaSeleccionada, celdaClic);
+                decidiendoPosicion = false;
+                liberaEstadoCeldas();
+                compruebaFinTurno();
+            } else
+                JOptionPane.showMessageDialog(tableroFrame, "Tienes que terminar el movimiento");
+        }
+        else if (celdaClic.isMarcada() && !celdaSeleccionada.getUnidad().haActuado()){
+            if(celdaClic.isEmpty()){
+                celdaSeleccionada.getUnidad().setHaActuado(true);
+                mueve(celdaSeleccionada,celdaClic);
+                liberaEstadoCeldas();
+                compruebaFinTurno();
+            } else if(sonEnemigos(celdaClic,celdaSeleccionada)){
+                combate(celdaClic);
+                if(!decidiendoPosicion)
+                    compruebaFinTurno();
+            } 
+            Sonidos.chasquido();
+            compruebaFinPartida();
+        } else if(!celdaClic.isEmpty() && unidadEsJugadorActual(celdaClic) ){
+            selecciona(celdaClic);
+            if(!celdaSeleccionada.getUnidad().haActuado())
+                buscaMovimientos(celdaClic.getUnidad().getMovimientos(),celdaClic);
+        }
+        celdaClic.repaint();
     }
 
     private void clickEnDespliegue(MouseEvent e) {
@@ -337,26 +337,15 @@ public class ControladorPartida  implements MouseListener{
                 celdaSeleccionada.quitaUnidad();
                 liberaEstadoCeldas();
             } else{
-                /*
-                 * TODO Desarrollar método que calcule donde debe quedar el atacante
-                 * cuando pierde el combate
-                 * Una posibilidad es darle a elegir que casilla quiere
-                 */
-                // TODO calculaMovimiento();
                 buscaMovimientosSobreviviente(celdaAtacada);
-                
-               
-
-                
             }
-            
         }
         lateralFrame.repaint();
         
     }
     private void buscaMovimientosSobreviviente(Celda celdaAtacada){
         Celda celdaAtacante = celdaSeleccionada;
-        HashSet<Celda> celdasDisponibles = new HashSet<>();
+        List<Celda> celdasDisponibles = new ArrayList<>();
         int indiceY = celdaAtacada.getIndiceY();
         int indiceX = celdaAtacada.getIndiceX();
 
@@ -364,22 +353,37 @@ public class ControladorPartida  implements MouseListener{
             for(int j = indiceX - 1; j <= indiceX + 1; j++){
                 if((i!=indiceY) && (j!=indiceX) || (i==indiceY && j==indiceX))
                     continue;
-                if(celdas[i][j].isEmpty() && celdas[i][j].isMarcada())
+                if((celdas[i][j].isEmpty() && celdas[i][j].isMarcada()) || celdas[i][j].equals(celdaAtacante))
                     celdasDisponibles.add(celdas[i][j]);
             }
         }
             
         if(!celdasDisponibles.isEmpty()){
-            liberaEstadoCeldas();
-            celdaSeleccionada = celdaAtacante;
-            celdaSeleccionada.setSelected(true);
-            celdaSeleccionada.setBorder(B_SELEC);
-            lateralFrame.actualizaDatosSelec(celdaSeleccionada);
-            decidiendoPosicion = true;
+            if(celdasDisponibles.size()==1){
+                // SI SOLO HAY UNA POSIBILIDAD
+                Celda celdaUnica = celdasDisponibles.get(0);
+                // SI ESA POSIBILIDAD NO ES QUEDARSE EN EL MISMO SITIO SE MUEVE
+                if(!celdaUnica.equals(celdaAtacante)){
+                    mueve(celdaAtacante, celdaUnica);
+                }
+                // SI NO SE QUEDA EN EL SITIO
+                liberaEstadoCeldas();
+                
             
-            for(Celda celda : celdasDisponibles){
-                celda.setBorder(B_MOVIMIENTO);
-                celda.setMarcada(true);
+            }else{
+                // SI HAY VARIAS POSBILIDADES EL JUGADOR DECIDE
+                liberaEstadoCeldas();
+                celdaSeleccionada = celdaAtacante;
+                celdaSeleccionada.setSelected(true);
+                celdaSeleccionada.setBorder(B_SELEC);
+
+                lateralFrame.actualizaDatosSelec(celdaSeleccionada);
+                decidiendoPosicion = true;
+
+                for(Celda celda : celdasDisponibles){
+                    celda.setBorder(B_MOVIMIENTO);
+                    celda.setMarcada(true);
+                }
             }
         } else
             liberaEstadoCeldas();

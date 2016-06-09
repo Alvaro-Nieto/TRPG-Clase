@@ -79,10 +79,6 @@ public class BD {
         Statement st = null;
         try {
             st = con.createStatement();
-            st.executeUpdate("CREATE TABLE jugadores (" +
-                "  Nick varchar(20) NOT NULL," +
-                "  Contraseña varchar(8) NOT NULL," +
-                "  CONSTRAINT pk_jugadores PRIMARY KEY (Nick));");
             st.executeUpdate("CREATE TABLE partida (" +
                 "  Ganador varchar(20) NOT NULL," +
                 "  Perdedor varchar(20) NOT NULL," +
@@ -144,39 +140,7 @@ public class BD {
             System.out.println("No se ha podido crear las tablas y/o insertar las filas");
     }
     
-    /*
-     * PARA PRUEBAS
-     */
-    public static void main (String []args){
-        //generaBD();
-        //Unidad unidad = new Unidad(getUnidad("Jefe Troll"),new Jugador("prueba",1));
-        //System.out.println(unidad);
-        //for(Unidad unidad: getUnidades("Bien")){
-        //    System.out.println(unidad.toString());
-        insertaResultadosPartida("adry","miguel");
-        //}
-    }
-    
-    public static ResultSet getUnidad(String nombreUnidad){
-        ResultSet rs = null;
-        if(conecta()){
-            try {
-                PreparedStatement stmt = conexion.prepareStatement("SELECT * FROM unidades WHERE Nombre = ?");
-                stmt.setString(1, nombreUnidad);
 
-                rs = stmt.executeQuery();
-                rs.next();
-                if(!rs.isLast()){
-                    rs = null;
-                    System.out.println("Ha devuelto más de una tupla");
-                } 
-            } catch (SQLException ex) {
-                System.out.println(ex);
-            }
-        }
-        return rs;
-    }
-    
     public static ResultSet getClasificacion(){
         ResultSet rs = null;
         Statement stmt;
@@ -208,6 +172,7 @@ public class BD {
         }
         return unidades;
     }
+    
     public static void insertaResultadosPartida (String ganador, String perdedor){   
         Statement st = null;
         try {

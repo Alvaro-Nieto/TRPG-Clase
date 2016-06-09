@@ -73,29 +73,6 @@ public class Unidad {
         }
     }
     
-    public Unidad(ResultSet rs, Jugador j){
-        this(rs);
-        this.jugador = j;
-    }
-    
-    /*
-    public Unidad(String nombre,int combate,int fuerza,int defensa,int numAtaques,int heridas,Jugador jugador, String tipo){
-        this.nombre=nombre;
-        this.combate=combate;
-        this.fuerza=fuerza;
-        this.defensa=defensa;
-        this.numAtaques=numAtaques;
-        this.heridas=heridas;
-        this.jugador = jugador;
-        this.tipo = tipo;
-      
-        this.haActuado = false;
-        // DEPENDE DE LA BD
-        this.setImagen("");
-        setFichaAuto(tipo);
-    }
-    */
-    
     private void setFichaAuto() {
         switch (tipo) {
             case "Infantería":
