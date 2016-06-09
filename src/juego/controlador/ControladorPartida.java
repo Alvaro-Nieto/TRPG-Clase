@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -297,6 +296,10 @@ public class ControladorPartida  implements MouseListener{
         celda.setBorder(B_SELEC);
     }
 
+    public boolean isDecidiendoPosicion() {
+        return decidiendoPosicion;
+    }
+
     private boolean haySeleccionada() {
         return celdaSeleccionada != null;
     }
@@ -478,10 +481,11 @@ public class ControladorPartida  implements MouseListener{
     
     @Override
     public void mouseReleased(MouseEvent e) {
+        Celda celda = (Celda) e.getSource();
         if(SwingUtilities.isRightMouseButton(e) && controladorJuego.getEstado() == Estado.JUGANDO){
             if(celdaSeleccionada != null)
                 lateralFrame.actualizaDatosSelec(celdaSeleccionada);
-            else
+            else if(celda.isEmpty())
                 lateralFrame.limpiaDatos();
         }
     }

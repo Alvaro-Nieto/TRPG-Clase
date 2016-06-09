@@ -278,7 +278,10 @@ public class LateralFrame extends javax.swing.JFrame{
     }//GEN-LAST:event_cBoxSizeActionPerformed
 
     private void btnTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTurnoActionPerformed
-        controlador.nuevoTurno();
+        if(!controlador.isDecidiendoPosicion())
+            controlador.nuevoTurno();
+        else
+            JOptionPane.showMessageDialog(tablero, "Tienes que terminar el movimiento");
     }//GEN-LAST:event_btnTurnoActionPerformed
 
     private void btnMusicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMusicaActionPerformed
