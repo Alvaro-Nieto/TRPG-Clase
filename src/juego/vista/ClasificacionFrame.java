@@ -59,15 +59,27 @@ public class ClasificacionFrame extends javax.swing.JFrame implements WindowList
                 "Ganador", "Perdedor", "Fecha y hora del fin de la partidal"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tablaClasificacion);
+        if (tablaClasificacion.getColumnModel().getColumnCount() > 0) {
+            tablaClasificacion.getColumnModel().getColumn(0).setResizable(false);
+            tablaClasificacion.getColumnModel().getColumn(1).setResizable(false);
+            tablaClasificacion.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
