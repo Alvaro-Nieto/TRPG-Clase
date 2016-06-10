@@ -48,7 +48,7 @@ public class LateralFrame extends javax.swing.JFrame{
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        cBoxSize = new javax.swing.JComboBox<>();
+        cBoxSize = new javax.swing.JComboBox<String>();
         txtHeridas = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         labelNombre = new javax.swing.JLabel();
@@ -72,7 +72,6 @@ public class LateralFrame extends javax.swing.JFrame{
         setTitle("LOTR - Lateral");
         setMaximumSize(new java.awt.Dimension(300, 685));
         setMinimumSize(new java.awt.Dimension(300, 685));
-        setPreferredSize(new java.awt.Dimension(300, 685));
         setResizable(false);
         setSize(new java.awt.Dimension(300, 685));
 
@@ -85,7 +84,7 @@ public class LateralFrame extends javax.swing.JFrame{
         cBoxSize.setBackground(new java.awt.Color(204, 255, 255));
         cBoxSize.setFont(new java.awt.Font("Ringbearer", 1, 10)); // NOI18N
         cBoxSize.setForeground(new java.awt.Color(255, 255, 255));
-        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grande", "Mediano", "Pequeño" }));
+        cBoxSize.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Grande", "Mediano", "Pequeño" }));
         cBoxSize.setSelectedIndex(1);
         cBoxSize.setToolTipText("");
         cBoxSize.addActionListener(new java.awt.event.ActionListener() {

@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package juego.modelo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author Adrian
- */
 public class Unidad {
     
     private final static int MOV_INFANTERIA = 2;
@@ -206,15 +198,6 @@ public class Unidad {
         return this.nombre;
     }
     
-      /*
-    @Override
-    public String toString(){
-        String mensaje = "Datos:\n " +"Nombre: " + this.nombre + "\nCombate: " + this.combate + "\nFuerza: " 
-               + this.fuerza + "\nDefensa: " + this.defensa +  "\nNumero de ataques: " + this.numAtaques 
-               + "\nHeridas: " + this.heridas;
-        return mensaje;
-    }*/
-
     public void setFigura(String figura){
         ficha = new ImageIcon(getClass().getResource(figura));
     }

@@ -54,7 +54,7 @@ public class BD {
     }
 
     private static void creaBaseDeDatos (){
-        Connection connection;
+        Connection connection = null;
         Statement statement = null;
         try {
             Class.forName("org.gjt.mm.mysql.Driver");
@@ -67,6 +67,7 @@ public class BD {
             if (statement != null) {
                 try {
                     statement.close();
+                    connection.close();
                 } catch (SQLException ex) {
                     System.out.println(ex);
                 }
